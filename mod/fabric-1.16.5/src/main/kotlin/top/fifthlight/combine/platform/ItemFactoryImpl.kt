@@ -3,15 +3,13 @@ package top.fifthlight.combine.platform
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
-import net.minecraft.item.ArmorItem
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.item.RangedWeaponItem
+import net.minecraft.item.*
 import net.minecraft.text.Text
 import net.minecraft.util.registry.Registry
 import top.fifthlight.combine.data.Identifier
 import top.fifthlight.combine.data.ItemFactory
 import top.fifthlight.combine.data.ItemSubclass
+import top.fifthlight.touchcontroller.config.ItemList
 import kotlin.jvm.optionals.getOrNull
 import top.fifthlight.combine.data.Item as CombineItem
 import top.fifthlight.combine.data.ItemStack as CombineItemStack
@@ -53,9 +51,30 @@ object ItemFactoryImpl : ItemFactory {
         clazz = ArmorItem::class.java
     )
 
+    val bucketSubclass = ItemSubclassImpl(
+        name = TextImpl(Text.of("Bucket")),
+        configId = "BucketItem",
+        clazz = BucketItem::class.java
+    )
+
+    val boatSubclass = ItemSubclassImpl(
+        name = TextImpl(Text.of("Boat")),
+        configId = "BoatItem",
+        clazz = BoatItem::class.java,
+    )
+
+    val spawnEggSubclass = ItemSubclassImpl(
+        name = TextImpl(Text.of("SpawnEgg")),
+        configId = "SpawnEggItem",
+        clazz = SpawnEggItem::class.java,
+    )
+
     override val subclasses: PersistentList<ItemSubclass> = persistentListOf(
         rangedWeaponSubclass,
         armorSubclass,
+        bucketSubclass,
+        boatSubclass,
+        spawnEggSubclass,
     )
 }
 
@@ -63,3 +82,4 @@ fun Item.toCombine() = ItemImpl(this)
 fun ItemStack.toCombine() = ItemStackImpl(this)
 fun CombineItem.toVanilla() = (this as ItemImpl).inner
 fun CombineItemStack.toVanilla() = (this as ItemStackImpl).inner
+fun ItemList.contains(item: Item) = contains(item.toCombine())

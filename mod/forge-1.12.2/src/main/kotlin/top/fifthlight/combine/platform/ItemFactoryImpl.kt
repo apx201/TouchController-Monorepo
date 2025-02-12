@@ -3,12 +3,12 @@ package top.fifthlight.combine.platform
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import net.minecraft.item.*
 import net.minecraft.item.Item
-import net.minecraft.item.ItemArmor
-import net.minecraft.item.ItemFood
 import net.minecraft.item.ItemStack
 import net.minecraft.util.NonNullList
 import net.minecraft.util.text.TextComponentString
+import net.minecraftforge.fluids.UniversalBucket
 import net.minecraftforge.fml.common.registry.ForgeRegistries
 import top.fifthlight.combine.data.*
 import top.fifthlight.combine.data.Item as CombineItem
@@ -86,9 +86,37 @@ object ItemFactoryImpl : MetadataItemFactory {
         clazz = ItemFood::class.java
     )
 
+    val bucketSubclass = ItemSubclassImpl(
+        name = TextImpl(TextComponentString("Bucket")),
+        configId = "ItemBucket",
+        clazz = ItemBucket::class.java
+    )
+
+    val universalBucketSubclass = ItemSubclassImpl(
+        name = TextImpl(TextComponentString("UniversalBucket")),
+        configId = "UniversalBucket",
+        clazz = UniversalBucket::class.java
+    )
+
+    val boatSubclass = ItemSubclassImpl(
+        name = TextImpl(TextComponentString("Boat")),
+        configId = "ItemBoat",
+        clazz = ItemBoat::class.java
+    )
+
+    val monsterPlacerSubclass = ItemSubclassImpl(
+        name = TextImpl(TextComponentString("MonsterPlacer")),
+        configId = "ItemMonsterPlacer",
+        clazz = ItemMonsterPlacer::class.java
+    )
+
     override val subclasses: PersistentList<ItemSubclass> = persistentListOf(
         armorSubclass,
         foodSubclass,
+        bucketSubclass,
+        universalBucketSubclass,
+        boatSubclass,
+        monsterPlacerSubclass,
     )
 }
 

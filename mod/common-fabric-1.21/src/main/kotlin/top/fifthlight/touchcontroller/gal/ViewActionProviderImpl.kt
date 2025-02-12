@@ -2,7 +2,7 @@ package top.fifthlight.touchcontroller.gal
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.util.hit.HitResult
-import top.fifthlight.touchcontroller.mixin.ClientPlayerInteractionManagerMixin
+import top.fifthlight.touchcontroller.mixin.ClientPlayerInteractionManagerAccessor
 
 object ViewActionProviderImpl : ViewActionProvider {
     private val client = MinecraftClient.getInstance()
@@ -19,7 +19,7 @@ object ViewActionProviderImpl : ViewActionProvider {
 
     override fun getCurrentBreakingProgress(): Float {
         val manager = client.interactionManager
-        val accessor = manager as ClientPlayerInteractionManagerMixin
+        val accessor = manager as ClientPlayerInteractionManagerAccessor
         return accessor.currentBreakingProgress
     }
 }

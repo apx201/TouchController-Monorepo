@@ -1,7 +1,7 @@
 import com.gradleup.gr8.Gr8Task
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.spongepowered.asm.gradle.plugins.MixinExtension.AddMixinsToJarTask
+import top.fifthlight.touchcontoller.gradle.MinecraftVersion
 
 plugins {
     idea
@@ -36,10 +36,9 @@ val bridgeSlf4j: String by extra.properties
 val bridgeSlf4jBool = bridgeSlf4j.toBoolean()
 val legacyLanguageFormat: String by extra.properties
 val legacyLanguageFormatBool = legacyLanguageFormat.toBoolean()
-val shadeJoml: String by extra.properties
-val shadeJomlBool = shadeJoml.toBoolean()
 val excludeR8: String by extra.properties
 val excludeR8Jar: String by extra.properties
+val minecraftVersion = MinecraftVersion(gameVersion)
 
 version = "$modVersion+forge-$gameVersion"
 group = "top.fifthlight.touchcontroller"
@@ -153,7 +152,7 @@ dependencies {
             exclude("org.apache.logging.log4j")
         }
     }
-    if (shadeJomlBool) {
+    if (minecraftVersion < MinecraftVersion(1, 19, 3)) {
         shadeAndImplementation(libs.joml)
     }
 

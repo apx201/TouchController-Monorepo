@@ -9,6 +9,7 @@ import net.minecraft.text.Text
 import top.fifthlight.combine.data.Identifier
 import top.fifthlight.combine.data.ItemFactory
 import top.fifthlight.combine.data.ItemSubclass
+import top.fifthlight.touchcontroller.config.ItemList
 import kotlin.jvm.optionals.getOrNull
 import top.fifthlight.combine.data.Item as CombineItem
 import top.fifthlight.combine.data.ItemStack as CombineItemStack
@@ -50,8 +51,37 @@ object ItemFactoryImpl : ItemFactory {
         clazz = ProjectileItem::class.java,
     )
 
+    val bucketSubclass = ItemSubclassImpl(
+        name = TextImpl(Text.literal("Bucket")),
+        configId = "BucketItem",
+        clazz = BucketItem::class.java,
+    )
+
+    val boatSubclass = ItemSubclassImpl(
+        name = TextImpl(Text.literal("Boat")),
+        configId = "BoatItem",
+        clazz = BoatItem::class.java,
+    )
+
+    val placeableOnWaterSubclass = ItemSubclassImpl(
+        name = TextImpl(Text.literal("PlaceableOnWater")),
+        configId = "PlaceableOnWaterItem",
+        clazz = PlaceableOnWaterItem::class.java,
+    )
+
+    val spawnEggSubclass = ItemSubclassImpl(
+        name = TextImpl(Text.literal("SpawnEgg")),
+        configId = "SpawnEggItem",
+        clazz = SpawnEggItem::class.java,
+    )
+
     override val subclasses: PersistentList<ItemSubclass> = persistentListOf(
-        rangedWeaponSubclass, projectileSubclass,
+        rangedWeaponSubclass,
+        projectileSubclass,
+        bucketSubclass,
+        boatSubclass,
+        placeableOnWaterSubclass,
+        spawnEggSubclass,
     )
 }
 
@@ -59,3 +89,4 @@ fun Item.toCombine() = ItemImpl(this)
 fun ItemStack.toCombine() = ItemStackImpl(this)
 fun CombineItem.toVanilla() = (this as ItemImpl).inner
 fun CombineItemStack.toVanilla() = (this as ItemStackImpl).inner
+fun ItemList.contains(item: Item) = contains(item.toCombine())

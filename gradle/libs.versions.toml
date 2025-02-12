@@ -11,9 +11,12 @@ parchmentmc-librarian-forgegradle = "1.+"
 mixin = "0.7.+"
 gr8 = "0.11.2"
 koin = "4.0.1"
-joml = "1.10.8"
+# DONT UPDATE IT BECAUSE JOML 1.10.5 IS USED WHEN MINECRAFT INTRODUCE JOML IN VERSION 1.19.3
+#noinspection GradleDependency
+joml = "1.10.5"
 slf4j = "2.0.16"
-# DONT UPDATE IT BECAUSE MINECRAFT DEPENDS ON LOG4J 2.8.1
+# DONT UPDATE IT BECAUSE OLD MINECRAFT DEPENDS ON LOG4J 2.8.1
+#noinspection GradleDependency
 log4j = "2.8.1"
 aboutlibraries = "11.5.0"
 

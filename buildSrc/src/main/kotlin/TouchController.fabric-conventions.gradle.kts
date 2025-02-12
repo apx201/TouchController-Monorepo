@@ -1,6 +1,6 @@
 import com.gradleup.gr8.Gr8Task
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.gradle.kotlin.dsl.DependencyHandlerScope
+import top.fifthlight.touchcontoller.gradle.MinecraftVersion
 
 plugins {
     idea
@@ -30,6 +30,7 @@ val modmenuVersion: String by extra.properties
 val bridgeSlf4j: String by extra.properties
 val bridgeSlf4jBool = bridgeSlf4j.toBoolean()
 val excludeR8: String by extra.properties
+val minecraftVersion = MinecraftVersion(gameVersion)
 
 version = "$modVersion+fabric-$gameVersion"
 group = "top.fifthlight.touchcontroller"
@@ -97,6 +98,10 @@ dependencies {
         }
     }
 
+    if (minecraftVersion < MinecraftVersion(1, 19, 3)) {
+        shadeAndImplementation(libs.joml)
+    }
+
     shade(project(":proxy-windows"))
     shade(project(":proxy-server-android"))
 }
@@ -108,13 +113,11 @@ tasks.processResources {
     val modAuthorsArray = modAuthorsList.joinToString(", ", transform = String::quote).drop(1).dropLast(1)
     val modContributorsArray = modContributorsList.joinToString(", ", transform = String::quote).drop(1).dropLast(1)
 
-    val (major, minor, patch) = gameVersion.split(".")
     // Fabric API changed its mod ID to "fabric-api" in version 1.19.2
-    val fabricApiName = when {
-        major.toInt() != 1 -> error("Whoa? Minecraft 2?")
-        minor.toInt() > 19 -> "fabric-api"
-        minor.toInt() == 19 && patch.toInt() >= 2 -> "fabric-api"
-        else -> "fabric"
+    val fabricApiName = if (minecraftVersion >= MinecraftVersion(1, 19, 2)) {
+        "fabric-api"
+    } else {
+        "fabric"
     }
 
     val properties = mapOf(

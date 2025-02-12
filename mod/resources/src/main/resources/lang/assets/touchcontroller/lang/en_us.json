@@ -248,6 +248,8 @@
   "touchcontroller.screen.options.category.items.usable_items.description": "Items can be used by long pressing the screen without selecting blocks.",
   "touchcontroller.screen.options.category.items.show_crosshair_items.title": "Items which show crosshair when holding",
   "touchcontroller.screen.options.category.items.show_crosshair_items.description": "Items which show crosshair when holding to help you to aim",
+  "touchcontroller.screen.options.category.items.crosshair_aiming_items.title": "Items which aiming by crosshair when placing",
+  "touchcontroller.screen.options.category.items.crosshair_aiming_items.description": "Items which aiming by crosshair when placing, such as buckets and boats. If there are problems placing items, you can try adding them to this list.",
   "touchcontroller.screen.options.category.items.whitelist.title": "Whitelist",
   "touchcontroller.screen.options.category.items.blacklist.title": "Blacklist",
   "touchcontroller.screen.options.category.items.item.empty": "No item",

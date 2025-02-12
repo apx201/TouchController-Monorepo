@@ -1,19 +1,16 @@
 package top.fifthlight.touchcontroller.mixin;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.network.SequencedPacketCreator;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
 import org.koin.java.KoinJavaComponent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,11 +18,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.fifthlight.combine.platform.ItemFactoryImplKt;
 import top.fifthlight.touchcontroller.config.GlobalConfigHolder;
-import top.fifthlight.touchcontroller.event.BlockBreakEvents;
 import top.fifthlight.touchcontroller.helper.CrosshairTargetHelper;
 
 @Mixin(ClientPlayerInteractionManager.class)
@@ -39,21 +34,6 @@ public abstract class ClientPlayerInteractionManagerMixin {
     private float prevYaw;
     @Unique
     private float prevPitch;
-    @Unique
-    private PlayerEntity interactItemPlayer;
-
-    @Inject(
-            method = "breakBlock",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/block/Block;onBroken(Lnet/minecraft/world/WorldAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V"
-            )
-    )
-    public void breakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        BlockBreakEvents.INSTANCE.afterBlockBreak();
-    }
-    @Unique
-    private Hand interactItemHand;
 
     @Shadow
     protected abstract void sendSequencedPacket(ClientWorld world, SequencedPacketCreator packetCreator);
@@ -66,10 +46,10 @@ public abstract class ClientPlayerInteractionManagerMixin {
     }
 
     @Unique
-    public PlayerMoveC2SPacket interactBefore(PlayerEntity player, Hand hand, boolean sendFullPacket) {
+    public void interactBefore(PlayerEntity player, Hand hand) {
         var itemStack = player.getStackInHand(hand);
         if (!crosshairAimingContainItem(itemStack.getItem())) {
-            return null;
+            return;
         }
 
         prevYaw = player.getYaw();
@@ -78,14 +58,10 @@ public abstract class ClientPlayerInteractionManagerMixin {
         var rotation = CrosshairTargetHelper.calculatePlayerRotation(CrosshairTargetHelper.INSTANCE.getLastCrosshairDirection());
         float yaw = rotation.getFirst();
         float pitch = rotation.getSecond();
+        this.sendSequencedPacket(this.client.world, sequence -> new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, player.isOnGround()));
         player.setYaw(yaw);
         player.setPitch(pitch);
         resetPlayerLookTarget = true;
-        if (sendFullPacket) {
-            return new PlayerMoveC2SPacket.Full(player.getX(), player.getY(), player.getZ(), yaw, pitch, player.isOnGround());
-        } else {
-            return new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, player.isOnGround());
-        }
     }
 
     @Unique
@@ -94,9 +70,9 @@ public abstract class ClientPlayerInteractionManagerMixin {
             return;
         }
         resetPlayerLookTarget = false;
-        this.sendSequencedPacket(this.client.world, sequence -> new PlayerMoveC2SPacket.LookAndOnGround(player.getYaw(), player.getPitch(), player.isOnGround()));
         player.setYaw(prevYaw);
         player.setPitch(prevPitch);
+        this.sendSequencedPacket(this.client.world, sequence -> new PlayerMoveC2SPacket.LookAndOnGround(player.getYaw(), player.getPitch(), player.isOnGround()));
     }
 
     @Inject(
@@ -108,7 +84,7 @@ public abstract class ClientPlayerInteractionManagerMixin {
             )
     )
     public void interactBlockBefore(ClientPlayerEntity player, Hand hand, BlockHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
-        interactBefore(player, hand, false);
+        interactBefore(player, hand);
     }
 
     @Inject(
@@ -124,28 +100,16 @@ public abstract class ClientPlayerInteractionManagerMixin {
         interactAfter(player);
     }
 
-    @Inject(method = "interactItem", at = @At("HEAD"))
-    public void interactItemBefore(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        interactItemPlayer = player;
-        interactItemHand = hand;
-    }
-
-    @Redirect(
+    @Inject(
             method = "interactItem",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/network/ClientPlayNetworkHandler;sendPacket(Lnet/minecraft/network/packet/Packet;)V"
+                    target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;sendSequencedPacket(Lnet/minecraft/client/world/ClientWorld;Lnet/minecraft/client/network/SequencedPacketCreator;)V",
+                    ordinal = 0
             )
     )
-    public void interactItemSendPacket(ClientPlayNetworkHandler instance, Packet<?> packet) {
-        var newPacket = interactBefore(interactItemPlayer, interactItemHand, true);
-        if (newPacket == null) {
-            instance.sendPacket(packet);
-        } else {
-            instance.sendPacket(newPacket);
-        }
-        interactItemPlayer = null;
-        interactItemHand = null;
+    public void interactItemBefore(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        interactBefore(player, hand);
     }
 
     @Inject(

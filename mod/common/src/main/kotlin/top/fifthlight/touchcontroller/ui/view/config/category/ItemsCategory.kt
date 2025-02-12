@@ -58,6 +58,20 @@ data object ItemsCategory : ConfigCategory(
                         }
                     },
                 )
+                ItemListConfigItem(
+                    modifier = Modifier.fillMaxWidth(),
+                    name = Text.translatable(Texts.SCREEN_OPTIONS_CATEGORY_ITEMS_CROSSHAIR_AIMING_ITEMS_TITLE),
+                    value = uiState.config.crosshairAimingItems,
+                    onValueChanged = { viewModel.updateConfig { copy(crosshairAimingItems = it) } },
+                    onHovered = {
+                        if (it) {
+                            hoverData = HoverData(
+                                name = Texts.SCREEN_OPTIONS_CATEGORY_ITEMS_CROSSHAIR_AIMING_ITEMS_TITLE,
+                                description = Texts.SCREEN_OPTIONS_CATEGORY_ITEMS_CROSSHAIR_AIMING_ITEMS_DESCRIPTION,
+                            )
+                        }
+                    },
+                )
             }
 
             DescriptionPanel(

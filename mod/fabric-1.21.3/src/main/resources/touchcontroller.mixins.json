@@ -8,6 +8,7 @@
   "client": [
     "ClientOpenChatScreenInvoker",
     "ClientPlayerEntityMixin",
+    "ClientPlayerInteractionManagerAccessor",
     "ClientPlayerInteractionManagerMixin",
     "ControlsOptionsScreenMixin",
     "CrosshairTargetMixin",

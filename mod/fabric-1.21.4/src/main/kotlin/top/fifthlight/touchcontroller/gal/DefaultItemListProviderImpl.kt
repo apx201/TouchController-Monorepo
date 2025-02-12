@@ -54,4 +54,17 @@ object DefaultItemListProviderImpl : DefaultItemListProvider {
             ItemFactoryImpl.projectileSubclass,
         )
     )
+
+    override val crosshairAimingItems = ItemList(
+        whitelist = persistentListOf(
+            ItemImpl(Items.ENDER_EYE),
+            ItemImpl(Items.GLASS_BOTTLE),
+        ),
+        subclasses = persistentSetOf(
+            ItemFactoryImpl.bucketSubclass,
+            ItemFactoryImpl.boatSubclass,
+            ItemFactoryImpl.placeableOnWaterSubclass,
+            ItemFactoryImpl.spawnEggSubclass,
+        )
+    )
 }

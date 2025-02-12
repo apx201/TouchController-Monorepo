@@ -2,7 +2,9 @@ package top.fifthlight.touchcontroller.gal
 
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
+import net.minecraft.init.Blocks
 import net.minecraft.init.Items
+import net.minecraft.item.Item
 import top.fifthlight.combine.platform.ItemFactoryImpl
 import top.fifthlight.combine.platform.ItemImpl
 import top.fifthlight.touchcontroller.config.ItemList
@@ -40,6 +42,19 @@ object DefaultItemListProviderImpl : DefaultItemListProvider {
             ItemImpl(Items.SPLASH_POTION),
             ItemImpl(Items.LINGERING_POTION),
             ItemImpl(Items.EXPERIENCE_BOTTLE),
+        ),
+    )
+
+    override val crosshairAimingItems = ItemList(
+        whitelist = persistentListOf(
+            ItemImpl(Items.ENDER_EYE),
+            ItemImpl(Item.getItemFromBlock(Blocks.WATERLILY)),
+        ),
+        subclasses = persistentSetOf(
+            ItemFactoryImpl.bucketSubclass,
+            ItemFactoryImpl.universalBucketSubclass,
+            ItemFactoryImpl.boatSubclass,
+            ItemFactoryImpl.monsterPlacerSubclass,
         ),
     )
 }

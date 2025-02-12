@@ -9,12 +9,11 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.math.Vec3d
 import org.joml.Matrix4f
-import org.joml.Vector2f
-import org.joml.Vector3f
-import org.joml.Vector4f
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import top.fifthlight.touchcontroller.config.GlobalConfigHolder
+import top.fifthlight.touchcontroller.helper.CrosshairTargetHelper.getCrosshairDirection
+import top.fifthlight.touchcontroller.helper.CrosshairTargetHelper.lastCrosshairDirection
 import top.fifthlight.touchcontroller.model.ControllerHudModel
 
 object EntityRendererHelper : KoinComponent {
@@ -34,26 +33,15 @@ object EntityRendererHelper : KoinComponent {
     }
 
     private fun getViewVector(fov: Float, farPlaneDistance: Float, entity: Entity, partialTicks: Float): Vec3d {
-        val crosshairStatus = controllerHudModel.result.crosshairStatus
-
-        val ndc = if (crosshairStatus == null) {
-            Vector4f(0f, 0f, -1f, 1f)
-        } else {
-            val screen = Vector2f(crosshairStatus.positionX, crosshairStatus.positionY)
-            Vector4f(2 * screen.x - 1, 1 - 2 * screen.y, -1f, 1f)
-        }
-
-        val inverseProjectionMatrix = getProjectionMatrix(farPlaneDistance, fov).invert()
-        val pointerDirection = ndc.mul(inverseProjectionMatrix)
-        val direction = Vector3f(-pointerDirection.x, pointerDirection.y, 1f).normalize()
-
+        val projectionMatrix = getProjectionMatrix(farPlaneDistance, fov)
         val cameraPitchDegrees = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks
-        val cameraPitchRadians = Math.toRadians(cameraPitchDegrees.toDouble()).toFloat()
+        val cameraPitchRadians = Math.toRadians(cameraPitchDegrees.toDouble())
         val cameraYawDegrees = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks
-        val cameraYawRadians = Math.toRadians(cameraYawDegrees.toDouble()).toFloat()
-        val normalizedDirection = direction.rotateX(cameraPitchRadians).rotateY(-cameraYawRadians)
+        val cameraYawRadians = Math.toRadians(cameraYawDegrees.toDouble())
+        val direction = getCrosshairDirection(projectionMatrix, cameraPitchRadians, cameraYawRadians)
+        lastCrosshairDirection = direction
 
-        return Vec3d(normalizedDirection.x.toDouble(), normalizedDirection.y.toDouble(), normalizedDirection.z.toDouble())
+        return Vec3d(direction.x, direction.y, direction.z)
     }
 
     @JvmStatic

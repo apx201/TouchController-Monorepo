@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(ClientPlayerInteractionManager.class)
-public interface ClientPlayerInteractionManagerMixin {
+public interface ClientPlayerInteractionManagerAccessor {
     @Accessor("currentBreakingProgress")
     float getCurrentBreakingProgress();
 

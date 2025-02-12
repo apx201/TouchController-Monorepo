@@ -10,6 +10,7 @@
     "ClientOpenChatScreenInvoker",
     "ClientPlayerEntityMixin",
     "ClientPlayerInteractionManagerInvoker",
+    "ClientPlayerInteractionManagerMixin",
     "ControlsOptionsScreenMixin",
     "CrosshairTargetMixin",
     "CursorLockMixin",

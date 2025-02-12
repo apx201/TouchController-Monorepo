@@ -43,8 +43,8 @@ fun Context.View() {
                             if (pressTime < config.viewHoldDetectTicks && !previousState.moving) {
                                 val crosshairTarget = viewActionProvider.getCrosshairTarget() ?: break
                                 when (crosshairTarget) {
-                                    CrosshairTarget.BLOCK -> {
-                                        // Short click on block: use item
+                                    CrosshairTarget.BLOCK, CrosshairTarget.MISS -> {
+                                        // Short click on block or air: use item
                                         useKeyState.click()
                                     }
 
@@ -52,8 +52,6 @@ fun Context.View() {
                                         // Short click on entity: attack the entity
                                         attackKeyState.click()
                                     }
-
-                                    CrosshairTarget.MISS -> {}
                                 }
                             }
                         }

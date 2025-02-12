@@ -12,7 +12,7 @@ import top.fifthlight.combine.data.ItemStack
 import top.fifthlight.combine.platform.ItemStackImpl
 import top.fifthlight.combine.platform.toCombine
 import top.fifthlight.touchcontroller.config.ItemList
-import top.fifthlight.touchcontroller.mixin.ClientPlayerInteractionManagerMixin
+import top.fifthlight.touchcontroller.mixin.ClientPlayerInteractionManagerAccessor
 
 @JvmInline
 value class PlayerHandleImpl(val inner: ClientPlayerEntity) : PlayerHandle {
@@ -41,7 +41,7 @@ value class PlayerHandleImpl(val inner: ClientPlayerEntity) : PlayerHandle {
         }
 
         val originalSlot = currentSelectedSlot
-        val interactionManagerAccessor = client.interactionManager as ClientPlayerInteractionManagerMixin
+        val interactionManagerAccessor = client.interactionManager as ClientPlayerInteractionManagerAccessor
 
         // Can it trigger anti-cheat?
         currentSelectedSlot = index

@@ -1,4 +1,5 @@
 plugins {
+    `java-library`
     alias(libs.plugins.jetbrains.kotlin.jvm)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.compose.compiler)
@@ -26,9 +27,12 @@ dependencies {
     api(libs.compose.runtime)
     api(project(":combine"))
 
+    compileOnlyApi(libs.joml)
+
     api(libs.koin.core)
     api(libs.koin.compose)
     api(libs.koin.logger.slf4j)
+
     api(libs.kotlinx.collections.immutable)
     api(libs.kotlinx.serialization.json)
     api(libs.kotlinx.coroutines.core)

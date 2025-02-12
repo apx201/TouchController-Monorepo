@@ -31,11 +31,13 @@ data class GlobalConfig(
     // Items
     val usableItems: ItemList,
     val showCrosshairItems: ItemList,
+    val crosshairAimingItems: ItemList,
 ) {
     companion object {
         fun default(itemListProvider: DefaultItemListProvider) = GlobalConfig(
             usableItems = itemListProvider.usableItems,
             showCrosshairItems = itemListProvider.showCrosshairItems,
+            crosshairAimingItems = itemListProvider.crosshairAimingItems,
         )
     }
 }
