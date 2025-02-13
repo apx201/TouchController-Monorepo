@@ -214,50 +214,6 @@
       ]
     },
     {
-      "uniqueId": "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "Kotlin Team"
-        }
-      ],
-      "artifactVersion": "1.8.20",
-      "description": "Kotlin Standard Library JDK 7 extension",
-      "scm": {
-        "connection": "scm:git:https://github.com/JetBrains/kotlin.git",
-        "url": "https://github.com/JetBrains/kotlin",
-        "developerConnection": "scm:git:https://github.com/JetBrains/kotlin.git"
-      },
-      "name": "Kotlin Stdlib Jdk7",
-      "website": "https://kotlinlang.org/",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "Kotlin Team"
-        }
-      ],
-      "artifactVersion": "1.8.20",
-      "description": "Kotlin Standard Library JDK 8 extension",
-      "scm": {
-        "connection": "scm:git:https://github.com/JetBrains/kotlin.git",
-        "url": "https://github.com/JetBrains/kotlin",
-        "developerConnection": "scm:git:https://github.com/JetBrains/kotlin.git"
-      },
-      "name": "Kotlin Stdlib Jdk8",
-      "website": "https://kotlinlang.org/",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "org.jetbrains.kotlinx:atomicfu-jvm",
       "funding": [],
       "developers": [
@@ -384,10 +340,15 @@
       "funding": [],
       "developers": [
         {
+          "organisationUrl": "http://joml.org",
+          "name": "Richard Greenlees"
+        },
+        {
+          "organisationUrl": "http://joml.org",
           "name": "Kai Burjack"
         }
       ],
-      "artifactVersion": "1.10.8",
+      "artifactVersion": "1.10.5",
       "description": "Java OpenGL Math Library",
       "scm": {
         "connection": "scm:git:https://github.com/JOML-CI/JOML.git",

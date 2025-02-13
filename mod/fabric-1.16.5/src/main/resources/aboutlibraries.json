@@ -336,6 +336,36 @@
       ]
     },
     {
+      "uniqueId": "org.joml:joml",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "http://joml.org",
+          "name": "Richard Greenlees"
+        },
+        {
+          "organisationUrl": "http://joml.org",
+          "name": "Kai Burjack"
+        }
+      ],
+      "artifactVersion": "1.10.5",
+      "description": "Java OpenGL Math Library",
+      "scm": {
+        "connection": "scm:git:https://github.com/JOML-CI/JOML.git",
+        "url": "https://github.com/JOML-CI/JOML",
+        "developerConnection": "scm:git:https://github.com/JOML-CI/JOML.git"
+      },
+      "name": "JOML",
+      "website": "http://joml.org",
+      "licenses": [
+        "MIT"
+      ],
+      "organization": {
+        "url": "http://joml.org",
+        "name": "JOML"
+      }
+    },
+    {
       "uniqueId": "org.slf4j:slf4j-api",
       "funding": [],
       "developers": [],
