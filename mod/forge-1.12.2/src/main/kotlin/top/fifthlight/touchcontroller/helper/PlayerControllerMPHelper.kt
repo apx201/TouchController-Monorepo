@@ -20,7 +20,6 @@ object PlayerControllerMPHelper : KoinComponent {
 
     @JvmStatic
     fun beforeUsingItem(controller: PlayerControllerMP, player: EntityPlayer, hand: EnumHand) {
-        println("BEFORE USING")
         val itemStack = player.getHeldItem(hand)
         val crosshairAimingItems = globalConfigHolder.config.value.crosshairAimingItems
         if (itemStack.item.toCombine() !in crosshairAimingItems) {
@@ -39,7 +38,6 @@ object PlayerControllerMPHelper : KoinComponent {
 
     @JvmStatic
     fun afterUsingItem(controller: PlayerControllerMP, player: EntityPlayer) {
-        println("AFTER USING")
         if (!resetPlayerLookTarget) {
             return
         }

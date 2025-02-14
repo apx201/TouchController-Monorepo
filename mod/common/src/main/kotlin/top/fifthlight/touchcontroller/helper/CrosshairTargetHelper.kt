@@ -46,8 +46,6 @@ object CrosshairTargetHelper : KoinComponent {
     fun calculatePlayerRotation(direction: Vector3d): Pair<Float, Float> {
         var yaw = Math.toDegrees(atan2(-direction.x, direction.z))
         var pitch = Math.toDegrees(asin(-direction.y))
-        println("direction: $direction")
-        println("rawYaw: $yaw, rawPitch: $pitch")
         when {
             pitch > 90.0 -> {
                 pitch = 180.0 - pitch
@@ -59,7 +57,6 @@ object CrosshairTargetHelper : KoinComponent {
                 yaw += 180.0
             }
         }
-        println("yaw: $yaw, pitch: $pitch")
         return Pair(yaw.toFloat(), pitch.toFloat())
     }
 }
