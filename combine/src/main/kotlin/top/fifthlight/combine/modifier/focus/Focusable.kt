@@ -11,21 +11,6 @@ import top.fifthlight.combine.modifier.Modifier
 import top.fifthlight.combine.modifier.PointerInputModifierNode
 import top.fifthlight.combine.node.LayoutNode
 
-interface FocusRequester {
-    fun requestFocus()
-}
-
-private class FocusRequesterImpl : FocusRequester {
-    var currentNode: LayoutNode? = null
-
-    override fun requestFocus() {
-        val node = currentNode ?: return
-        node.compositionLocalMap[LocalFocusManager].requestFocus(node)
-    }
-}
-
-fun FocusRequester(): FocusRequester = FocusRequesterImpl()
-
 sealed class FocusInteraction : Interaction {
     data object Blur : FocusInteraction()
     data object Focus : FocusInteraction()
@@ -33,24 +18,15 @@ sealed class FocusInteraction : Interaction {
 
 fun Modifier.focusable(
     interactionSource: MutableInteractionSource? = null,
-    focusRequester: FocusRequester? = null,
 ) = then(
     FocusableModifierNode(
         interactionSource = interactionSource,
-        focusRequester = focusRequester,
     )
 )
 
 data class FocusableModifierNode(
     val interactionSource: MutableInteractionSource?,
-    val focusRequester: FocusRequester?,
 ) : Modifier.Node<FocusableModifierNode>, FocusStateListenerModifierNode, PointerInputModifierNode {
-    override fun onAttachedToNode(node: LayoutNode) {
-        (focusRequester as? FocusRequesterImpl)?.apply {
-            currentNode = node
-        }
-    }
-
     override fun onFocusStateChanged(focused: Boolean) {
         interactionSource?.tryEmit(if (focused) FocusInteraction.Focus else FocusInteraction.Blur)
     }

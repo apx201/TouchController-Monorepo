@@ -213,10 +213,10 @@ fun Select(
             .anchor {
                 anchor = it
             }
-            .focusable(interactionSource)
             .clickable(interactionSource) {
                 onExpandedChanged(!expanded)
             }
+            .focusable(interactionSource)
             .then(modifier),
     ) {
         ContentStyle {
