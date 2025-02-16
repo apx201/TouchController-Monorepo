@@ -55,7 +55,7 @@ fun ConfigScreen(viewModel: ConfigScreenViewModel) {
                 }) {
                     Text(Text.translatable(Texts.SCREEN_OPTIONS_UNSAVED_WARNING_YES_TITLE))
                 }
-                Button(onClick = {
+                GuideButton(onClick = {
                     viewModel.dismissExitDialog()
                 }) {
                     Text(Text.translatable(Texts.SCREEN_OPTIONS_UNSAVED_WARNING_NO_TITLE))

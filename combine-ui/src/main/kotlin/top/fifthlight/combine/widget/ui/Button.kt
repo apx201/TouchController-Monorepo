@@ -8,12 +8,9 @@ import top.fifthlight.combine.modifier.drawing.border
 import top.fifthlight.combine.modifier.focus.focusable
 import top.fifthlight.combine.modifier.placement.minSize
 import top.fifthlight.combine.modifier.pointer.clickable
-import top.fifthlight.combine.paint.Colors
 import top.fifthlight.combine.sound.LocalSoundManager
 import top.fifthlight.combine.sound.SoundKind
-import top.fifthlight.combine.ui.style.LocalColorTheme
-import top.fifthlight.combine.ui.style.LocalTextStyle
-import top.fifthlight.combine.ui.style.NinePatchTextureSet
+import top.fifthlight.combine.ui.style.*
 import top.fifthlight.combine.widget.base.layout.Box
 import top.fifthlight.combine.widget.base.layout.BoxScope
 import top.fifthlight.touchcontroller.assets.Textures
@@ -26,12 +23,70 @@ val defaultButtonTexture = NinePatchTextureSet(
     disabled = Textures.GUI_WIDGET_BUTTON_BUTTON_DISABLED,
 )
 
+val guideButtonTexture = defaultButtonTexture.copy(
+    normal = Textures.GUI_WIDGET_BUTTON_BUTTON_GUIDE,
+    focus = Textures.GUI_WIDGET_BUTTON_BUTTON_GUIDE_HOVER,
+    hover = Textures.GUI_WIDGET_BUTTON_BUTTON_GUIDE_HOVER,
+)
+
+val warningButtonTexture = defaultButtonTexture.copy(
+    normal = Textures.GUI_WIDGET_BUTTON_BUTTON_WARNING,
+    focus = Textures.GUI_WIDGET_BUTTON_BUTTON_WARNING_HOVER,
+    hover = Textures.GUI_WIDGET_BUTTON_BUTTON_WARNING_HOVER,
+)
+
 val LocalButtonTexture = staticCompositionLocalOf<NinePatchTextureSet> { defaultButtonTexture }
+
+@NonSkippableComposable
+@Composable
+fun GuideButton(
+    modifier: Modifier = Modifier,
+    textureSet: NinePatchTextureSet = guideButtonTexture,
+    colorTheme: ColorTheme? = ColorTheme.dark,
+    textStyle: TextStyle? = null,
+    onClick: () -> Unit,
+    clickSound: Boolean = true,
+    content: @Composable BoxScope.() -> Unit
+) {
+    Button(
+        modifier = modifier,
+        textureSet = textureSet,
+        colorTheme = colorTheme,
+        textStyle = textStyle,
+        onClick = onClick,
+        clickSound = clickSound,
+        content = content
+    )
+}
+
+@NonSkippableComposable
+@Composable
+fun WarningButton(
+    modifier: Modifier = Modifier,
+    textureSet: NinePatchTextureSet = warningButtonTexture,
+    colorTheme: ColorTheme? = ColorTheme.dark,
+    textStyle: TextStyle? = null,
+    onClick: () -> Unit,
+    clickSound: Boolean = true,
+    content: @Composable BoxScope.() -> Unit
+) {
+    Button(
+        modifier = modifier,
+        textureSet = textureSet,
+        colorTheme = colorTheme,
+        textStyle = textStyle,
+        onClick = onClick,
+        clickSound = clickSound,
+        content = content
+    )
+}
 
 @Composable
 fun Button(
     modifier: Modifier = Modifier,
     textureSet: NinePatchTextureSet = LocalButtonTexture.current,
+    colorTheme: ColorTheme? = null,
+    textStyle: TextStyle? = null,
     onClick: () -> Unit,
     clickSound: Boolean = true,
     content: @Composable BoxScope.() -> Unit
@@ -55,11 +110,8 @@ fun Button(
             .then(modifier),
         alignment = Alignment.Center,
     ) {
-        val colorTheme = LocalColorTheme.current.copy(
-            background = Colors.WHITE,
-            foreground = Colors.BLACK,
-        )
-        val textStyle = LocalTextStyle.current.copy(
+        val colorTheme = colorTheme ?: ColorTheme.light
+        val textStyle = textStyle ?: LocalTextStyle.current.copy(
             //shadow = true,
         )
         CompositionLocalProvider(

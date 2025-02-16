@@ -4,17 +4,15 @@ import androidx.compose.runtime.Composable
 import top.fifthlight.combine.layout.Alignment
 import top.fifthlight.combine.layout.Arrangement
 import top.fifthlight.combine.modifier.Modifier
-import top.fifthlight.combine.modifier.drawing.background
 import top.fifthlight.combine.modifier.drawing.border
-import top.fifthlight.combine.modifier.placement.padding
 import top.fifthlight.combine.modifier.pointer.consumePress
 import top.fifthlight.combine.modifier.scroll.verticalScroll
-import top.fifthlight.combine.paint.Colors
 import top.fifthlight.combine.widget.base.Dialog
 import top.fifthlight.combine.widget.base.layout.BoxScope
 import top.fifthlight.combine.widget.base.layout.Column
 import top.fifthlight.combine.widget.base.layout.Row
 import top.fifthlight.combine.widget.base.layout.RowScope
+import top.fifthlight.touchcontroller.assets.Textures
 
 @Composable
 fun AlertDialog(
@@ -26,9 +24,7 @@ fun AlertDialog(
     Dialog(onDismissRequest = onDismissRequest) {
         Column(
             modifier = Modifier
-                .padding(8)
-                .background(Colors.BLACK)
-                .border(1, Colors.WHITE)
+                .border(Textures.GUI_WIDGET_BACKGROUND_BACKGROUND_LIGHTGRAY)
                 .verticalScroll()
                 .consumePress(),
             horizontalAlignment = Alignment.CenterHorizontally,

@@ -22,10 +22,7 @@ import top.fifthlight.combine.widget.base.layout.Box
 import top.fifthlight.combine.widget.base.layout.Column
 import top.fifthlight.combine.widget.base.layout.Row
 import top.fifthlight.combine.widget.base.layout.Spacer
-import top.fifthlight.combine.widget.ui.AlertDialog
-import top.fifthlight.combine.widget.ui.Button
-import top.fifthlight.combine.widget.ui.EditText
-import top.fifthlight.combine.widget.ui.Text
+import top.fifthlight.combine.widget.ui.*
 import top.fifthlight.touchcontroller.assets.Texts
 import top.fifthlight.touchcontroller.config.ControllerLayout
 import top.fifthlight.touchcontroller.config.LayoutLayer
@@ -112,7 +109,7 @@ fun PresetsPanel(
                             Text(Text.translatable(Texts.SCREEN_OPTIONS_PRESET_DELETE_WARNING_TITLE))
                         },
                         action = {
-                            Button(onClick = {
+                            WarningButton(onClick = {
                                 onPresetRemoved(currentPreset.first)
                             }) {
                                 Text(Text.translatable(Texts.SCREEN_OPTIONS_PRESET_DELETE_WARNING_YES_TITLE))
