@@ -1,18 +1,18 @@
 package top.fifthlight.touchcontroller.ui.component.config.layout
 
 import androidx.compose.runtime.*
+import top.fifthlight.combine.data.LocalTextFactory
 import top.fifthlight.combine.data.Text
 import top.fifthlight.combine.layout.Alignment
 import top.fifthlight.combine.layout.Arrangement
 import top.fifthlight.combine.modifier.Modifier
-import top.fifthlight.combine.modifier.placement.padding
 import top.fifthlight.combine.modifier.placement.width
-import top.fifthlight.combine.modifier.pointer.clickable
-import top.fifthlight.combine.widget.base.layout.Column
+import top.fifthlight.combine.modifier.scroll.verticalScroll
 import top.fifthlight.combine.widget.base.layout.Row
 import top.fifthlight.combine.widget.base.layout.Spacer
 import top.fifthlight.combine.widget.ui.DropdownMenuBox
 import top.fifthlight.combine.widget.ui.DropdownMenuIcon
+import top.fifthlight.combine.widget.ui.DropdownMenuList
 import top.fifthlight.combine.widget.ui.Text
 import top.fifthlight.touchcontroller.assets.Texts
 import top.fifthlight.touchcontroller.config.LayerConditionKey
@@ -45,6 +45,13 @@ private fun valueToText(value: LayerConditionValue?) = when (value) {
     null -> Texts.SCREEN_OPTIONS_LAYER_CONDITION_IGNORE_TITLE
 }
 
+private val conditionValues = listOf(
+    LayerConditionValue.NEVER,
+    LayerConditionValue.WANT,
+    LayerConditionValue.REQUIRE,
+    null,
+)
+
 @Composable
 fun ConditionItem(
     modifier: Modifier = Modifier,
@@ -61,31 +68,25 @@ fun ConditionItem(
 
         val valueText = valueToText(value)
         var expanded by remember { mutableStateOf(false) }
+
+        val textFactory = LocalTextFactory.current
         DropdownMenuBox(
             modifier = Modifier.width(96),
             expanded = expanded,
             onExpandedChanged = { expanded = it },
-            dropDownContent = { rect ->
-                val values = listOf(
-                    LayerConditionValue.NEVER,
-                    LayerConditionValue.WANT,
-                    LayerConditionValue.REQUIRE,
-                    null,
-                )
-                Column {
-                    for (showValue in values) {
-                        Text(
-                            modifier = Modifier
-                                .padding(4)
-                                .width(rect.size.width - 2)
-                                .clickable {
-                                    onValueChanged(showValue)
-                                    expanded = false
-                                },
-                            text = Text.translatable(valueToText(showValue)),
-                        )
+            dropDownContent = {
+                val selectedIndex = conditionValues.indexOf(value)
+                DropdownMenuList(
+                    modifier = Modifier.verticalScroll(),
+                    items = conditionValues,
+                    textProvider = { textFactory.of(valueToText(it)) },
+                    selectedIndex = selectedIndex,
+                    onItemSelected = {
+                        val item = conditionValues[it]
+                        onValueChanged(item)
+                        expanded = false
                     }
-                }
+                )
             }
         ) {
             Text(Text.translatable(valueText))

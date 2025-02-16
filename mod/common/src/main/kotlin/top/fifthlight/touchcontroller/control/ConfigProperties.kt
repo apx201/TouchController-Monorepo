@@ -8,9 +8,6 @@ import top.fifthlight.combine.data.TextFactory
 import top.fifthlight.combine.layout.Alignment
 import top.fifthlight.combine.modifier.Modifier
 import top.fifthlight.combine.modifier.placement.fillMaxWidth
-import top.fifthlight.combine.modifier.placement.padding
-import top.fifthlight.combine.modifier.placement.width
-import top.fifthlight.combine.modifier.pointer.clickable
 import top.fifthlight.combine.modifier.scroll.verticalScroll
 import top.fifthlight.combine.widget.base.layout.Column
 import top.fifthlight.combine.widget.base.layout.Row
@@ -68,21 +65,20 @@ class EnumProperty<Config : ControllerWidget, T>(
                 modifier = Modifier.fillMaxWidth(),
                 expanded = expanded,
                 onExpandedChanged = { expanded = it },
-                dropDownContent = { rect ->
-                    Column(Modifier.verticalScroll()) {
-                        for ((item, text) in items) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(4)
-                                    .width(rect.size.width - 2)
-                                    .clickable {
-                                        expanded = false
-                                        onConfigChanged(setValue(widgetConfig, item))
-                                    },
-                                text = text,
-                            )
+                dropDownContent = {
+                    val value = getValue(widgetConfig)
+                    val selectedIndex = items.indexOfFirst { it.first == value }
+                    DropdownMenuList(
+                        modifier = Modifier.verticalScroll(),
+                        items = items,
+                        textProvider = Pair<T, Text>::second,
+                        selectedIndex = selectedIndex,
+                        onItemSelected = {
+                            val item = items[it].first
+                            onConfigChanged(setValue(widgetConfig, item))
+                            expanded = false
                         }
-                    }
+                    )
                 }
             ) {
                 Text(getItemText(getValue(widgetConfig)))

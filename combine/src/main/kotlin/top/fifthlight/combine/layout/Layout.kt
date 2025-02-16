@@ -12,8 +12,8 @@ import top.fifthlight.combine.paint.NodeRenderer
 
 @Composable
 inline fun Layout(
-    measurePolicy: MeasurePolicy,
     modifier: Modifier = Modifier,
+    measurePolicy: MeasurePolicy,
     renderer: NodeRenderer = NodeRenderer.EmptyRenderer,
     content: @Composable () -> Unit = {}
 ) {

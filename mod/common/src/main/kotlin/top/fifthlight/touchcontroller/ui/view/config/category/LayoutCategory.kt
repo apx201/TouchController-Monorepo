@@ -57,6 +57,7 @@ data object LayoutCategory : ConfigCategory(
 
                     val currentLayer = layers.getOrNull(uiState.selectedLayer)
                     LayerDropdown(
+                        currentLayerIndex = uiState.selectedLayer,
                         currentLayer = currentLayer,
                         allLayers = layers,
                         onLayerSelected = { index, _ ->
