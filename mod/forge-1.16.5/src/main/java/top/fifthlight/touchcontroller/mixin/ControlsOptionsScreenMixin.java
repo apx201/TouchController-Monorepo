@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import top.fifthlight.touchcontroller.ui.screen.config.ConfigScreenGetter;
+import top.fifthlight.touchcontroller.ui.screen.ConfigScreenKt;
 
 @Mixin(ControlsScreen.class)
 public abstract class ControlsOptionsScreenMixin extends Screen {
@@ -31,9 +31,8 @@ public abstract class ControlsOptionsScreenMixin extends Screen {
                 .get();
         controlsListWidget.updateSize(screen.width + 45, screen.height, 67, screen.height - 32);
 
-        ConfigScreenGetter getter = ConfigScreenGetter.INSTANCE;
-        ITextComponent buttonText = (ITextComponent) getter.getText();
-        Button widget = new Button(mouseSettingsButton.x, mouseSettingsButton.y + 24, 150, 20, buttonText, btn -> client.setScreen((Screen) getter.getScreen(screen)));
+        ITextComponent buttonText = (ITextComponent) ConfigScreenKt.getConfigScreenButtonText();
+        Button widget = new Button(mouseSettingsButton.x, mouseSettingsButton.y + 24, 150, 20, buttonText, btn -> client.setScreen((Screen) ConfigScreenKt.getConfigScreen(screen)));
         addButton(widget);
     }
 }

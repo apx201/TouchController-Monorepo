@@ -32,7 +32,7 @@ import top.fifthlight.touchcontroller.gal.PlatformWindowImpl
 import top.fifthlight.touchcontroller.model.ControllerHudModel
 import top.fifthlight.touchcontroller.platform.PlatformHolder
 import top.fifthlight.touchcontroller.platform.PlatformProvider
-import top.fifthlight.touchcontroller.ui.screen.config.getConfigScreen
+import top.fifthlight.touchcontroller.ui.screen.getConfigScreen
 import java.util.function.BiFunction
 
 @Mod(BuildInfo.MOD_ID)

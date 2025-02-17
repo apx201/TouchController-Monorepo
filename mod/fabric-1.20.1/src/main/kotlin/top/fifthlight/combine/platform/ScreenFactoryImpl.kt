@@ -22,8 +22,8 @@ import top.fifthlight.combine.input.pointer.PointerType
 import top.fifthlight.combine.node.CombineOwner
 import top.fifthlight.combine.paint.RenderContext
 import top.fifthlight.combine.screen.LocalScreenFactory
+import top.fifthlight.combine.screen.OnDismissRequestDispatcher
 import top.fifthlight.combine.screen.ScreenFactory
-import top.fifthlight.combine.screen.ViewModel
 import top.fifthlight.combine.sound.LocalSoundManager
 import top.fifthlight.combine.util.CloseHandler
 import top.fifthlight.combine.util.LocalCloseHandler
@@ -49,7 +49,9 @@ private class CombineScreen(
     private val textMeasurer = TextMeasurerImpl(currentClient.textRenderer)
     private val dispatcher = GameDispatcherImpl(currentClient)
     private val soundManager = SoundManagerImpl(currentClient.soundManager)
-    val closeHandler = ScreenCloseHandler(this@CombineScreen)
+    private val closeHandler = ScreenCloseHandler(this@CombineScreen)
+    private val dismissDispatcher = OnDismissRequestDispatcher()
+
     private val owner = CombineOwner(dispatcher = dispatcher, textMeasurer = textMeasurer)
     override val coroutineContext: CoroutineContext
         get() = owner.coroutineContext
@@ -166,11 +168,11 @@ private class CombineScreen(
         return true
     }
 
-    var onDismissRequest: () -> Boolean = { false }
-
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
         if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
-            if (!onDismissRequest()) {
+            if (dismissDispatcher.hasEnabledCallbacks()) {
+                dismissDispatcher.dispatchOnDismissed()
+            } else {
                 close()
             }
             return true
@@ -215,31 +217,23 @@ private class CombineScreen(
 }
 
 object ScreenFactoryImpl : ScreenFactory {
-    override fun <M : ViewModel> openScreen(
+    override fun openScreen(
         title: CombineText,
-        viewModelFactory: (CoroutineScope, CloseHandler) -> M,
-        onDismissRequest: (M) -> Boolean,
-        content: @Composable (M) -> Unit
+        content: @Composable () -> Unit
     ) {
         val client = MinecraftClient.getInstance()
-        val screen = getScreen(client.currentScreen, title, viewModelFactory, onDismissRequest, content)
+        val screen = getScreen(client.currentScreen, title, content)
         client.setScreen(screen as Screen)
     }
 
-    override fun <M : ViewModel> getScreen(
+    override fun getScreen(
         parent: Any?,
         title: CombineText,
-        viewModelFactory: (CoroutineScope, CloseHandler) -> M,
-        onDismissRequest: (M) -> Boolean,
-        content: @Composable (M) -> Unit
+        content: @Composable () -> Unit
     ): Any {
         val screen = CombineScreen(title.toMinecraft(), parent as Screen)
-        val viewModel = viewModelFactory(screen, screen.closeHandler)
-        screen.onDismissRequest = {
-            onDismissRequest(viewModel)
-        }
         screen.setContent {
-            content(viewModel)
+            content()
         }
         return screen
     }

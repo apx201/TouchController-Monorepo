@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import top.fifthlight.touchcontroller.ui.screen.config.ConfigScreenGetter;
+import top.fifthlight.touchcontroller.ui.screen.ConfigScreenKt;
 
 @Mixin(ControlsOptionsScreen.class)
 public abstract class ControlsOptionsScreenMixin {
@@ -18,11 +18,10 @@ public abstract class ControlsOptionsScreenMixin {
         var client = MinecraftClient.getInstance();
         var screen = (ControlsOptionsScreen) (Object) this;
         var body = ((GameOptionsScreenAccessor) this).body();
-        var getter = ConfigScreenGetter.INSTANCE;
         body.addWidgetEntry(
                 ButtonWidget.builder(
-                        (Text) getter.getText(),
-                        btn -> client.setScreen((Screen) getter.getScreen(screen))
+                        (Text) ConfigScreenKt.getConfigScreenButtonText(),
+                        btn -> client.setScreen((Screen) ConfigScreenKt.getConfigScreen(screen))
                 ).build(), null
         );
     }
