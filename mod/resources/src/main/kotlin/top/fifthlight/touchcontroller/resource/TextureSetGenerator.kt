@@ -11,7 +11,7 @@ import java.nio.file.Path
 import kotlin.io.path.inputStream
 import kotlin.io.path.nameWithoutExtension
 
-private fun String.snakeToCamelCase(firstChatUppercase: Boolean = false): String {
+fun String.snakeToCamelCase(firstChatUppercase: Boolean = false): String {
     return this.split('_')
         .joinToString("") { it.replaceFirstChar { char -> char.uppercaseChar() } }
         .replaceFirstChar {

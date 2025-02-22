@@ -4,8 +4,7 @@ import kotlinx.serialization.Serializable
 import top.fifthlight.touchcontroller.gal.DefaultItemListProvider
 
 @Serializable
-data class GlobalConfig(
-    // Global
+data class RegularConfig(
     val disableMouseMove: Boolean = true,
     val disableMouseClick: Boolean = true,
     val disableMouseLock: Boolean = false,
@@ -13,28 +12,38 @@ data class GlobalConfig(
     val disableHotBarKey: Boolean = false,
     val vibration: Boolean = true,
     val quickHandSwap: Boolean = false,
+)
+
+@Serializable
+data class ControlConfig(
     val splitControls: Boolean = false,
     val disableTouchGesture: Boolean = false,
-
-    // Control
     val viewMovementSensitivity: Float = 495f,
     val viewHoldDetectThreshold: Int = 2,
     val viewHoldDetectTicks: Int = 5,
+)
 
-    // Crosshair
-    val crosshair: CrosshairConfig = CrosshairConfig(),
+@Serializable
+data class TouchRingConfig(
+    val radius: Int = 36,
+    val outerRadius: Int = 2,
+    val initialProgress: Float = .5f
+)
 
-    // Debug
+@Serializable
+data class DebugConfig(
     val showPointers: Boolean = false,
     val enableTouchEmulation: Boolean = false,
+)
 
-    // Items
+@Serializable
+data class ItemConfig(
     val usableItems: ItemList,
     val showCrosshairItems: ItemList,
     val crosshairAimingItems: ItemList,
 ) {
     companion object {
-        fun default(itemListProvider: DefaultItemListProvider) = GlobalConfig(
+        fun default(itemListProvider: DefaultItemListProvider) = ItemConfig(
             usableItems = itemListProvider.usableItems,
             showCrosshairItems = itemListProvider.showCrosshairItems,
             crosshairAimingItems = itemListProvider.crosshairAimingItems,
@@ -43,8 +52,16 @@ data class GlobalConfig(
 }
 
 @Serializable
-data class CrosshairConfig(
-    val radius: Int = 36,
-    val outerRadius: Int = 2,
-    val initialProgress: Float = .5f
-)
+data class GlobalConfig(
+    val regular: RegularConfig = RegularConfig(),
+    val control: ControlConfig = ControlConfig(),
+    val touchRing: TouchRingConfig = TouchRingConfig(),
+    val debug: DebugConfig = DebugConfig(),
+    val item: ItemConfig,
+) {
+    companion object {
+        fun default(itemListProvider: DefaultItemListProvider) = GlobalConfig(
+            item = ItemConfig.default(itemListProvider),
+        )
+    }
+}

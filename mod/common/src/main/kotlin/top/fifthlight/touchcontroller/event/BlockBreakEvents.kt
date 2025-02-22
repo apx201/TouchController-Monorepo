@@ -10,7 +10,7 @@ object BlockBreakEvents : KoinComponent {
     private val configHolder: GlobalConfigHolder by inject()
 
     fun afterBlockBreak() {
-        if (configHolder.config.value.vibration) {
+        if (configHolder.config.value.regular.vibration) {
             controllerHudModel.status.vibrate = true
         }
     }

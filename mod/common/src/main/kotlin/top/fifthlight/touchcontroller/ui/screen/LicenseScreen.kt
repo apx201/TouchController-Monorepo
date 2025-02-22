@@ -4,11 +4,13 @@ import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import top.fifthlight.combine.data.Text
 import top.fifthlight.combine.modifier.Modifier
+import top.fifthlight.combine.modifier.drawing.background
 import top.fifthlight.combine.modifier.placement.fillMaxWidth
 import top.fifthlight.combine.modifier.placement.padding
 import top.fifthlight.combine.modifier.scroll.verticalScroll
 import top.fifthlight.combine.widget.ui.Text
 import top.fifthlight.touchcontroller.about.License
+import top.fifthlight.touchcontroller.assets.BackgroundTextures
 import top.fifthlight.touchcontroller.assets.Texts
 import top.fifthlight.touchcontroller.ui.component.AppBar
 import top.fifthlight.touchcontroller.ui.component.BackButton
@@ -40,6 +42,7 @@ class LicenseScreen(
                     modifier = Modifier
                         .padding(4)
                         .verticalScroll()
+                        .background(BackgroundTextures.BRICK_BACKGROUND)
                         .then(modifier)
                 )
             }

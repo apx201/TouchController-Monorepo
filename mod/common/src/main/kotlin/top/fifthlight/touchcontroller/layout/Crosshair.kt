@@ -31,7 +31,7 @@ fun Context.Crosshair() {
                         dstAlpha = BlendFactor.ZERO
                     )
                 ) {
-                    val config = config.crosshair
+                    val config = config.touchRing
                     crosshairRenderer.renderOuter(canvas, config)
                     if (status.breakPercent > 0f) {
                         val progress = status.breakPercent * (1f - config.initialProgress) + config.initialProgress

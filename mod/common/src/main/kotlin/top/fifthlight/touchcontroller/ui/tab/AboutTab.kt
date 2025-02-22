@@ -9,6 +9,7 @@ import top.fifthlight.combine.data.Text
 import top.fifthlight.combine.layout.Alignment
 import top.fifthlight.combine.layout.Arrangement
 import top.fifthlight.combine.modifier.Modifier
+import top.fifthlight.combine.modifier.drawing.background
 import top.fifthlight.combine.modifier.drawing.border
 import top.fifthlight.combine.modifier.placement.fillMaxHeight
 import top.fifthlight.combine.modifier.placement.fillMaxWidth
@@ -24,6 +25,7 @@ import top.fifthlight.combine.widget.ui.Text
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.BuildInfo
 import top.fifthlight.touchcontroller.about.License
+import top.fifthlight.touchcontroller.assets.BackgroundTextures
 import top.fifthlight.touchcontroller.assets.Texts
 import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.ui.component.AppBar
@@ -71,8 +73,9 @@ object AboutTab : Tab() {
         ) { modifier ->
             Column(
                 modifier = Modifier
-                    .padding(4)
+                    .padding(8)
                     .verticalScroll()
+                    .background(BackgroundTextures.BRICK_BACKGROUND)
                     .then(modifier),
                 verticalArrangement = Arrangement.spacedBy(8),
             ) {

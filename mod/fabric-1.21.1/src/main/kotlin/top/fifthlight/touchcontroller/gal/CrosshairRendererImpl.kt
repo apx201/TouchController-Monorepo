@@ -6,7 +6,7 @@ import top.fifthlight.combine.paint.Colors
 import top.fifthlight.combine.platform.CanvasImpl
 import top.fifthlight.combine.platform.withShader
 import top.fifthlight.data.Offset
-import top.fifthlight.touchcontroller.config.CrosshairConfig
+import top.fifthlight.touchcontroller.config.TouchRingConfig
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -20,7 +20,7 @@ private fun point(angle: Float, radius: Float) = Offset(
 )
 
 object CrosshairRendererImpl : CrosshairRenderer {
-    override fun renderOuter(canvas: Canvas, config: CrosshairConfig) {
+    override fun renderOuter(canvas: Canvas, config: TouchRingConfig) {
         val drawContext = (canvas as CanvasImpl).drawContext
         withShader({ GameRenderer.getPositionColorProgram()!! }) {
             val matrix = drawContext.matrices.peek().positionMatrix
@@ -47,7 +47,7 @@ object CrosshairRendererImpl : CrosshairRenderer {
         }
     }
 
-    override fun renderInner(canvas: Canvas, config: CrosshairConfig, progress: Float) {
+    override fun renderInner(canvas: Canvas, config: TouchRingConfig, progress: Float) {
         val drawContext = (canvas as CanvasImpl).drawContext
         withShader({ GameRenderer.getPositionColorProgram()!! }) {
             val matrix = drawContext.matrices.peek().positionMatrix

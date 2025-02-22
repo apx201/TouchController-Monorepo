@@ -50,7 +50,7 @@ val LocalSliderTexture = staticCompositionLocalOf<SliderTextureSet> { defaultSli
 
 @Composable
 fun IntSlider(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     textureSet: SliderTextureSet = LocalSliderTexture.current,
     range: IntRange,
     value: Int,
@@ -72,7 +72,7 @@ fun IntSlider(
 
 @Composable
 fun Slider(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     textureSet: SliderTextureSet = LocalSliderTexture.current,
     range: ClosedFloatingPointRange<Float>,
     value: Float,

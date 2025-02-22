@@ -2,28 +2,24 @@ package top.fifthlight.touchcontroller.ui.component
 
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.LocalNavigator
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import top.fifthlight.combine.layout.Arrangement
 import top.fifthlight.combine.modifier.Modifier
 import top.fifthlight.combine.modifier.drawing.border
 import top.fifthlight.combine.modifier.placement.fillMaxWidth
 import top.fifthlight.combine.modifier.placement.width
+import top.fifthlight.combine.modifier.scroll.verticalScroll
 import top.fifthlight.combine.widget.base.layout.Column
 import top.fifthlight.combine.widget.ui.Text
 import top.fifthlight.touchcontroller.assets.Textures
-import top.fifthlight.touchcontroller.ui.tab.AboutTab
 import top.fifthlight.touchcontroller.ui.tab.Tab
 import top.fifthlight.touchcontroller.ui.tab.TabGroup
-
-private val allTabs = persistentListOf<Tab>(
-    AboutTab,
-)
+import top.fifthlight.touchcontroller.ui.tab.allTabs
 
 private val tabGroups by lazy {
     buildList {
         add(null)
-        TabGroup.allTabs.forEach(::add)
+        TabGroup.allGroups.forEach(::add)
     }.toPersistentList().map { group ->
         Pair(group, allTabs.filter { it.options.group == group }.sortedBy { it.options.index })
     }
@@ -37,23 +33,26 @@ fun SideTabBar(
     val navigator = LocalNavigator.current
     Column(
         modifier = Modifier
+            .verticalScroll()
             .border(Textures.WIDGET_BACKGROUND_BACKGROUND_DARK)
             .width(130)
             .then(modifier),
-        verticalArrangement = Arrangement.spacedBy(4),
+        verticalArrangement = Arrangement.spacedBy(12),
     ) {
         for ((group, tabs) in tabGroups) {
-            group?.let { group ->
-                Text(group.title)
-            }
-            Column {
-                for (tab in tabs) {
-                    TabButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        selected = navigator?.lastItem == tab,
-                        onClick = { onTabSelected(tab) }
-                    ) {
-                        Text(tab.options.title)
+            Column(verticalArrangement = Arrangement.spacedBy(4)) {
+                group?.let { group ->
+                    Text(group.title)
+                }
+                Column(verticalArrangement = Arrangement.spacedBy(4)) {
+                    for (tab in tabs) {
+                        TabButton(
+                            modifier = Modifier.fillMaxWidth(),
+                            selected = navigator?.lastItem == tab,
+                            onClick = { onTabSelected(tab) }
+                        ) {
+                            Text(tab.options.title)
+                        }
                     }
                 }
             }

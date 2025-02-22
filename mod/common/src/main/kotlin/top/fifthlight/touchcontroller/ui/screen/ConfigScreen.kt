@@ -14,7 +14,11 @@ fun getConfigScreenButtonText(): Any = with(GlobalContext.get()) {
 fun getConfigScreen(parent: Any?): Any? = with(GlobalContext.get()) {
     val textFactory: TextFactory = get()
     val screenFactory: ScreenFactory = get()
-    screenFactory.getScreen(parent, textFactory.of(Texts.SCREEN_CONFIG_TITLE)) {
+    screenFactory.getScreen(
+        parent = parent,
+        renderBackground = false,
+        title = textFactory.of(Texts.SCREEN_CONFIG_TITLE)
+    ) {
         ConfigScreen()
     }
 }

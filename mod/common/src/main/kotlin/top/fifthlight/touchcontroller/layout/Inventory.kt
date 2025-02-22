@@ -37,7 +37,7 @@ private fun Context.InventorySlot(index: Int) {
                 val previousState = state.previousState
                 if (previousState is PointerState.InventorySlot && previousState.index == index) {
                     slot.select = true
-                    if (gameFeatures.dualWield || config.quickHandSwap) {
+                    if (gameFeatures.dualWield || config.regular.quickHandSwap) {
                         if (player.currentSelectedSlot == index) {
                             if (status.quickHandSwap.click(timer.tick)) {
                                 keyBindingHandler.getState(KeyBindingType.SWAP_HANDS).clicked = true

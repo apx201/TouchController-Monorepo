@@ -40,7 +40,7 @@ fun Context.View() {
                         if (!releasedView) {
                             val pressTime = timer.tick - previousState.pressTime
                             // Pressed less than time threshold and not moving, recognized as short click
-                            if (pressTime < config.viewHoldDetectTicks && !previousState.moving) {
+                            if (pressTime < config.control.viewHoldDetectTicks && !previousState.moving) {
                                 val crosshairTarget = viewActionProvider.getCrosshairTarget() ?: break
                                 when (crosshairTarget) {
                                     CrosshairTarget.BLOCK, CrosshairTarget.MISS -> {
@@ -83,19 +83,19 @@ fun Context.View() {
         if (!state.moving) {
             // Move detect
             val delta = (pointer.position - state.initialPosition).fixAspectRadio().squaredLength
-            val threshold = config.viewHoldDetectThreshold * 0.01f
+            val threshold = config.control.viewHoldDetectThreshold * 0.01f
             if (delta > threshold * threshold) {
                 moving = true
             }
         }
 
         val movement = (pointer.position - state.lastPosition).fixAspectRadio()
-        result.lookDirection = movement * config.viewMovementSensitivity
+        result.lookDirection = movement * config.control.viewMovementSensitivity
 
         val playerHandleFactory: PlayerHandleFactory = get()
         val player = playerHandleFactory.getPlayerHandle()
         // Consume the pointer if player is null or touch gesture is disabled
-        if (player == null || config.disableTouchGesture) {
+        if (player == null || config.control.disableTouchGesture) {
             pointer.state = state.copy(
                 lastPosition = pointer.position,
                 moving = moving,
@@ -113,10 +113,10 @@ fun Context.View() {
         val pressTime = timer.tick - state.pressTime
         var viewState = state.viewState
         val crosshairTarget = viewActionProvider.getCrosshairTarget()
-        val itemUsable = player.hasItemsOnHand(config.usableItems)
+        val itemUsable = player.hasItemsOnHand(config.item.usableItems)
 
         // If pointer kept still and held for hold-detecting ticks in config
-        if (viewState == INITIAL && pressTime >= config.viewHoldDetectTicks && !moving) {
+        if (viewState == INITIAL && pressTime >= config.control.viewHoldDetectTicks && !moving) {
             viewState = if (itemUsable) {
                 // Trigger item long click
                 useKeyState.locked = true
@@ -170,7 +170,7 @@ fun Context.View() {
     currentViewPointer?.let { pointer ->
         result.showBlockOutline = true
         // Update current view pointer
-        if (!config.splitControls) {
+        if (!config.control.splitControls) {
             result.crosshairStatus = CrosshairStatus(
                 position = pointer.position,
                 breakPercent = viewActionProvider.getCurrentBreakingProgress(),
@@ -183,7 +183,7 @@ fun Context.View() {
         }
     }
 
-    if (config.disableTouchGesture) {
+    if (config.control.disableTouchGesture) {
         result.showBlockOutline = true
     }
 

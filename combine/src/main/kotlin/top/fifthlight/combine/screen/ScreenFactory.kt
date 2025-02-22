@@ -8,12 +8,14 @@ val LocalScreenFactory = staticCompositionLocalOf<ScreenFactory> { error("No Scr
 
 interface ScreenFactory {
     fun openScreen(
+        renderBackground: Boolean = false,
         title: Text,
         content: @Composable () -> Unit,
     )
 
     fun getScreen(
         parent: Any?,
+        renderBackground: Boolean = false,
         title: Text,
         content: @Composable () -> Unit,
     ): Any

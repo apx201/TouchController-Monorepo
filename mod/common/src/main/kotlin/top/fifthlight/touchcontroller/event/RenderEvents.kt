@@ -69,7 +69,7 @@ object RenderEvents : KoinComponent {
             }
 
             val config = configHolder.config.value
-            if (config.enableTouchEmulation) {
+            if (config.debug.enableTouchEmulation) {
                 val mousePosition = window.mousePosition
                 if (window.mouseLeftPressed && mousePosition != null) {
                     touchStateModel.addPointer(
@@ -198,10 +198,10 @@ object RenderEvents : KoinComponent {
 
     fun shouldRenderCrosshair(): Boolean {
         val config = configHolder.config.value
-        if (!config.disableCrosshair) {
+        if (!config.regular.disableCrosshair) {
             return true
         }
         val player = playerHandleFactory.getPlayerHandle() ?: return false
-        return player.hasItemsOnHand(config.showCrosshairItems)
+        return player.hasItemsOnHand(config.item.showCrosshairItems)
     }
 }

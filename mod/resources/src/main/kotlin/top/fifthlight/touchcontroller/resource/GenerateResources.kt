@@ -25,4 +25,5 @@ fun main(args: Array<String>) {
     generateTexturesBinding(placedTextures, generateSourcesDir)
     generateEmptyTextureBinding(placedTextures, generateSourcesDir)
     generateTextureSet(placedTextures, textureDir.resolve("control"), generateSourcesDir)
+    generateBackgroundTexture(textureDir.resolve("background"), generateSourcesDir)
 }

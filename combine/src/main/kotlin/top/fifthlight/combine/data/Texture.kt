@@ -18,6 +18,12 @@ interface NinePatchTexture : Texture {
     val padding: IntPadding
 }
 
+@Immutable
+data class BackgroundTexture(
+    val identifier: Identifier,
+    val size: IntSize,
+)
+
 private data class TextureImpl(
     override val size: IntSize,
     override val atlasOffset: IntOffset,
