@@ -27,8 +27,6 @@ fun generateEmptyTextureBinding(textures: Map<String, PlacedTexture>, outputDir:
         )
         for ((key, value) in textures.entries.filter { it.key.startsWith("EMPTY_") }.sortedBy { it.key }) {
             val fileName = value.relativePath.fileName.toString()
-            println(key)
-            println(fileName)
             if (!fileName.endsWith(".9.png", ignoreCase = true)) {
                 continue
             }
