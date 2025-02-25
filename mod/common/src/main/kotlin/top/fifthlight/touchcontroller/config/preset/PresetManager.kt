@@ -1,0 +1,116 @@
+package top.fifthlight.touchcontroller.config.preset
+
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.PersistentMap
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.plus
+import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toPersistentMap
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.getAndUpdate
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
+import kotlinx.serialization.json.encodeToStream
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
+import org.koin.core.component.inject
+import org.slf4j.LoggerFactory
+import top.fifthlight.touchcontroller.config.ConfigDirectoryProvider
+import kotlin.io.path.*
+import kotlin.uuid.Uuid
+import kotlin.uuid.toJavaUuid
+
+fun PresetsContainer(
+    presets: ImmutableMap<Uuid, LayoutPreset>,
+    order: ImmutableList<Uuid>,
+): PresetsContainer {
+    val orderedEntries = mutableListOf<Pair<Uuid, LayoutPreset>>()
+    val entries = presets.toMutableMap()
+    for (uuid in order) {
+        val preset = entries.remove(uuid) ?: continue
+        orderedEntries += Pair(uuid, preset)
+    }
+    for ((uuid, preset) in entries.entries.sortedBy { (id, _) -> id.toJavaUuid() }) {
+        orderedEntries += uuid to preset
+    }
+    return PresetsContainer(orderedEntries.toPersistentList())
+}
+
+data class PresetsContainer(
+    val orderedEntries: PersistentList<Pair<Uuid, LayoutPreset>> = persistentListOf()
+): PersistentMap<Uuid, LayoutPreset> by orderedEntries.toMap().toPersistentMap() {
+    val order: ImmutableList<Uuid>
+        get() = orderedEntries.map { it.first }.toPersistentList()
+}
+
+class PresetManager : KoinComponent {
+    private val logger = LoggerFactory.getLogger(PresetManager::class.java)
+    private val configDirectoryProvider: ConfigDirectoryProvider = get()
+    private val presetDir = configDirectoryProvider.getConfigDirectory().resolve("preset")
+    private val orderFile = presetDir.resolve("order.json")
+    private val json: Json by inject()
+    private val _presets = MutableStateFlow(PresetsContainer())
+    val presets = _presets.asStateFlow()
+
+    @OptIn(ExperimentalSerializationApi::class)
+    fun load() {
+        try {
+            logger.info("Reading TouchController preset file")
+            val order = runCatching<PresetManager, List<Uuid>> {
+                orderFile.inputStream().use(json::decodeFromStream)
+            }.getOrNull()?.toPersistentList() ?: persistentListOf()
+            val presets = buildMap {
+                for (entry in presetDir.listDirectoryEntries("*.json")) {
+                    try {
+                        val uuidStr = entry.fileName.toString().lowercase().removeSuffix(".json")
+                        val uuid = Uuid.parse(uuidStr)
+                        val preset: LayoutPreset = entry.inputStream().use(json::decodeFromStream)
+                        put(uuid, preset)
+                    } catch (_: Exception) {
+                        continue
+                    }
+                }
+            }.toPersistentMap()
+            _presets.value = PresetsContainer(
+                presets = presets,
+                order = order,
+            )
+        } catch (ex: Exception) {
+            logger.warn("Failed to read presets", ex)
+        }
+    }
+
+    private fun getPresetFile(uuid: Uuid) = presetDir.resolve("$uuid.json")
+
+    private fun saveOrder(order: ImmutableList<Uuid>) {
+        logger.info("Saving TouchController preset order file")
+        orderFile.outputStream().use { json.encodeToStream<List<Uuid>>(order, it) }
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    fun savePreset(uuid: Uuid, preset: LayoutPreset) {
+        presetDir.createDirectories()
+        getPresetFile(uuid).outputStream().use { json.encodeToStream(preset, it) }
+        val newPresets = _presets.getAndUpdate {
+            if (it.containsKey(uuid)) {
+                val index = it.orderedEntries.indexOfFirst { (id, _) -> id == uuid }
+                PresetsContainer(it.orderedEntries.set(index, Pair(uuid, preset)))
+            } else {
+                PresetsContainer(it.orderedEntries + (uuid to preset))
+            }
+        }
+        saveOrder(newPresets.order)
+    }
+
+    fun removePreset(uuid: Uuid) {
+        getPresetFile(uuid).deleteIfExists()
+        val newPresets = _presets.getAndUpdate {
+            PresetsContainer(it.orderedEntries.removeAll { it.first == uuid })
+        }
+        saveOrder(newPresets.order)
+    }
+}

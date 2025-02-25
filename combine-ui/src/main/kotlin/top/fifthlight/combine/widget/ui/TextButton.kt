@@ -7,6 +7,7 @@ import top.fifthlight.combine.modifier.Modifier
 import top.fifthlight.combine.modifier.drawing.background
 import top.fifthlight.combine.modifier.focus.focusable
 import top.fifthlight.combine.modifier.placement.minHeight
+import top.fifthlight.combine.modifier.placement.minSize
 import top.fifthlight.combine.modifier.placement.padding
 import top.fifthlight.combine.modifier.pointer.clickable
 import top.fifthlight.combine.paint.Color
@@ -18,6 +19,8 @@ import top.fifthlight.combine.ui.style.ColorTheme
 import top.fifthlight.combine.ui.style.LocalColorTheme
 import top.fifthlight.combine.widget.base.layout.Box
 import top.fifthlight.combine.widget.base.layout.BoxScope
+import top.fifthlight.data.IntPadding
+import top.fifthlight.data.IntSize
 
 val defaultTextButtonColorSet = ColorSet(
     normal = Colors.TRANSPARENT,
@@ -34,6 +37,9 @@ fun TextButton(
     modifier: Modifier = Modifier,
     colorSet: ColorSet = LocalTextButtonColorSet.current,
     colorTheme: ColorTheme? = null,
+    padding: IntPadding = IntPadding(left = 8, right = 8, top = 1),
+    minSize: IntSize = IntSize(width = 0, height = 20),
+    enabled: Boolean = true,
     onClick: () -> Unit,
     clickSound: Boolean = true,
     content: @Composable BoxScope.() -> Unit
@@ -41,12 +47,12 @@ fun TextButton(
     val soundManager = LocalSoundManager.current
     val interactionSource = remember { MutableInteractionSource() }
     val state by widgetState(interactionSource)
-    val color = colorSet.getByState(state)
+    val color = colorSet.getByState(state, enabled = enabled)
 
     Box(
         modifier = Modifier
-            .padding(width = 8)
-            .minHeight(20)
+            .padding(padding)
+            .minSize(minSize)
             .background(color)
             .clickable(interactionSource) {
                 if (clickSound) {

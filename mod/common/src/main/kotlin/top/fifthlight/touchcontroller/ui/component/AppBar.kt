@@ -2,10 +2,12 @@ package top.fifthlight.touchcontroller.ui.component
 
 import androidx.compose.runtime.Composable
 import top.fifthlight.combine.layout.Alignment
+import top.fifthlight.combine.layout.Arrangement
 import top.fifthlight.combine.modifier.Modifier
 import top.fifthlight.combine.modifier.drawing.border
 import top.fifthlight.combine.modifier.placement.fillMaxHeight
 import top.fifthlight.combine.modifier.placement.height
+import top.fifthlight.combine.modifier.placement.padding
 import top.fifthlight.combine.widget.base.layout.Box
 import top.fifthlight.combine.widget.base.layout.Row
 import top.fifthlight.combine.widget.base.layout.RowScope
@@ -29,12 +31,14 @@ fun AppBar(
                 .alignment(Alignment.CenterLeft)
                 .fillMaxHeight(),
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4),
         ) {
             leading()
         }
 
         Row(
             modifier = Modifier
+                .padding(top = 1)
                 .alignment(Alignment.Center)
                 .fillMaxHeight(),
             verticalAlignment = Alignment.CenterVertically,
@@ -47,6 +51,7 @@ fun AppBar(
                 .alignment(Alignment.CenterRight)
                 .fillMaxHeight(),
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4),
         ) {
             trailing()
         }

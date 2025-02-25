@@ -8,9 +8,7 @@ import top.fifthlight.touchcontroller.control.SprintButtonTexture.NEW
 import top.fifthlight.touchcontroller.control.SprintButtonTrigger.HOLD
 import top.fifthlight.touchcontroller.control.SprintButtonTrigger.SINGLE_CLICK_LOCK
 import top.fifthlight.touchcontroller.gal.KeyBindingType
-import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.SprintButton(config: SprintButton) {
     val sprintButtonState = keyBindingHandler.getState(KeyBindingType.SPRINT)
     val (newPointer, clicked) = Button(id = config.id) { clicked ->

@@ -15,7 +15,6 @@ import top.fifthlight.combine.layout.Arrangement
 import top.fifthlight.combine.modifier.Modifier
 import top.fifthlight.combine.modifier.drawing.border
 import top.fifthlight.combine.modifier.placement.fillMaxHeight
-import top.fifthlight.combine.modifier.placement.fillMaxSize
 import top.fifthlight.combine.modifier.placement.fillMaxWidth
 import top.fifthlight.combine.modifier.placement.padding
 import top.fifthlight.combine.modifier.scroll.verticalScroll
@@ -51,8 +50,8 @@ class ItemListScreen(
                     },
                 )
             },
-        ) {
-            Row(modifier = Modifier.fillMaxSize()) {
+        ) { modifier ->
+            Row(modifier) {
                 Column(
                     modifier = Modifier
                         .padding(2)

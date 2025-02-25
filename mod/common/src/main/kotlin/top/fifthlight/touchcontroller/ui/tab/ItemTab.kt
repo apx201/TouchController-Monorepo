@@ -25,7 +25,6 @@ import top.fifthlight.touchcontroller.assets.Texts
 import top.fifthlight.touchcontroller.config.GlobalConfigHolder
 import top.fifthlight.touchcontroller.config.ItemList
 import top.fifthlight.touchcontroller.ui.component.HorizontalPreferenceItem
-import top.fifthlight.touchcontroller.ui.component.ItemShower
 import top.fifthlight.touchcontroller.ui.screen.ComponentScreen
 import top.fifthlight.touchcontroller.ui.screen.ItemListScreen
 
@@ -40,8 +39,7 @@ object ItemTabs : KoinComponent {
         ),
         value = globalConfigHolder.config.map { it.item.usableItems },
         onValueChanged = {
-            val config = globalConfigHolder.config.value
-            globalConfigHolder.saveConfig(config.copy(item = config.item.copy(usableItems = it)))
+            globalConfigHolder.updateConfig { copy(item = item.copy(usableItems = it)) }
         }
     )
 
@@ -53,8 +51,7 @@ object ItemTabs : KoinComponent {
         ),
         value = globalConfigHolder.config.map { it.item.showCrosshairItems },
         onValueChanged = {
-            val config = globalConfigHolder.config.value
-            globalConfigHolder.saveConfig(config.copy(item = config.item.copy(showCrosshairItems = it)))
+            globalConfigHolder.updateConfig { copy(item = item.copy(showCrosshairItems = it)) }
         }
     )
 
@@ -66,8 +63,7 @@ object ItemTabs : KoinComponent {
         ),
         value = globalConfigHolder.config.map { it.item.crosshairAimingItems },
         onValueChanged = {
-            val config = globalConfigHolder.config.value
-            globalConfigHolder.saveConfig(config.copy(item = config.item.copy(crosshairAimingItems = it)))
+            globalConfigHolder.updateConfig { copy(item = item.copy(crosshairAimingItems = it)) }
         }
     )
 }
@@ -92,13 +88,14 @@ class ItemTab(
             value?.let { value ->
                 HorizontalPreferenceItem(
                     title = Text.translatable(Texts.SCREEN_CONFIG_ITEM_WHITELIST_TITLE),
+                    description = Text.translatable(Texts.SCREEN_CONFIG_ITEM_WHITELIST_DESCRIPTION),
                 ) {
                     Button(
                         onClick = {
                             navigator?.push(
                                 ItemListScreen(
                                     initialValue = value.whitelist,
-                                    onValueChanged = { onValueChanged(value.copy(whitelist = it)) }
+                                    onValueChanged = { onValueChanged(value.copy(whitelist = it)) },
                                 )
                             )
                         }
@@ -108,13 +105,14 @@ class ItemTab(
                 }
                 HorizontalPreferenceItem(
                     title = Text.translatable(Texts.SCREEN_CONFIG_ITEM_BLACKLIST_TITLE),
+                    description = Text.translatable(Texts.SCREEN_CONFIG_ITEM_BLACKLIST_DESCRIPTION),
                 ) {
                     Button(
                         onClick = {
                             navigator?.push(
                                 ItemListScreen(
                                     initialValue = value.blacklist,
-                                    onValueChanged = { onValueChanged(value.copy(blacklist = it)) }
+                                    onValueChanged = { onValueChanged(value.copy(blacklist = it)) },
                                 )
                             )
                         }
@@ -124,6 +122,7 @@ class ItemTab(
                 }
                 HorizontalPreferenceItem(
                     title = Text.translatable(Texts.SCREEN_CONFIG_ITEM_COMPONENT_TITLE),
+                    description = Text.translatable(Texts.SCREEN_CONFIG_ITEM_COMPONENT_DESCRIPTION),
                 ) {
                     Button(
                         onClick = {

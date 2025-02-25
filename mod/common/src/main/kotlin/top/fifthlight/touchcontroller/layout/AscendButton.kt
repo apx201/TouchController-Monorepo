@@ -5,9 +5,7 @@ import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.control.AscendButton
 import top.fifthlight.touchcontroller.control.AscendButtonTexture
 import top.fifthlight.touchcontroller.gal.KeyBindingType
-import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.AscendButton(config: AscendButton) {
     KeyMappingSwipeButton(id = config.id, keyType = KeyBindingType.JUMP) { clicked ->
         when (Pair(config.texture, clicked)) {

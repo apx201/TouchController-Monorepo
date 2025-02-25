@@ -10,11 +10,11 @@ import top.fifthlight.combine.data.TextFactory
 import top.fifthlight.data.IntOffset
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Texts
+import top.fifthlight.touchcontroller.ext.fastRandomUuid
 import top.fifthlight.touchcontroller.layout.Align
 import top.fifthlight.touchcontroller.layout.Context
 import top.fifthlight.touchcontroller.layout.PlayerListButton
 import kotlin.math.round
-import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @Serializable
@@ -26,13 +26,12 @@ enum class PlayerListButtonTexture {
     NEW,
 }
 
-@OptIn(ExperimentalUuidApi::class)
 @Serializable
 @SerialName("player_list_button")
 data class PlayerListButton(
     val size: Float = 1f,
     val texture: PlayerListButtonTexture = PlayerListButtonTexture.CLASSIC,
-    override val id: Uuid = Uuid.random(),
+    override val id: Uuid = fastRandomUuid(),
     override val align: Align = Align.CENTER_TOP,
     override val offset: IntOffset = IntOffset.ZERO,
     override val opacity: Float = 1f,

@@ -5,9 +5,7 @@ import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.control.*
 import top.fifthlight.touchcontroller.gal.KeyBindingType
 import top.fifthlight.touchcontroller.state.PointerState
-import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.DPad(config: DPad) {
     val buttonSize = config.buttonSize()
     val buttonDisplaySize = config.buttonDisplaySize()

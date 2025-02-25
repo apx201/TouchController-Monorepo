@@ -29,7 +29,7 @@ fun getConfigScreen(parent: Any?): Any? = with(GlobalContext.get()) {
         title = textFactory.of(Texts.SCREEN_CONFIG_TITLE)
     ) {
         TouchControllerNavigator(AboutTab) { navigator ->
-            val currentTab = navigator.lastItem as? Tab
+            val currentTab = (navigator.lastItem as? Tab)?.takeIf { !it.options.openAsScreen }
             currentTab?.let {
                 Scaffold(
                     topBar = {
@@ -46,11 +46,15 @@ fun getConfigScreen(parent: Any?): Any? = with(GlobalContext.get()) {
                             },
                         )
                     },
-                    sideBar = {
+                    leftSideBar = {
                         SideTabBar(
                             modifier = Modifier.fillMaxHeight(),
-                            onTabSelected = {
-                                navigator.replace(it)
+                            onTabSelected = { tab, options ->
+                                if (options.openAsScreen) {
+                                    navigator.push(tab)
+                                } else {
+                                    navigator.replace(tab)
+                                }
                             }
                         )
                     },

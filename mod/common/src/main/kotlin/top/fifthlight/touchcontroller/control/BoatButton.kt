@@ -11,11 +11,11 @@ import top.fifthlight.combine.data.TextFactory
 import top.fifthlight.data.IntOffset
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Texts
+import top.fifthlight.touchcontroller.ext.fastRandomUuid
 import top.fifthlight.touchcontroller.layout.Align
 import top.fifthlight.touchcontroller.layout.BoatButton
 import top.fifthlight.touchcontroller.layout.Context
 import kotlin.math.round
-import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @Serializable
@@ -27,14 +27,13 @@ enum class BoatButtonSide {
     RIGHT
 }
 
-@OptIn(ExperimentalUuidApi::class)
 @Serializable
 @SerialName("boat_button")
 data class BoatButton(
     val size: Float = 3f,
     val side: BoatButtonSide = BoatButtonSide.LEFT,
     val classic: Boolean = true,
-    override val id: Uuid = Uuid.random(),
+    override val id: Uuid = fastRandomUuid(),
     override val align: Align = Align.LEFT_BOTTOM,
     override val offset: IntOffset = IntOffset.ZERO,
     override val opacity: Float = 1f,

@@ -42,7 +42,7 @@ val defaultSelectTextureSet = SelectTextureSet(
         active = Textures.WIDGET_SELECT_SELECT_ACTIVE,
         disabled = Textures.WIDGET_SELECT_SELECT_DISABLED,
     ),
-    floatPanel = Textures.WIDGET_SELECT_FLOAT_WINDOW,
+    floatPanel = Textures.WIDGET_BACKGROUND_FLOAT_WINDOW,
     itemUnselected = NinePatchTextureSet(
         normal = Textures.WIDGET_LIST_LIST,
         focus = Textures.WIDGET_LIST_LIST_HOVER,
@@ -63,8 +63,8 @@ val LocalSelectTextureSet = staticCompositionLocalOf<SelectTextureSet> { default
 
 @Composable
 fun SelectIcon(
+    expanded: Boolean,
     modifier: Modifier = Modifier,
-    expanded: Boolean
 ) {
     Icon(
         modifier = modifier,
@@ -110,7 +110,7 @@ fun <T> SelectScope.SelectItemList(
     Layout(
         modifier = modifier,
         measurePolicy = { measurables, constraints ->
-            var itemWidth = anchor.size.width - textureSet.floatPanel.padding.width
+            var itemWidth = contentWidth
             var itemHeight = 0
             var itemHeights = IntArray(measurables.size)
             for ((index, item) in items.withIndex()) {
@@ -173,10 +173,15 @@ fun <T> SelectScope.SelectItemList(
 
 interface SelectScope {
     val anchor: IntRect
+    val textureSet: SelectTextureSet
+    val contentWidth: Int
 }
 
-private fun SelectScope(anchor: IntRect) = object : SelectScope {
-    override val anchor: IntRect = anchor
+private data class SelectScopeImpl(
+    override val anchor: IntRect,
+    override val textureSet: SelectTextureSet
+): SelectScope {
+    override val contentWidth = anchor.size.width - textureSet.floatPanel.padding.width
 }
 
 @Composable
@@ -196,14 +201,6 @@ fun Select(
     var anchor by remember { mutableStateOf<IntRect?>(null) }
     val colorTheme = colorTheme ?: ColorTheme.light
 
-    @Composable
-    fun ContentStyle(content: @Composable () -> Unit) {
-        CompositionLocalProvider(
-            LocalColorTheme provides colorTheme,
-            content = content,
-        )
-    }
-
     Row(
         modifier = Modifier
             .border(menuTexture)
@@ -216,14 +213,17 @@ fun Select(
             .focusable(interactionSource)
             .then(modifier),
     ) {
-        ContentStyle {
+        CompositionLocalProvider(
+            LocalColorTheme provides colorTheme,
+            LocalWidgetState provides state,
+        ) {
             content()
         }
     }
 
     val currentAnchor = anchor
     if (expanded && currentAnchor != null) {
-        val scope = SelectScope(currentAnchor)
+        val scope = SelectScopeImpl(currentAnchor, textureSet)
         Popup(
             onDismissRequest = {
                 onExpandedChanged(false)
@@ -260,13 +260,15 @@ fun Select(
                 screenSize?.let { screenSize ->
                     Box(
                         modifier = Modifier
-                            .border(Textures.WIDGET_SELECT_FLOAT_WINDOW)
+                            .border(textureSet.floatPanel)
                             .minWidth(currentAnchor.size.width - 2)
                             .maxHeight(screenSize.height / 2)
                             .onPlaced { contentSize = it.size }
                             .consumePress()
                     ) {
-                        ContentStyle {
+                        CompositionLocalProvider(
+                            LocalColorTheme provides colorTheme
+                        ) {
                             dropDownContent(scope)
                         }
                     }

@@ -5,9 +5,7 @@ import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.control.DescendButton
 import top.fifthlight.touchcontroller.control.DescendButtonTexture
 import top.fifthlight.touchcontroller.gal.KeyBindingType
-import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.DescendButton(config: DescendButton) {
     KeyMappingSwipeButton(id = config.id, keyType = KeyBindingType.SNEAK) { clicked ->
         when (Pair(config.texture, clicked)) {

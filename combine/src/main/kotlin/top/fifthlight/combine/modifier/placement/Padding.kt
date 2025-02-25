@@ -7,6 +7,9 @@ import top.fifthlight.combine.modifier.Constraints
 import top.fifthlight.combine.modifier.LayoutModifierNode
 import top.fifthlight.combine.modifier.Modifier
 import top.fifthlight.combine.modifier.offset
+import top.fifthlight.data.IntPadding
+
+fun Modifier.padding(size: IntPadding): Modifier = padding(size.left, size.top, size.right, size.bottom)
 
 fun Modifier.padding(size: Int = 0): Modifier = padding(size, size)
 

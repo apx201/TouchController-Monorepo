@@ -6,9 +6,7 @@ import top.fifthlight.touchcontroller.control.UseButton
 import top.fifthlight.touchcontroller.control.UseButtonTexture
 import top.fifthlight.touchcontroller.control.UseButtonTrigger
 import top.fifthlight.touchcontroller.gal.KeyBindingType
-import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.UseButton(config: UseButton) {
     val useButtonState = keyBindingHandler.getState(KeyBindingType.USE)
     val (newPointer, clicked) = Button(id = config.id) { clicked ->

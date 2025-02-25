@@ -9,7 +9,9 @@ import top.fifthlight.combine.ui.style.ColorSet
 import top.fifthlight.combine.ui.style.NinePatchTextureSet
 import top.fifthlight.combine.ui.style.TextureSet
 
-internal enum class WidgetState(val priority: Int) : Comparable<WidgetState> {
+val LocalWidgetState = staticCompositionLocalOf<WidgetState> { WidgetState.NORMAL }
+
+enum class WidgetState(val priority: Int) : Comparable<WidgetState> {
     NORMAL(0),
     FOCUS(1),
     HOVER(2),
@@ -22,7 +24,7 @@ internal enum class WidgetState(val priority: Int) : Comparable<WidgetState> {
     }
 }
 
-internal fun TextureSet.getByState(state: WidgetState, disabled: Boolean = false) = if (disabled) {
+fun TextureSet.getByState(state: WidgetState, disabled: Boolean = false) = if (disabled) {
     this.disabled
 } else {
     when (state) {
@@ -33,50 +35,50 @@ internal fun TextureSet.getByState(state: WidgetState, disabled: Boolean = false
     }
 }
 
-internal fun NinePatchTextureSet.getByState(state: WidgetState, disabled: Boolean = false) = if (disabled) {
-    this.disabled
-} else {
+fun NinePatchTextureSet.getByState(state: WidgetState, enabled: Boolean = true) = if (enabled) {
     when (state) {
         WidgetState.NORMAL -> normal
         WidgetState.HOVER -> hover
         WidgetState.ACTIVE -> active
         WidgetState.FOCUS -> focus
     }
+} else {
+    this.disabled
 }
 
-internal fun ColorSet.getByState(state: WidgetState, disabled: Boolean = false) = if (disabled) {
-    this.disabled
-} else {
+fun ColorSet.getByState(state: WidgetState, enabled: Boolean = true) = if (enabled) {
     when (state) {
         WidgetState.NORMAL -> normal
         WidgetState.HOVER -> hover
         WidgetState.ACTIVE -> active
         WidgetState.FOCUS -> focus
     }
+} else {
+    this.disabled
 }
 
-private val ClickInteraction.state
+val ClickInteraction.state
     get() = when (this) {
         ClickInteraction.Empty -> WidgetState.NORMAL
         ClickInteraction.Hover -> WidgetState.HOVER
         ClickInteraction.Active -> WidgetState.ACTIVE
     }
 
-private val DragInteraction.state
+val DragInteraction.state
     get() = when (this) {
         DragInteraction.Empty -> WidgetState.NORMAL
         DragInteraction.Hover -> WidgetState.HOVER
         DragInteraction.Active -> WidgetState.ACTIVE
     }
 
-private val FocusInteraction.state
+val FocusInteraction.state
     get() = when (this) {
         FocusInteraction.Blur -> WidgetState.NORMAL
         FocusInteraction.Focus -> WidgetState.FOCUS
     }
 
 @Composable
-internal fun widgetState(interactionSource: InteractionSource): State<WidgetState> {
+fun widgetState(interactionSource: InteractionSource): State<WidgetState> {
     var state = remember { mutableStateOf(WidgetState.NORMAL) }
     var lastClickInteraction by remember { mutableStateOf<ClickInteraction>(ClickInteraction.Empty) }
     var lastDragInteraction by remember { mutableStateOf<DragInteraction>(DragInteraction.Empty) }

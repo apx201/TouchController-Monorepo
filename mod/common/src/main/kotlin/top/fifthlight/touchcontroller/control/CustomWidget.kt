@@ -11,11 +11,10 @@ import top.fifthlight.combine.paint.drawNinePatchTexture
 import top.fifthlight.data.IntOffset
 import top.fifthlight.data.IntRect
 import top.fifthlight.data.IntSize
+import top.fifthlight.touchcontroller.ext.fastRandomUuid
 import top.fifthlight.touchcontroller.layout.*
-import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-@OptIn(ExperimentalUuidApi::class)
 @Serializable
 @SerialName("custom")
 data class CustomWidget(
@@ -25,7 +24,7 @@ data class CustomWidget(
     val textColor: Color = Colors.BLACK,
     val swipeTrigger: Boolean = false,
     val action: ButtonTrigger = ButtonTrigger.Press(),
-    override val id: Uuid = Uuid.random(),
+    override val id: Uuid = fastRandomUuid(),
     override val align: Align = Align.RIGHT_BOTTOM,
     override val offset: IntOffset = IntOffset.ZERO,
     override val opacity: Float = 1f,

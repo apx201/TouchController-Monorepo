@@ -4,9 +4,7 @@ import top.fifthlight.combine.paint.Color
 import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.control.ForwardButton
 import top.fifthlight.touchcontroller.control.ForwardButtonTexture
-import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.ForwardButton(config: ForwardButton) {
     val (_, clicked, _) = Button(id = config.id) { clicked ->
         withAlign(align = Align.CENTER_CENTER, size = size) {

@@ -131,7 +131,7 @@ fun generateTextureSet(textures: Map<String, PlacedTexture>, basePath: Path, out
                                     className
                                 )
                             )
-                            .initializer("%L()", className)
+                            .delegate("lazy { %L() }", className)
                             .build()
                     )
                     addProperty(
@@ -144,7 +144,12 @@ fun generateTextureSet(textures: Map<String, PlacedTexture>, basePath: Path, out
                                     "TextureSetKey"
                                 )
                             )
-                            .initializer("TextureSetKey.%L", setName.uppercase())
+                            .getter(
+                                FunSpec
+                                    .getterBuilder()
+                                    .addCode("return TextureSetKey.%L", setName.uppercase())
+                                    .build()
+                            )
                             .build()
                     )
                     build()
@@ -158,7 +163,7 @@ fun generateTextureSet(textures: Map<String, PlacedTexture>, basePath: Path, out
             .addProperty(
                 PropertySpec
                     .builder("all", List::class.asClassName().parameterizedBy(textureSetTypeName))
-                    .initializer("listOf(%L)", textureSets.keys.joinToString(",\n") {
+                    .delegate("lazy { listOf(%L) }", textureSets.keys.joinToString(",\n") {
                         val setName = it.snakeToCamelCase(true)
                         "$setName.INSTANCE"
                     })

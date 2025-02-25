@@ -1,10 +1,8 @@
 package top.fifthlight.touchcontroller.state
 
 import top.fifthlight.data.Offset
-import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-@OptIn(ExperimentalUuidApi::class)
 sealed class PointerState {
     data object New : PointerState()
 

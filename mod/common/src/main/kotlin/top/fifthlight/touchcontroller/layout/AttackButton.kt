@@ -5,9 +5,7 @@ import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.control.AttackButton
 import top.fifthlight.touchcontroller.control.AttackButtonTexture
 import top.fifthlight.touchcontroller.gal.KeyBindingType
-import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.AttackButton(config: AttackButton) {
     KeyMappingButton(id = config.id, keyType = KeyBindingType.ATTACK) { clicked ->
         withAlign(align = Align.CENTER_CENTER, size = size) {

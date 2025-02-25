@@ -1,42 +1,40 @@
 package top.fifthlight.touchcontroller.config
 
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.component.inject
 import org.slf4j.LoggerFactory
-import top.fifthlight.touchcontroller.ext.ControllerLayoutSerializer
+import top.fifthlight.touchcontroller.config.preset.PresetConfig
+import top.fifthlight.touchcontroller.config.preset.PresetManager
+import top.fifthlight.touchcontroller.config.preset.builtin.BuiltinPresetKey
+import top.fifthlight.touchcontroller.config.preset.builtin.preset
+import top.fifthlight.touchcontroller.ext.combineStates
 import top.fifthlight.touchcontroller.gal.DefaultItemListProvider
 import java.io.IOException
-import java.nio.file.Path
 import kotlin.io.path.*
 
 class GlobalConfigHolder : KoinComponent {
     private val logger = LoggerFactory.getLogger(GlobalConfig::class.java)
     private val gameConfigEditor: GameConfigEditor by inject()
+    private val presetManager: PresetManager by inject()
     private val defaultItemListProvider: DefaultItemListProvider = get()
     private val configDirectoryProvider: ConfigDirectoryProvider = get()
     private val configDir = configDirectoryProvider.getConfigDirectory()
     private val configFile = configDir.resolve("config.json")
-    private val layoutFile = configDir.resolve("layout.json")
-    private val presetFile = configDir.resolve("preset.json")
 
     private val json: Json by inject()
     private val _config = MutableStateFlow(GlobalConfig.default(defaultItemListProvider))
     val config = _config.asStateFlow()
-    private val _layout = MutableStateFlow(defaultControllerLayout)
-    val layout = _layout.asStateFlow()
-    private val _presets = MutableStateFlow(LayoutPresets())
-    val presets = _presets.asStateFlow()
 
-    private fun tryBackupFile(file: Path) {
-        val timeStamp = System.currentTimeMillis()
-        val backupFileName = file.resolveSibling("${file.fileName}-backup-$timeStamp")
-        runCatching {
-            file.moveTo(backupFileName, overwrite = true)
+    val currentPreset = combineStates(config, presetManager.presets) { config, presets ->
+        when (val preset = config.preset) {
+            is PresetConfig.BuiltIn -> preset.key.preset
+            is PresetConfig.Custom -> presets[preset.uuid] ?: BuiltinPresetKey.DEFAULT.preset
         }
     }
 
@@ -52,22 +50,13 @@ class GlobalConfigHolder : KoinComponent {
             _config.value = json.decodeFromString(configFile.readText())
         } catch (ex: Exception) {
             logger.warn("Failed to read config: ", ex)
-            tryBackupFile(configFile)
+            val timeStamp = System.currentTimeMillis()
+            val backupFileName = configFile.resolveSibling("${configFile.fileName}-backup-$timeStamp")
+            runCatching {
+                configFile.moveTo(backupFileName, overwrite = true)
+            }
         }
-        try {
-            logger.info("Reading TouchController layout file")
-            _layout.value = json.decodeFromString(ControllerLayoutSerializer(), layoutFile.readText())
-        } catch (ex: Exception) {
-            logger.warn("Failed to read layout: ", ex)
-            tryBackupFile(layoutFile)
-        }
-        try {
-            logger.info("Reading TouchController preset file")
-            _presets.value = json.decodeFromString(presetFile.readText())
-        } catch (ex: Exception) {
-            logger.warn("Failed to read preset: ", ex)
-            tryBackupFile(presetFile)
-        }
+        presetManager.load()
     }
 
     private fun createConfigDirectory() {
@@ -79,30 +68,15 @@ class GlobalConfigHolder : KoinComponent {
             }
         }
         try {
-            configDir.createDirectory()
+            configDir.createDirectories()
         } catch (_: IOException) {
         }
     }
 
-    fun saveConfig(config: GlobalConfig) {
-        _config.value = config
+    fun updateConfig(editor: GlobalConfig.() -> GlobalConfig) {
+        val config = _config.getAndUpdate(editor)
         createConfigDirectory()
         logger.info("Saving TouchController config file")
         configFile.writeText(json.encodeToString(config))
-    }
-
-    fun saveLayout(layout: ControllerLayout) {
-        _layout.value = layout
-        createConfigDirectory()
-        val serializer = ControllerLayoutSerializer()
-        logger.info("Saving TouchController layout file")
-        layoutFile.writeText(json.encodeToString(serializer, layout))
-    }
-
-    fun savePreset(config: LayoutPresets) {
-        _presets.value = config
-        createConfigDirectory()
-        logger.info("Saving TouchController preset file")
-        presetFile.writeText(json.encodeToString(config))
     }
 }

@@ -11,11 +11,11 @@ import top.fifthlight.combine.data.TextFactory
 import top.fifthlight.data.IntOffset
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Texts
+import top.fifthlight.touchcontroller.ext.fastRandomUuid
 import top.fifthlight.touchcontroller.layout.Align
 import top.fifthlight.touchcontroller.layout.Context
 import top.fifthlight.touchcontroller.layout.DPad
 import kotlin.math.round
-import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @Serializable
@@ -48,7 +48,6 @@ enum class DPadExtraButton {
     FLYING,
 }
 
-@OptIn(ExperimentalUuidApi::class)
 @Serializable
 @SerialName("dpad")
 data class DPad(
@@ -57,16 +56,16 @@ data class DPad(
     val padding: Int = if (classic) 4 else -1,
     val extraButton: DPadExtraButton = DPadExtraButton.SNEAK_DOUBLE_CLICK,
     val extraButtonSize: Int = 18,
-    val idForward: Uuid = Uuid.random(),
-    val idBackward: Uuid = Uuid.random(),
-    val idLeft: Uuid = Uuid.random(),
-    val idRight: Uuid = Uuid.random(),
-    val idLeftForward: Uuid = Uuid.random(),
-    val idRightForward: Uuid = Uuid.random(),
-    val idLeftBackward: Uuid = Uuid.random(),
-    val idRightBackward: Uuid = Uuid.random(),
-    val idExtraButton: Uuid = Uuid.random(),
-    override val id: Uuid = Uuid.random(),
+    val idForward: Uuid = fastRandomUuid(),
+    val idBackward: Uuid = fastRandomUuid(),
+    val idLeft: Uuid = fastRandomUuid(),
+    val idRight: Uuid = fastRandomUuid(),
+    val idLeftForward: Uuid = fastRandomUuid(),
+    val idRightForward: Uuid = fastRandomUuid(),
+    val idLeftBackward: Uuid = fastRandomUuid(),
+    val idRightBackward: Uuid = fastRandomUuid(),
+    val idExtraButton: Uuid = fastRandomUuid(),
+    override val id: Uuid = fastRandomUuid(),
     override val align: Align = Align.LEFT_BOTTOM,
     override val offset: IntOffset = IntOffset.ZERO,
     override val opacity: Float = 1f,
@@ -155,15 +154,15 @@ data class DPad(
     )
 
     override fun newId(): ControllerWidget = copy(
-        idForward = Uuid.random(),
-        idBackward = Uuid.random(),
-        idLeft = Uuid.random(),
-        idRight = Uuid.random(),
-        idLeftForward = Uuid.random(),
-        idRightForward = Uuid.random(),
-        idLeftBackward = Uuid.random(),
-        idRightBackward = Uuid.random(),
-        idExtraButton = Uuid.random(),
-        id = Uuid.random(),
+        idForward = fastRandomUuid(),
+        idBackward = fastRandomUuid(),
+        idLeft = fastRandomUuid(),
+        idRight = fastRandomUuid(),
+        idLeftForward = fastRandomUuid(),
+        idRightForward = fastRandomUuid(),
+        idLeftBackward = fastRandomUuid(),
+        idRightBackward = fastRandomUuid(),
+        idExtraButton = fastRandomUuid(),
+        id = fastRandomUuid(),
     )
 }

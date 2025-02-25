@@ -41,9 +41,7 @@ object DebugTab : Tab() {
             val globalConfigHolder: GlobalConfigHolder = koinInject()
             val globalConfig by globalConfigHolder.config.collectAsState()
             fun update(editor: DebugConfig.() -> DebugConfig) {
-                globalConfigHolder.saveConfig(globalConfig.let { config ->
-                    config.copy(debug = editor(config.debug))
-                })
+                globalConfigHolder.updateConfig { copy(debug = editor(debug)) }
             }
             SwitchPreferenceItem(
                 title = Text.translatable(Texts.SCREEN_CONFIG_GENERAL_DEBUG_SHOW_POINTERS_TITLE),

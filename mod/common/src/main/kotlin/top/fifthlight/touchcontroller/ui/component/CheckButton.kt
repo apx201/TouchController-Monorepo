@@ -7,6 +7,7 @@ import top.fifthlight.combine.ui.style.ColorTheme
 import top.fifthlight.combine.ui.style.NinePatchTextureSet
 import top.fifthlight.combine.widget.base.layout.BoxScope
 import top.fifthlight.combine.widget.ui.Button
+import top.fifthlight.data.IntPadding
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Textures
 
@@ -70,6 +71,8 @@ fun TabButton(
     colors: CheckButtonColors = LocalCheckButtonColors.current,
     checked: Boolean = false,
     minSize: IntSize = IntSize(48, 20),
+    padding: IntPadding = IntPadding(left = 4, right = 4, top = 1),
+    enabled: Boolean = true,
     onClick: () -> Unit,
     clickSound: Boolean = true,
     content: @Composable BoxScope.() -> Unit
@@ -78,6 +81,8 @@ fun TabButton(
     textures = textures,
     colors = colors,
     checked = checked,
+    padding = padding,
+    enabled = enabled,
     minSize = minSize,
     onClick = onClick,
     clickSound = clickSound,
@@ -91,6 +96,8 @@ fun ListButton(
     colors: CheckButtonColors = LocalCheckButtonColors.current,
     checked: Boolean = false,
     minSize: IntSize = IntSize(48, 20),
+    padding: IntPadding = IntPadding(left = 4, right = 4, top = 1),
+    enabled: Boolean = true,
     onClick: () -> Unit,
     clickSound: Boolean = true,
     content: @Composable BoxScope.() -> Unit
@@ -100,6 +107,8 @@ fun ListButton(
     colors = colors,
     checked = checked,
     minSize = minSize,
+    padding = padding,
+    enabled = enabled,
     onClick = onClick,
     clickSound = clickSound,
     content = content,
@@ -112,25 +121,27 @@ fun CheckButton(
     colors: CheckButtonColors = LocalCheckButtonColors.current,
     checked: Boolean = false,
     minSize: IntSize = IntSize(48, 20),
+    padding: IntPadding = IntPadding(left = 4, right = 4, top = 1),
+    enabled: Boolean = true,
     onClick: () -> Unit,
     clickSound: Boolean = true,
     content: @Composable BoxScope.() -> Unit
-) {
-    Button(
-        modifier = modifier,
-        textureSet = if (checked) {
-            textures.checked
-        } else {
-            textures.unchecked
-        },
-        colorTheme = if (checked) {
-            colors.checked
-        } else {
-            colors.unchecked
-        },
-        minSize = minSize,
-        onClick = onClick,
-        clickSound = clickSound,
-        content = content,
-    )
-}
+) = Button(
+    modifier = modifier,
+    textureSet = if (checked) {
+        textures.checked
+    } else {
+        textures.unchecked
+    },
+    colorTheme = if (checked) {
+        colors.checked
+    } else {
+        colors.unchecked
+    },
+    minSize = minSize,
+    padding = padding,
+    enabled = enabled,
+    onClick = onClick,
+    clickSound = clickSound,
+    content = content,
+)

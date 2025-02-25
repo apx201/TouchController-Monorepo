@@ -5,9 +5,7 @@ import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.control.BoatButton
 import top.fifthlight.touchcontroller.control.BoatButtonSide.LEFT
 import top.fifthlight.touchcontroller.control.BoatButtonSide.RIGHT
-import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.BoatButton(config: BoatButton) {
     val id = when (config.side) {
         LEFT -> "boat_left"

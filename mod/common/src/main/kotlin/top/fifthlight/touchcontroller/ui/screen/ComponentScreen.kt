@@ -53,8 +53,8 @@ class ComponentScreen(
                     },
                 )
             },
-        ) {
-            Row(modifier = Modifier.fillMaxSize()) {
+        ) { modifier ->
+            Row(modifier) {
                 val items by screenModel.value.collectAsState()
                 Column(
                     modifier = Modifier

@@ -21,6 +21,7 @@ log4j = "2.8.1"
 aboutlibraries = "11.5.0"
 junit = "5.11.4"
 voyager = "1.1.0-beta03"
+kache = "2.1.1"
 
 # Android
 agp = "8.7.3"
@@ -52,10 +53,10 @@ junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric-loader" }
 compose-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", version.ref = "compose" }
 compose-runtime-saveable = { group = "org.jetbrains.compose.runtime", name = "runtime-saveable", version.ref = "compose" }
-voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
-voyager-screenModel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
-voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
-
+voyager-navigator = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
+voyager-screenModel = { group = "cafe.adriel.voyager", name = "voyager-screenmodel", version.ref = "voyager" }
+voyager-koin = { group = "cafe.adriel.voyager", name = "voyager-koin", version.ref = "voyager" }
+kache-core = { group = "com.mayakapps.kache", name = "kache", version.ref = "kache" }
 
 # BELOW ARE GRADLE PLUGINS
 aboutlibraries-plugin = { group = "com.mikepenz.aboutlibraries.plugin", name = "com.mikepenz.aboutlibraries.plugin.gradle.plugin", version.ref = "aboutlibraries" }

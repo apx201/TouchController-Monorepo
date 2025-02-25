@@ -13,6 +13,8 @@ import top.fifthlight.data.IntSize
 import top.fifthlight.data.Offset
 import top.fifthlight.touchcontroller.config.GlobalConfig
 import top.fifthlight.touchcontroller.config.LayerConditionKey
+import top.fifthlight.touchcontroller.config.preset.LayoutPresets
+import top.fifthlight.touchcontroller.config.preset.PresetControlInfo
 import top.fifthlight.touchcontroller.control.WidgetTriggerAction
 import top.fifthlight.touchcontroller.gal.CameraPerspective
 import top.fifthlight.touchcontroller.gal.KeyBindingHandler
@@ -135,6 +137,7 @@ data class Context(
     val keyBindingHandler: KeyBindingHandler = KeyBindingHandler.Empty,
     val timer: ContextCounter = ContextCounter(),
     val config: GlobalConfig,
+    val presetControlInfo: PresetControlInfo = PresetControlInfo(),
 ) : KoinComponent {
     val textMeasurer: TextMeasurer by inject()
 

@@ -18,7 +18,6 @@ import top.fifthlight.touchcontroller.config.ControlConfig
 import top.fifthlight.touchcontroller.config.GlobalConfigHolder
 import top.fifthlight.touchcontroller.ui.component.IntSliderPreferenceItem
 import top.fifthlight.touchcontroller.ui.component.SliderPreferenceItem
-import top.fifthlight.touchcontroller.ui.component.SwitchPreferenceItem
 import top.fifthlight.touchcontroller.ui.tab.Tab
 import top.fifthlight.touchcontroller.ui.tab.TabGroup
 import top.fifthlight.touchcontroller.ui.tab.TabOptions
@@ -43,22 +42,8 @@ object ControlTab : Tab() {
             val globalConfigHolder: GlobalConfigHolder = koinInject()
             val globalConfig by globalConfigHolder.config.collectAsState()
             fun update(editor: ControlConfig.() -> ControlConfig) {
-                globalConfigHolder.saveConfig(globalConfig.let { config ->
-                    config.copy(control = editor(config.control))
-                })
+                globalConfigHolder.updateConfig { copy(control = editor(control)) }
             }
-            SwitchPreferenceItem(
-                title = Text.translatable(Texts.SCREEN_CONFIG_GENERAL_REGULAR_SPLIT_CONTROLS_TITLE),
-                description = Text.translatable(Texts.SCREEN_CONFIG_GENERAL_REGULAR_SPLIT_CONTROLS_DESCRIPTION),
-                value = globalConfig.control.splitControls,
-                onValueChanged = { update { copy(splitControls = it) } }
-            )
-            SwitchPreferenceItem(
-                title = Text.translatable(Texts.SCREEN_CONFIG_GENERAL_REGULAR_DISABLE_TOUCH_GESTURE_TITLE),
-                description = Text.translatable(Texts.SCREEN_CONFIG_GENERAL_REGULAR_DISABLE_TOUCH_GESTURE_DESCRIPTION),
-                value = globalConfig.control.disableTouchGesture,
-                onValueChanged = { update { copy(disableTouchGesture = it) } }
-            )
             SliderPreferenceItem(
                 title = Text.translatable(Texts.SCREEN_CONFIG_GENERAL_CONTROL_VIEW_MOVEMENT_SENSITIVITY_TITLE),
                 description = Text.translatable(Texts.SCREEN_CONFIG_GENERAL_CONTROL_VIEW_MOVEMENT_SENSITIVITY_DESCRIPTION),

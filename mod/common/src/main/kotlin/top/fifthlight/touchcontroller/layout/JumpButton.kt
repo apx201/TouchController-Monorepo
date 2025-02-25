@@ -6,7 +6,6 @@ import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.control.JumpButton
 import top.fifthlight.touchcontroller.control.JumpButtonTexture
 import top.fifthlight.touchcontroller.gal.KeyBindingType
-import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 private fun Context.JumpButtonTexture(size: IntSize, clicked: Boolean, texture: JumpButtonTexture) {
@@ -36,7 +35,6 @@ private fun Context.JumpButtonTexture(size: IntSize, clicked: Boolean, texture: 
     }
 }
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.DPadJumpButton(
     id: Uuid,
     size: IntSize = this.size,
@@ -45,7 +43,6 @@ fun Context.DPadJumpButton(
     JumpButtonTexture(size, clicked, texture)
 }
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.JumpButton(config: JumpButton) {
     KeyMappingButton(id = config.id, keyType = KeyBindingType.JUMP) { clicked ->
         JumpButtonTexture(config.size(), clicked, config.texture)

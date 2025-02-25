@@ -7,7 +7,9 @@ import top.fifthlight.combine.modifier.Modifier
 import top.fifthlight.combine.modifier.drawing.border
 import top.fifthlight.combine.modifier.focus.focusable
 import top.fifthlight.combine.modifier.placement.minSize
+import top.fifthlight.combine.modifier.placement.padding
 import top.fifthlight.combine.modifier.pointer.clickable
+import top.fifthlight.combine.paint.Colors
 import top.fifthlight.combine.sound.LocalSoundManager
 import top.fifthlight.combine.sound.SoundKind
 import top.fifthlight.combine.ui.style.ColorTheme
@@ -15,6 +17,7 @@ import top.fifthlight.combine.ui.style.LocalColorTheme
 import top.fifthlight.combine.ui.style.NinePatchTextureSet
 import top.fifthlight.combine.widget.base.layout.Box
 import top.fifthlight.combine.widget.base.layout.BoxScope
+import top.fifthlight.data.IntPadding
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Textures
 
@@ -38,15 +41,18 @@ val warningButtonTexture = defaultButtonTexture.copy(
     hover = Textures.WIDGET_BUTTON_BUTTON_WARNING_HOVER,
 )
 
-val LocalButtonTexture = staticCompositionLocalOf<NinePatchTextureSet> { defaultButtonTexture }
+val LocalButtonTexture = staticCompositionLocalOf { defaultButtonTexture }
+val LocalGuideButtonTexture = staticCompositionLocalOf { guideButtonTexture }
+val LocalWarningButtonTexture = staticCompositionLocalOf { warningButtonTexture }
 
 @NonSkippableComposable
 @Composable
 fun GuideButton(
     modifier: Modifier = Modifier,
-    textureSet: NinePatchTextureSet = guideButtonTexture,
+    textureSet: NinePatchTextureSet = LocalGuideButtonTexture.current,
     colorTheme: ColorTheme? = ColorTheme.dark,
     minSize: IntSize = IntSize(48, 20),
+    enabled: Boolean = true,
     onClick: () -> Unit,
     clickSound: Boolean = true,
     content: @Composable BoxScope.() -> Unit,
@@ -56,6 +62,7 @@ fun GuideButton(
         textureSet = textureSet,
         colorTheme = colorTheme,
         minSize = minSize,
+        enabled = enabled,
         onClick = onClick,
         clickSound = clickSound,
         content = content
@@ -66,9 +73,10 @@ fun GuideButton(
 @Composable
 fun WarningButton(
     modifier: Modifier = Modifier,
-    textureSet: NinePatchTextureSet = warningButtonTexture,
+    textureSet: NinePatchTextureSet = LocalWarningButtonTexture.current,
     colorTheme: ColorTheme? = ColorTheme.dark,
     minSize: IntSize = IntSize(48, 20),
+    enabled: Boolean = true,
     onClick: () -> Unit,
     clickSound: Boolean = true,
     content: @Composable BoxScope.() -> Unit,
@@ -78,6 +86,7 @@ fun WarningButton(
         textureSet = textureSet,
         colorTheme = colorTheme,
         minSize = minSize,
+        enabled = enabled,
         onClick = onClick,
         clickSound = clickSound,
         content = content
@@ -90,6 +99,8 @@ fun Button(
     textureSet: NinePatchTextureSet = LocalButtonTexture.current,
     colorTheme: ColorTheme? = null,
     minSize: IntSize = IntSize(48, 20),
+    padding: IntPadding = IntPadding(left = 4, right = 4, top = 1),
+    enabled: Boolean = true,
     onClick: () -> Unit,
     clickSound: Boolean = true,
     content: @Composable BoxScope.() -> Unit,
@@ -97,25 +108,36 @@ fun Button(
     val soundManager = LocalSoundManager.current
     val interactionSource = remember { MutableInteractionSource() }
     val state by widgetState(interactionSource)
-    val texture = textureSet.getByState(state)
+    val texture = textureSet.getByState(state, enabled = enabled)
 
     Box(
         modifier = Modifier
+            .padding(padding)
             .border(texture)
             .minSize(minSize)
-            .clickable(interactionSource) {
-                if (clickSound) {
-                    soundManager.play(SoundKind.BUTTON_PRESS, 1f)
-                }
-                onClick()
-            }
-            .focusable(interactionSource)
+            .then(
+                if (enabled) {
+                    Modifier
+                        .clickable(interactionSource) {
+                            if (clickSound) {
+                                soundManager.play(SoundKind.BUTTON_PRESS, 1f)
+                            }
+                            onClick()
+                        }
+                        .focusable(interactionSource)
+                } else {
+                    Modifier
+                })
             .then(modifier),
         alignment = Alignment.Center,
     ) {
-        val colorTheme = colorTheme ?: ColorTheme.light
+        var colorTheme = colorTheme ?: ColorTheme.light
+        if (!enabled) {
+            colorTheme = colorTheme.copy(foreground = Colors.SECONDARY_WHITE)
+        }
         CompositionLocalProvider(
             LocalColorTheme provides colorTheme,
+            LocalWidgetState provides state,
         ) {
             content()
         }

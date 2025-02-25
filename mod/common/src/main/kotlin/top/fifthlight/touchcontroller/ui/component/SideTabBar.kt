@@ -1,6 +1,7 @@
 package top.fifthlight.touchcontroller.ui.component
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.collections.immutable.toPersistentList
 import top.fifthlight.combine.layout.Arrangement
@@ -15,6 +16,7 @@ import top.fifthlight.combine.widget.ui.Text
 import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.ui.tab.Tab
 import top.fifthlight.touchcontroller.ui.tab.TabGroup
+import top.fifthlight.touchcontroller.ui.tab.TabOptions
 import top.fifthlight.touchcontroller.ui.tab.allTabs
 
 private val tabGroups by lazy {
@@ -29,7 +31,7 @@ private val tabGroups by lazy {
 @Composable
 fun SideTabBar(
     modifier: Modifier = Modifier,
-    onTabSelected: (Tab) -> Unit,
+    onTabSelected: (Tab, TabOptions) -> Unit,
 ) {
     val navigator = LocalNavigator.current
     Column(
@@ -48,12 +50,15 @@ fun SideTabBar(
                 }
                 Column(verticalArrangement = Arrangement.spacedBy(4)) {
                     for (tab in tabs) {
+                        val options = tab.options
                         TabButton(
                             modifier = Modifier.fillMaxWidth(),
                             checked = navigator?.lastItem == tab,
-                            onClick = { onTabSelected(tab) }
+                            onClick = {
+                                onTabSelected(tab, options)
+                            }
                         ) {
-                            Text(tab.options.title)
+                            Text(options.title)
                         }
                     }
                 }

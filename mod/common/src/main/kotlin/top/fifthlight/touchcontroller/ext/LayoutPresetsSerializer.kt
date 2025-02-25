@@ -9,8 +9,8 @@ import kotlinx.serialization.descriptors.serialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.serializer
-import top.fifthlight.touchcontroller.config.LayoutPreset
-import top.fifthlight.touchcontroller.config.LayoutPresets
+import top.fifthlight.touchcontroller.config.preset.LayoutPreset
+import top.fifthlight.touchcontroller.config.preset.LayoutPresets
 import top.fifthlight.touchcontroller.control.ControllerWidget
 
 class LayoutPresetsSerializer : KSerializer<LayoutPresets> {

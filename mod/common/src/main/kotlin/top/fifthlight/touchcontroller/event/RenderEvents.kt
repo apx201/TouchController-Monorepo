@@ -109,6 +109,7 @@ object RenderEvents : KoinComponent {
             put(LayerConditionKey.ON_LLAMA, ridingType == RidingEntityType.LLAMA)
             put(LayerConditionKey.ON_STRIDER, ridingType == RidingEntityType.STRIDER)
         }.toPersistentMap()
+        val preset = configHolder.currentPreset.value
 
         val drawQueue = DrawQueue()
         val result = Context(
@@ -127,10 +128,9 @@ object RenderEvents : KoinComponent {
             timer = controllerHudModel.timer,
             keyBindingHandler = keyBindingHandler,
             config = configHolder.config.value,
+            presetControlInfo = preset.controlInfo,
         ).run {
-            Hud(
-                layers = configHolder.layout.value.layers,
-            )
+            Hud(layers = preset.layout.layers)
             result
         }
         drawQueue.enqueue { canvas ->

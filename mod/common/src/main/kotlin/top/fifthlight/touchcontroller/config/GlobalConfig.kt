@@ -1,6 +1,7 @@
 package top.fifthlight.touchcontroller.config
 
 import kotlinx.serialization.Serializable
+import top.fifthlight.touchcontroller.config.preset.PresetConfig
 import top.fifthlight.touchcontroller.gal.DefaultItemListProvider
 
 @Serializable
@@ -16,8 +17,6 @@ data class RegularConfig(
 
 @Serializable
 data class ControlConfig(
-    val splitControls: Boolean = false,
-    val disableTouchGesture: Boolean = false,
     val viewMovementSensitivity: Float = 495f,
     val viewHoldDetectThreshold: Int = 2,
     val viewHoldDetectTicks: Int = 5,
@@ -58,6 +57,7 @@ data class GlobalConfig(
     val touchRing: TouchRingConfig = TouchRingConfig(),
     val debug: DebugConfig = DebugConfig(),
     val item: ItemConfig,
+    val preset: PresetConfig = PresetConfig.BuiltIn(),
 ) {
     companion object {
         fun default(itemListProvider: DefaultItemListProvider) = GlobalConfig(

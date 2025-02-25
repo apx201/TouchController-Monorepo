@@ -4,9 +4,7 @@ import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.control.PerspectiveSwitchButton
 import top.fifthlight.touchcontroller.control.PerspectiveSwitchButtonStyle
 import top.fifthlight.touchcontroller.gal.CameraPerspective
-import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.PerspectiveSwitchButton(config: PerspectiveSwitchButton) {
     val (newPointer) = Button(id = config.id) {
         val texture = when (config.style) {

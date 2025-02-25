@@ -22,6 +22,7 @@ import top.fifthlight.combine.widget.base.layout.Column
 import top.fifthlight.combine.widget.base.layout.FlowRow
 import top.fifthlight.combine.widget.base.layout.Row
 import top.fifthlight.combine.widget.ui.*
+import top.fifthlight.data.IntPadding
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.BackgroundTextures
 import top.fifthlight.touchcontroller.assets.Texts
@@ -178,6 +179,7 @@ class VanillaItemListScreen(
                     ListButton(
                         checked = selectedTabIndex == index,
                         minSize = IntSize(16, 16),
+                        padding = IntPadding.ZERO,
                         onClick = { selectedTabIndex = index }
                     ) {
                         Item(itemStack = tab.icon)

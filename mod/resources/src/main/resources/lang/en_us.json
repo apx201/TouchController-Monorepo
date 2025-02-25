@@ -26,6 +26,42 @@
 
   "touchcontroller.screen.config.layout.title": "Layout",
 
+  "touchcontroller.screen.config.layout.manage_control_preset": "Manage control presets",
+  "touchcontroller.screen.config.layout.manage_control_preset.title": "Manage presets",
+  "touchcontroller.screen.config.layout.manage_control_preset.switch.message": "Do you want to use preset mode? Settings in custom layout will be frozen!",
+  "touchcontroller.screen.config.layout.manage_control_preset.switch.switch": "Switch to preset mode",
+  "touchcontroller.screen.config.layout.manage_control_preset.switch.goto_custom": "Go to custom layout",
+
+  "touchcontroller.screen.config.layout.custom_control_layout": "Custom control layout",
+  "touchcontroller.screen.config.layout.custom_control_layout.title": "Custom layout",
+  "touchcontroller.screen.config.layout.custom_control_layout.switch.message": "Do you want to use custom layout mode? Settings in preset mode will be dropped!",
+  "touchcontroller.screen.config.layout.custom_control_layout.switch.switch": "Switch to custom layout",
+  "touchcontroller.screen.config.layout.custom_control_layout.switch.goto_preset": "Go to preset mode",
+  "touchcontroller.screen.config.layout.custom_control_layout.show_side_bar": "Show side bar",
+  "touchcontroller.screen.config.layout.custom_control_layout.no_layer_selected": "Select a layer to edit",
+  "touchcontroller.screen.config.layout.custom_control_layout.no_preset_selected": "Select a preset to edit",
+  "touchcontroller.screen.config.layout.custom_control_layout.delete_widget": "Delete widget",
+  "touchcontroller.screen.config.layout.custom_control_layout.paste_widget": "Paste widget",
+  
+  "touchcontroller.screen.config.layout.custom_control_layout.properties": "Properties",
+  "touchcontroller.screen.config.layout.custom_control_layout.no_widget_selected": "Select a widget to edit its properties",
+  "touchcontroller.screen.config.layout.custom_control_layout.copy": "Copy widget",
+  "touchcontroller.screen.config.layout.custom_control_layout.cut": "Cut widget",
+  
+  "touchcontroller.screen.config.layout.custom_control_layout.widgets": "Widgets",
+  "touchcontroller.screen.config.layout.custom_control_layout.widgets.builtin": "Builtin",
+  "touchcontroller.screen.config.layout.custom_control_layout.widgets.preset": "Preset",
+  
+  "touchcontroller.screen.config.layout.custom_control_layout.layers": "Layers",
+  "touchcontroller.screen.config.layout.custom_control_layout.layers.move_up": "Move up",
+  "touchcontroller.screen.config.layout.custom_control_layout.layers.move_down": "Move down",
+  
+  "touchcontroller.screen.config.layout.custom_control_layout.presets": "Presets",
+  "touchcontroller.screen.config.layout.custom_control_layout.presets.move_up": "Move up",
+  "touchcontroller.screen.config.layout.custom_control_layout.presets.move_down": "Move down",
+
+  "touchcontroller.screen.config.layout.gui_control_layout.title": "GUI control layout",
+
   "touchcontroller.screen.config.general.title": "Global",
 
   "touchcontroller.screen.config.general.regular.title": "Regular",
@@ -78,9 +114,11 @@
   "touchcontroller.screen.config.item.crosshair_aiming_items.title": "Items needing aim correction",
   "touchcontroller.screen.config.item.crosshair_aiming_items.description": "Items which aiming by crosshair when placing, such as buckets and boats. If there are problems placing items, you can try adding them to this list.",
   "touchcontroller.screen.config.item.whitelist.title": "Whitelist",
+  "touchcontroller.screen.config.item.whitelist.description": "Configure by item list.",
   "touchcontroller.screen.config.item.blacklist.title": "Blacklist",
-  "touchcontroller.screen.config.item.subclasses.title": "Subclasses",
+  "touchcontroller.screen.config.item.blacklist.description": "Blacklist has the top priority.",
   "touchcontroller.screen.config.item.component.title": "Components",
+  "touchcontroller.screen.config.item.component.description": "Configure by item stack components.",
   "touchcontroller.screen.config.item.edit.title": "Edit",
 
   "touchcontroller.screen.item_list.title": "Item list",

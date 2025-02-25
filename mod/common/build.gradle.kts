@@ -39,4 +39,7 @@ dependencies {
 
 kotlin {
     jvmToolchain(8)
+    compilerOptions {
+        optIn.add("kotlin.uuid.ExperimentalUuidApi")
+    }
 }

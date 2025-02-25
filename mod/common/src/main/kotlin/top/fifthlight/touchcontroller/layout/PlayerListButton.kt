@@ -4,9 +4,7 @@ import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.control.PlayerListButton
 import top.fifthlight.touchcontroller.control.PlayerListButtonTexture
 import top.fifthlight.touchcontroller.gal.KeyBindingType
-import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.PlayerListButton(config: PlayerListButton) {
     KeyMappingButton(id = config.id, keyType = KeyBindingType.PLAYER_LIST) { clicked ->
         withAlign(align = Align.CENTER_CENTER, size = size) {

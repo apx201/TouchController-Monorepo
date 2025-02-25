@@ -15,10 +15,8 @@ import top.fifthlight.touchcontroller.assets.Texts
 import top.fifthlight.touchcontroller.layout.Align
 import top.fifthlight.touchcontroller.layout.Context
 import kotlin.math.round
-import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-@OptIn(ExperimentalUuidApi::class)
 @Serializable
 sealed class ControllerWidget {
     abstract val id: Uuid
@@ -47,27 +45,7 @@ sealed class ControllerWidget {
                 },
                 message = textFactory.of(Texts.WIDGET_GENERAL_PROPERTY_LOCK_MOVING),
             ),
-            EnumProperty(
-                getValue = { it.align },
-                setValue = { config, value ->
-                    config.cloneBase(
-                        align = value,
-                        offset = IntOffset.ZERO,
-                    )
-                },
-                name = textFactory.of(Texts.WIDGET_GENERAL_PROPERTY_ANCHOR_NAME),
-                items = listOf(
-                    Align.LEFT_TOP to textFactory.of(Texts.WIDGET_GENERAL_PROPERTY_ANCHOR_TOP_LEFT),
-                    Align.LEFT_CENTER to textFactory.of(Texts.WIDGET_GENERAL_PROPERTY_ANCHOR_CENTER_LEFT),
-                    Align.LEFT_BOTTOM to textFactory.of(Texts.WIDGET_GENERAL_PROPERTY_ANCHOR_BOTTOM_LEFT),
-                    Align.CENTER_TOP to textFactory.of(Texts.WIDGET_GENERAL_PROPERTY_ANCHOR_TOP_CENTER),
-                    Align.CENTER_CENTER to textFactory.of(Texts.WIDGET_GENERAL_PROPERTY_ANCHOR_CENTER_CENTER),
-                    Align.CENTER_BOTTOM to textFactory.of(Texts.WIDGET_GENERAL_PROPERTY_ANCHOR_BOTTOM_CENTER),
-                    Align.RIGHT_TOP to textFactory.of(Texts.WIDGET_GENERAL_PROPERTY_ANCHOR_TOP_RIGHT),
-                    Align.RIGHT_CENTER to textFactory.of(Texts.WIDGET_GENERAL_PROPERTY_ANCHOR_CENTER_RIGHT),
-                    Align.RIGHT_BOTTOM to textFactory.of(Texts.WIDGET_GENERAL_PROPERTY_ANCHOR_BOTTOM_RIGHT),
-                ),
-            ),
+            AnchorProperty(),
             FloatProperty(
                 getValue = { it.opacity },
                 setValue = { config, value -> config.cloneBase(opacity = value) },

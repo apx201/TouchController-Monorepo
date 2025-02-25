@@ -41,9 +41,7 @@ object RegularTab : Tab() {
             val globalConfigHolder: GlobalConfigHolder = koinInject()
             val globalConfig by globalConfigHolder.config.collectAsState()
             fun update(editor: RegularConfig.() -> RegularConfig) {
-                globalConfigHolder.saveConfig(globalConfig.let { config ->
-                    config.copy(regular = editor(config.regular))
-                })
+                globalConfigHolder.updateConfig { copy(regular = editor(regular)) }
             }
             SwitchPreferenceItem(
                 title = Text.translatable(Texts.SCREEN_CONFIG_GENERAL_REGULAR_DISABLE_MOUSE_MOVE_TITLE),

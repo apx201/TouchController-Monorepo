@@ -9,12 +9,13 @@ import kotlinx.serialization.encoding.*
 
 @Serializable(with = IntPaddingSerializer::class)
 data class IntPadding(
-    val left: Int,
-    val top: Int,
-    val right: Int,
-    val bottom: Int
+    val left: Int = 0,
+    val top: Int = 0,
+    val right: Int = 0,
+    val bottom: Int = 0,
 ) {
     constructor(padding: Int) : this(padding, padding, padding, padding)
+    constructor(horizontal: Int = 0, vertical: Int = 0) : this(horizontal, vertical, horizontal, vertical)
 
     companion object {
         val ZERO = IntPadding(0, 0, 0, 0)

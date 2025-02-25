@@ -2,9 +2,7 @@ package top.fifthlight.touchcontroller.layout
 
 import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.control.HideHudButton
-import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.HideHudButton(config: HideHudButton) {
     val (newClick) = Button(id = config.id) {
         if (config.classic) {

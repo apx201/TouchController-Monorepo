@@ -11,11 +11,11 @@ import top.fifthlight.combine.data.TextFactory
 import top.fifthlight.data.IntOffset
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Texts
+import top.fifthlight.touchcontroller.ext.fastRandomUuid
 import top.fifthlight.touchcontroller.layout.Align
 import top.fifthlight.touchcontroller.layout.Context
 import top.fifthlight.touchcontroller.layout.UseButton
 import kotlin.math.round
-import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @Serializable
@@ -36,14 +36,13 @@ enum class UseButtonTrigger {
     HOLD,
 }
 
-@OptIn(ExperimentalUuidApi::class)
 @Serializable
 @SerialName("use_button")
 data class UseButton(
     val size: Float = 2f,
     val texture: UseButtonTexture = UseButtonTexture.CLASSIC,
     val trigger: UseButtonTrigger = UseButtonTrigger.HOLD,
-    override val id: Uuid = Uuid.random(),
+    override val id: Uuid = fastRandomUuid(),
     override val align: Align = Align.RIGHT_BOTTOM,
     override val offset: IntOffset = IntOffset.ZERO,
     override val opacity: Float = 1f,

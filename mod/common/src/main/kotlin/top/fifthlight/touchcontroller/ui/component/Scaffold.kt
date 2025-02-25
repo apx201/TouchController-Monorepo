@@ -11,14 +11,16 @@ import top.fifthlight.combine.widget.base.layout.Row
 fun Scaffold(
     modifier: Modifier = Modifier,
     topBar: @Composable () -> Unit = {},
-    sideBar: @Composable () -> Unit = {},
+    leftSideBar: @Composable () -> Unit = {},
+    rightSideBar: @Composable () -> Unit = {},
     content: @Composable (Modifier) -> Unit,
 ) {
     Column(Modifier.fillMaxSize().then(modifier)) {
         topBar()
         Row(Modifier.weight(1f)) {
-            sideBar()
+            leftSideBar()
             content(Modifier.weight(1f).fillMaxHeight())
+            rightSideBar()
         }
     }
 }

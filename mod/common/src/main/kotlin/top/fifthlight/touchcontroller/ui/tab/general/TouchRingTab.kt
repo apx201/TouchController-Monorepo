@@ -42,9 +42,7 @@ object TouchRingTab : Tab() {
             val globalConfigHolder: GlobalConfigHolder = koinInject()
             val globalConfig by globalConfigHolder.config.collectAsState()
             fun update(editor: TouchRingConfig.() -> TouchRingConfig) {
-                globalConfigHolder.saveConfig(globalConfig.let { config ->
-                    config.copy(touchRing = editor(config.touchRing))
-                })
+                globalConfigHolder.updateConfig { copy(touchRing = editor(touchRing)) }
             }
             IntSliderPreferenceItem(
                 title = Text.translatable(Texts.SCREEN_CONFIG_GENERAL_TOUCH_RING_RADIUS_TITLE),

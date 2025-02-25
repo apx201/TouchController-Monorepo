@@ -7,10 +7,8 @@ import top.fifthlight.touchcontroller.control.SneakButton
 import top.fifthlight.touchcontroller.control.SneakButtonTexture
 import top.fifthlight.touchcontroller.control.SneakButtonTrigger
 import top.fifthlight.touchcontroller.gal.KeyBindingType
-import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.RawSneakButton(
     id: Uuid,
     size: IntSize = this.size,
@@ -102,7 +100,6 @@ fun Context.RawSneakButton(
     }
 }
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.SneakButton(config: SneakButton) {
     RawSneakButton(
         id = config.id,

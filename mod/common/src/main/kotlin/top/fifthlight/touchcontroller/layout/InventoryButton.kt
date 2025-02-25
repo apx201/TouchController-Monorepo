@@ -3,9 +3,7 @@ package top.fifthlight.touchcontroller.layout
 import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.control.InventoryButton
 import top.fifthlight.touchcontroller.gal.KeyBindingType
-import kotlin.uuid.ExperimentalUuidApi
 
-@OptIn(ExperimentalUuidApi::class)
 fun Context.InventoryButton(config: InventoryButton) {
     val (_, _, release) = Button(id = config.id) { clicked ->
         if (config.classic) {
