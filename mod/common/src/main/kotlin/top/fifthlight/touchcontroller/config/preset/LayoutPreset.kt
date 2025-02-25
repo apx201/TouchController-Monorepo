@@ -14,12 +14,12 @@ import top.fifthlight.touchcontroller.layout.Align
 @Immutable
 @Serializable
 data class LayoutPreset(
-    val name: String,
+    val name: String = DEFAULT_PRESET_NAME,
     val controlInfo: PresetControlInfo = PresetControlInfo(),
     val layout: ControllerLayout = ControllerLayout(),
 ) {
     companion object {
-        const val DEFAULT_LAYOUT_NAME = "Empty layout"
+        const val DEFAULT_PRESET_NAME = "Unnamed preset"
     }
 }
 

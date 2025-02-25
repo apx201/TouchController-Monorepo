@@ -23,7 +23,7 @@ val defaultSelectedIconButtonTexture = NinePatchTextureSet(
     normal = Textures.WIDGET_ICON_BUTTON_ICON_BUTTON_PRESSLOCK,
     focus = Textures.WIDGET_ICON_BUTTON_ICON_BUTTON_PRESSLOCK_HOVER,
     hover = Textures.WIDGET_ICON_BUTTON_ICON_BUTTON_PRESSLOCK_HOVER,
-    active = Textures.WIDGET_ICON_BUTTON_ICON_BUTTON_ACTIVE,
+    active = Textures.WIDGET_ICON_BUTTON_ICON_BUTTON_PRESSLOCK_ACTIVE,
     disabled = Textures.WIDGET_ICON_BUTTON_ICON_BUTTON_DISABLED,
 )
 

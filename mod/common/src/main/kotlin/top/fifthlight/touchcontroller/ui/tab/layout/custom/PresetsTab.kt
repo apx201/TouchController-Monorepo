@@ -116,7 +116,7 @@ object PresetsTab: CustomTab() {
                                 tabModel.editPreset(state)
                             },
                         ) {
-                            Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_EDIT_PRESET_EDIT))
+                            Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_EDIT_PRESET_OK))
                         }
                         Button(
                             onClick = {
@@ -177,6 +177,37 @@ object PresetsTab: CustomTab() {
                 }
             }
 
+            is PresetsTabState.Delete -> {
+                AlertDialog(
+                    action = {
+                        WarningButton(
+                            onClick = {
+                                screenModel.deletePreset(state.uuid)
+                                tabModel.clearState()
+                            },
+                        ) {
+                            Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_DELETE_PRESET_DELETE))
+                        }
+                        Button(
+                            onClick = {
+                                tabModel.clearState()
+                            },
+                        ) {
+                            Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_DELETE_PRESET_CANCEL))
+                        }
+                    }
+                ) {
+                    val presetName = uiState.allPresets[state.uuid]?.name ?: "ERROR"
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_DELETE_PRESET_1))
+                        Text(Text.format(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_DELETE_PRESET_2, presetName))
+                    }
+                }
+            }
+
             PresetsTabState.Empty -> {}
         }
 
@@ -212,7 +243,7 @@ object PresetsTab: CustomTab() {
                 }
                 IconButton(
                     onClick = {
-                        uiState.selectedPresetUuid?.let(screenModel::deletePreset)
+                        uiState.selectedPresetUuid?.let(tabModel::openDeletePresetBox)
                     },
                     enabled = currentPreset != null,
                 ) {

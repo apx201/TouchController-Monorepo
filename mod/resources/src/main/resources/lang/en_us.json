@@ -66,8 +66,12 @@
   "touchcontroller.screen.custom_control_layout.presets.create_preset.create": "Create",
   "touchcontroller.screen.custom_control_layout.presets.create_preset.cancel": "Cancel",
   "touchcontroller.screen.custom_control_layout.presets.edit_preset": "Edit preset",
-  "touchcontroller.screen.custom_control_layout.presets.edit_preset.edit": "Edit",
+  "touchcontroller.screen.custom_control_layout.presets.edit_preset.ok": "OK",
   "touchcontroller.screen.custom_control_layout.presets.edit_preset.cancel": "Cancel",
+  "touchcontroller.screen.custom_control_layout.presets.delete_preset.1": "Are you sure you want to delete this preset?",
+  "touchcontroller.screen.custom_control_layout.presets.delete_preset.2": " '%s' will be lost forever! (A long time!)",
+  "touchcontroller.screen.custom_control_layout.presets.delete_preset.delete": "Delete",
+  "touchcontroller.screen.custom_control_layout.presets.delete_preset.cancel": "Cancel",
 
   "touchcontroller.screen.config.layout.gui_control_layout.title": "GUI control layout",
 

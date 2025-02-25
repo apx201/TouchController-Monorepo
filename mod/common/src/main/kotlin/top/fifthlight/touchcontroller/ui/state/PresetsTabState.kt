@@ -1,7 +1,6 @@
 package top.fifthlight.touchcontroller.ui.state
 
 import top.fifthlight.touchcontroller.config.preset.LayoutPreset
-import top.fifthlight.touchcontroller.config.preset.LayoutPreset.Companion.DEFAULT_LAYOUT_NAME
 import top.fifthlight.touchcontroller.config.preset.PresetControlInfo
 import kotlin.uuid.Uuid
 
@@ -9,7 +8,7 @@ sealed class PresetsTabState {
     data object Empty : PresetsTabState()
 
     data class Create(
-        val name: String = DEFAULT_LAYOUT_NAME,
+        val name: String = LayoutPreset.DEFAULT_PRESET_NAME,
         val controlInfo: PresetControlInfo = PresetControlInfo(),
     ) : PresetsTabState() {
         fun toPreset() = LayoutPreset(
@@ -28,4 +27,8 @@ sealed class PresetsTabState {
             controlInfo = controlInfo,
         )
     }
+
+    data class Delete(
+        val uuid: Uuid,
+    ) : PresetsTabState()
 }

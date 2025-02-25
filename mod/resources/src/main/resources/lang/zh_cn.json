@@ -45,8 +45,8 @@
 
   "touchcontroller.screen.custom_control_layout.properties": "属性",
   "touchcontroller.screen.custom_control_layout.no_widget_selected": "选中一个控件以编辑属性",
-  "touchcontroller.screen.custom_control_layout.copy": "复制组件",
-  "touchcontroller.screen.custom_control_layout.cut": "剪切组件",
+  "touchcontroller.screen.custom_control_layout.copy": "复制控件",
+  "touchcontroller.screen.custom_control_layout.cut": "剪切控件",
   
   "touchcontroller.screen.custom_control_layout.widgets": "控件",
   "touchcontroller.screen.custom_control_layout.widgets.builtin": "内置控件",
@@ -66,8 +66,12 @@
   "touchcontroller.screen.custom_control_layout.presets.create_preset.create": "创建",
   "touchcontroller.screen.custom_control_layout.presets.create_preset.cancel": "取消",
   "touchcontroller.screen.custom_control_layout.presets.edit_preset": "编辑预设",
-  "touchcontroller.screen.custom_control_layout.presets.edit_preset.edit": "编辑",
+  "touchcontroller.screen.custom_control_layout.presets.edit_preset.ok": "确定",
   "touchcontroller.screen.custom_control_layout.presets.edit_preset.cancel": "取消",
+  "touchcontroller.screen.custom_control_layout.presets.delete_preset.1": "你确定要删除这个预设吗？",
+  "touchcontroller.screen.custom_control_layout.presets.delete_preset.2": "“%s”将会永久消失！（真的很久！）",
+  "touchcontroller.screen.custom_control_layout.presets.delete_preset.delete": "删除",
+  "touchcontroller.screen.custom_control_layout.presets.delete_preset.cancel": "取消",
 
   "touchcontroller.screen.config.layout.gui_control_layout.title": "GUI 控件布局",
 

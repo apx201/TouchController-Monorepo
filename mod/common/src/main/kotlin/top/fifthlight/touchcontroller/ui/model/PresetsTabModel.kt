@@ -63,6 +63,10 @@ class PresetsTabModel(
         clearState()
     }
 
+    fun openDeletePresetBox(uuid: Uuid) {
+        _uiState.value = PresetsTabState.Delete(uuid)
+    }
+
     fun movePreset(uuid: Uuid, offset: Int) {
         presetManager.movePreset(uuid, offset)
     }
