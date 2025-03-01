@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
+import top.fifthlight.combine.input.InteractionSource
 import top.fifthlight.combine.input.MutableInteractionSource
 import top.fifthlight.combine.modifier.Modifier
 import top.fifthlight.combine.modifier.focus.focusable
@@ -36,6 +37,27 @@ val defaultRadioTextureSet = RadioTextureSet(
 val LocalRadioTextureSet = staticCompositionLocalOf<RadioTextureSet> { defaultRadioTextureSet }
 
 @Composable
+fun RadioIcon(
+    modifier: Modifier = Modifier,
+    interactionSource: InteractionSource,
+    textureSet: RadioTextureSet = LocalRadioTextureSet.current,
+    value: Boolean,
+) {
+    val currentTextureSet = if (value) {
+        textureSet.checked
+    } else {
+        textureSet.unchecked
+    }
+    val state by widgetState(interactionSource)
+    val texture = currentTextureSet.getByState(state)
+
+    Icon(
+        modifier = modifier,
+        texture = texture
+    )
+}
+
+@Composable
 fun Radio(
     modifier: Modifier = Modifier,
     textureSet: RadioTextureSet = LocalRadioTextureSet.current,
@@ -43,13 +65,6 @@ fun Radio(
     onValueChanged: ((Boolean) -> Unit)?,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val state by widgetState(interactionSource)
-    val currentTextureSet = if (value) {
-        textureSet.checked
-    } else {
-        textureSet.unchecked
-    }
-    val texture = currentTextureSet.getByState(state)
 
     val modifier = if (onValueChanged == null) {
         modifier
@@ -62,8 +77,10 @@ fun Radio(
             .then(modifier)
     }
 
-    Icon(
+    RadioIcon(
         modifier = modifier,
-        texture = texture
+        interactionSource = interactionSource,
+        textureSet = textureSet,
+        value = value,
     )
 }

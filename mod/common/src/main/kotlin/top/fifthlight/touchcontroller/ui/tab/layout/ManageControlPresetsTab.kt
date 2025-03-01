@@ -37,7 +37,7 @@ import top.fifthlight.touchcontroller.ui.tab.TabGroup
 import top.fifthlight.touchcontroller.ui.tab.TabOptions
 
 @Composable
-private fun CheckBoxContainer(
+private fun RadioContainer(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -53,7 +53,7 @@ private fun CheckBoxContainer(
 }
 
 @Composable
-private fun CheckBoxItem(
+private fun RadioBoxItem(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     value: Boolean,
     onValueChanged: (Boolean) -> Unit,
@@ -68,7 +68,7 @@ private fun CheckBoxItem(
         horizontalArrangement = Arrangement.spacedBy(4),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        CheckBoxIcon(
+        RadioIcon(
             interactionSource = interactionSource,
             value = value,
         )
@@ -138,9 +138,9 @@ object ManageControlPresetsTab : Tab() {
                                 verticalArrangement = Arrangement.spacedBy(4),
                             ) {
                                 Text(Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_TEXTURE_STYLE))
-                                CheckBoxContainer {
+                                RadioContainer {
                                     for (textureSet in TextureSet.TextureSetKey.entries) {
-                                        CheckBoxItem(
+                                        RadioBoxItem(
                                             value = presetKey.textureSet == textureSet,
                                             onValueChanged = {
                                                 screenModel.updateKey { copy(textureSet = textureSet) }
@@ -198,8 +198,8 @@ object ManageControlPresetsTab : Tab() {
                         verticalArrangement = Arrangement.spacedBy(4),
                     ) {
                         Text(Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_CONTROL_STYLE))
-                        CheckBoxContainer(modifier = Modifier.fillMaxWidth()) {
-                            CheckBoxItem(
+                        RadioContainer(modifier = Modifier.fillMaxWidth()) {
+                            RadioBoxItem(
                                 value = presetKey.controlStyle == BuiltinPresetKey.ControlStyle.TouchGesture,
                                 onValueChanged = {
                                     screenModel.updateKey {
@@ -214,7 +214,7 @@ object ManageControlPresetsTab : Tab() {
                                 Text(Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_CONTROL_STYLE_CLICK_TO_INTERACT))
                             }
 
-                            CheckBoxItem(
+                            RadioBoxItem(
                                 value = presetKey.controlStyle is BuiltinPresetKey.ControlStyle.SplitControls,
                                 onValueChanged = {
                                     screenModel.updateKey {
@@ -254,8 +254,8 @@ object ManageControlPresetsTab : Tab() {
                         }
 
                         Text(Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_MOVE_METHOD))
-                        CheckBoxContainer(modifier = Modifier.fillMaxWidth()) {
-                            CheckBoxItem(
+                        RadioContainer(modifier = Modifier.fillMaxWidth()) {
+                            RadioBoxItem(
                                 value = presetKey.moveMethod is BuiltinPresetKey.MoveMethod.Dpad,
                                 onValueChanged = {
                                     screenModel.updateKey {
@@ -270,7 +270,7 @@ object ManageControlPresetsTab : Tab() {
                                 Text(Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_MOVE_METHOD_DPAD))
                             }
 
-                            CheckBoxItem(
+                            RadioBoxItem(
                                 value = presetKey.moveMethod is BuiltinPresetKey.MoveMethod.Joystick,
                                 onValueChanged = {
                                     screenModel.updateKey {
