@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.util.MovementInput
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import top.fifthlight.touchcontroller.model.ControllerHudModel
+import top.fifthlight.touchcontroller.common.model.ControllerHudModel
 
 object MovementInputFromOptionsHelper : KoinComponent {
     private val controllerHudModel: ControllerHudModel by inject()

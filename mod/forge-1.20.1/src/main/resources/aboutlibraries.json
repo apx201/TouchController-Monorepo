@@ -47,6 +47,90 @@
       }
     },
     {
+      "uniqueId": "cafe.adriel.voyager:voyager-core-desktop",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Adriel Cafe"
+        }
+      ],
+      "artifactVersion": "1.1.0-beta03",
+      "description": "A pragmatic navigation library for Jetpack Compose",
+      "scm": {
+        "connection": "scm:git:ssh://git@github.com/adrielcafe/voyager.git",
+        "url": "https://github.com/adrielcafe/voyager",
+        "developerConnection": "scm:git:ssh://git@github.com/adrielcafe/voyager.git"
+      },
+      "name": "VoyagerCore",
+      "website": "https://github.com/adrielcafe/voyager",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
+      "uniqueId": "cafe.adriel.voyager:voyager-koin-desktop",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Adriel Cafe"
+        }
+      ],
+      "artifactVersion": "1.1.0-beta03",
+      "description": "A pragmatic navigation library for Jetpack Compose",
+      "scm": {
+        "connection": "scm:git:ssh://git@github.com/adrielcafe/voyager.git",
+        "url": "https://github.com/adrielcafe/voyager",
+        "developerConnection": "scm:git:ssh://git@github.com/adrielcafe/voyager.git"
+      },
+      "name": "VoyagerKoin",
+      "website": "https://github.com/adrielcafe/voyager",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
+      "uniqueId": "cafe.adriel.voyager:voyager-navigator-desktop",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Adriel Cafe"
+        }
+      ],
+      "artifactVersion": "1.1.0-beta03",
+      "description": "A pragmatic navigation library for Jetpack Compose",
+      "scm": {
+        "connection": "scm:git:ssh://git@github.com/adrielcafe/voyager.git",
+        "url": "https://github.com/adrielcafe/voyager",
+        "developerConnection": "scm:git:ssh://git@github.com/adrielcafe/voyager.git"
+      },
+      "name": "VoyagerNavigator",
+      "website": "https://github.com/adrielcafe/voyager",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
+      "uniqueId": "cafe.adriel.voyager:voyager-screenmodel-desktop",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Adriel Cafe"
+        }
+      ],
+      "artifactVersion": "1.1.0-beta03",
+      "description": "A pragmatic navigation library for Jetpack Compose",
+      "scm": {
+        "connection": "scm:git:ssh://git@github.com/adrielcafe/voyager.git",
+        "url": "https://github.com/adrielcafe/voyager",
+        "developerConnection": "scm:git:ssh://git@github.com/adrielcafe/voyager.git"
+      },
+      "name": "VoyagerScreenModel",
+      "website": "https://github.com/adrielcafe/voyager",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
       "uniqueId": "co.touchlab:stately-concurrency-jvm",
       "funding": [],
       "developers": [
@@ -117,7 +201,7 @@
           "name": "Arnaud Giuliani"
         }
       ],
-      "artifactVersion": "4.0.1",
+      "artifactVersion": "4.0.2",
       "description": "KOIN - Kotlin simple Dependency Injection Framework",
       "scm": {
         "connection": "scm:git:https://github.com/InsertKoinIO/koin.git",
@@ -137,7 +221,7 @@
           "name": "Arnaud Giuliani"
         }
       ],
-      "artifactVersion": "4.0.1",
+      "artifactVersion": "4.0.2",
       "description": "KOIN - Kotlin simple Dependency Injection Framework",
       "scm": {
         "connection": "scm:git:https://github.com/InsertKoinIO/koin.git",
@@ -157,7 +241,7 @@
           "name": "Arnaud Giuliani"
         }
       ],
-      "artifactVersion": "4.0.1",
+      "artifactVersion": "4.0.2",
       "description": "KOIN - Kotlin simple Dependency Injection Framework",
       "scm": {
         "connection": "scm:git:https://github.com/InsertKoinIO/koin.git",
@@ -192,6 +276,28 @@
       ]
     },
     {
+      "uniqueId": "org.jetbrains.compose.runtime:runtime-saveable-desktop",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "Compose Multiplatform Team"
+        }
+      ],
+      "artifactVersion": "1.7.1",
+      "description": "Compose components that allow saving and restoring the local ui state",
+      "scm": {
+        "connection": "scm:git:https://github.com/JetBrains/compose-jb.git",
+        "url": "https://github.com/JetBrains/compose-jb",
+        "developerConnection": "scm:git:https://github.com/JetBrains/compose-jb.git"
+      },
+      "name": "Compose Saveable",
+      "website": "https://github.com/JetBrains/compose-jb",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "org.jetbrains.kotlin:kotlin-stdlib",
       "funding": [],
       "developers": [
@@ -200,7 +306,7 @@
           "name": "Kotlin Team"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "2.1.10",
       "description": "Kotlin Standard Library",
       "scm": {
         "connection": "scm:git:https://github.com/JetBrains/kotlin.git",
@@ -282,7 +388,7 @@
           "name": "JetBrains Team"
         }
       ],
-      "artifactVersion": "1.7.3",
+      "artifactVersion": "1.8.0",
       "description": "Kotlin multiplatform serialization runtime library",
       "scm": {
         "url": "https://github.com/Kotlin/kotlinx.serialization"
@@ -302,7 +408,7 @@
           "name": "JetBrains Team"
         }
       ],
-      "artifactVersion": "1.7.3",
+      "artifactVersion": "1.8.0",
       "description": "Kotlin multiplatform serialization runtime library",
       "scm": {
         "url": "https://github.com/Kotlin/kotlinx.serialization"
@@ -344,6 +450,14 @@
       "url": "https://spdx.org/licenses/Apache-2.0.html",
       "spdxId": "Apache-2.0",
       "name": "Apache License 2.0"
+    },
+    "MIT": {
+      "content": "MIT License\n\nCopyright (c) <year> <copyright holders>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+      "hash": "MIT",
+      "internalHash": "MIT",
+      "url": "https://spdx.org/licenses/MIT.html",
+      "spdxId": "MIT",
+      "name": "MIT License"
     }
   }
 }

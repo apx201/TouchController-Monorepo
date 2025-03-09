@@ -23,10 +23,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.fifthlight.combine.platform.ItemFactoryImplKt;
-import top.fifthlight.touchcontroller.config.GlobalConfig;
-import top.fifthlight.touchcontroller.config.GlobalConfigHolder;
-import top.fifthlight.touchcontroller.event.BlockBreakEvents;
-import top.fifthlight.touchcontroller.helper.CrosshairTargetHelper;
+import top.fifthlight.touchcontroller.common.config.GlobalConfig;
+import top.fifthlight.touchcontroller.common.config.GlobalConfigHolder;
+import top.fifthlight.touchcontroller.common.event.BlockBreakEvents;
+import top.fifthlight.touchcontroller.common.helper.CrosshairTargetHelper;
 
 @Mixin(ClientPlayerInteractionManager.class)
 public class ClientPlayerInteractionManagerMixin {

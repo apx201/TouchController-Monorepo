@@ -2,6 +2,8 @@ package top.fifthlight.touchcontroller.gal
 
 import net.minecraft.client.Minecraft
 import net.minecraft.util.math.RayTraceResult
+import top.fifthlight.touchcontroller.common.gal.CrosshairTarget
+import top.fifthlight.touchcontroller.common.gal.ViewActionProvider
 
 object ViewActionProviderImpl : ViewActionProvider {
     private val client = Minecraft.getMinecraft()

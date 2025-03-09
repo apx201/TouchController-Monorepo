@@ -2,6 +2,9 @@ package top.fifthlight.touchcontroller.gal
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.Perspective
+import top.fifthlight.touchcontroller.common.gal.CameraPerspective
+import top.fifthlight.touchcontroller.common.gal.GameState
+import top.fifthlight.touchcontroller.common.gal.GameStateProvider
 
 object GameStateProviderImpl : GameStateProvider {
     private val client = MinecraftClient.getInstance()

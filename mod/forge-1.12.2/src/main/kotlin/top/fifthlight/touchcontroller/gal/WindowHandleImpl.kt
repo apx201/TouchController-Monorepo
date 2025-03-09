@@ -5,6 +5,7 @@ import net.minecraft.client.gui.ScaledResolution
 import org.lwjgl.input.Mouse
 import top.fifthlight.data.IntSize
 import top.fifthlight.data.Offset
+import top.fifthlight.touchcontroller.common.gal.WindowHandle
 
 object WindowHandleImpl : WindowHandle {
     private val client = Minecraft.getMinecraft()

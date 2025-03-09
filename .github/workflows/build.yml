@@ -31,7 +31,7 @@ jobs:
                 run: cargo install --force cargo-ndk
             -   name: Build
                 run: |
-                    ./gradlew mod:forge-1.12.2:build mod:forge-1.16.5:build mod:forge-1.20.1:build mod:fabric-1.16.5:build mod:fabric-1.20.1:build mod:fabric-1.21.1:build mod:fabric-1.21.3:build mod:fabric-1.21.4:build --no-daemon
+                    ./gradlew clean build --no-daemon
             -   name: Capture build artifacts
                 uses: actions/upload-artifact@v4
                 with:
@@ -39,8 +39,8 @@ jobs:
                     compression-level: 9
                     if-no-files-found: error
                     path: |
-                        mod/*/build/libs/
-                        !mod/common/**
-                        !mod/*/build/libs/*-noreobf-*.jar
-                        !mod/*/build/libs/*-slim-*.jar
-                        !mod/*/build/libs/*-fat-*.jar
+                        mod/*/build/libs/TouchController-*-*.jar
+                        mod/*/*/build/libs/TouchController-*-*.jar
+                        !**/*-noreobf-*.jar
+                        !**/*-slim-*.jar
+                        !**/*-fat-*.jar

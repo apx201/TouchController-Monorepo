@@ -10,6 +10,7 @@ plugins {
 
 aboutLibraries {
     registerAndroidTasks = false
+    strictMode = com.mikepenz.aboutlibraries.plugin.StrictMode.FAIL
 }
 
 project.afterEvaluate {

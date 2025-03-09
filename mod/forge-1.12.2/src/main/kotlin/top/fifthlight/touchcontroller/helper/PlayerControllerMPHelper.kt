@@ -9,7 +9,8 @@ import net.minecraft.util.EnumHand
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import top.fifthlight.combine.platform.toCombine
-import top.fifthlight.touchcontroller.config.GlobalConfigHolder
+import top.fifthlight.touchcontroller.common.config.GlobalConfigHolder
+import top.fifthlight.touchcontroller.common.helper.CrosshairTargetHelper
 
 object PlayerControllerMPHelper : KoinComponent {
     private val globalConfigHolder: GlobalConfigHolder by inject()

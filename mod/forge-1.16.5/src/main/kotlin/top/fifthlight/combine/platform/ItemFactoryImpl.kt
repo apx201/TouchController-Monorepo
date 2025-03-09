@@ -9,7 +9,7 @@ import net.minecraftforge.registries.ForgeRegistries
 import top.fifthlight.combine.data.Identifier
 import top.fifthlight.combine.data.ItemFactory
 import top.fifthlight.combine.data.ItemSubclass
-import top.fifthlight.touchcontroller.config.ItemList
+import top.fifthlight.touchcontroller.common.config.ItemList
 import top.fifthlight.combine.data.Item as CombineItem
 import top.fifthlight.combine.data.ItemStack as CombineItemStack
 

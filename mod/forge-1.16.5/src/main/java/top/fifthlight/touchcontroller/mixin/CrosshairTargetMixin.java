@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import top.fifthlight.touchcontroller.helper.CrosshairTargetHelper;
+import top.fifthlight.touchcontroller.common.helper.CrosshairTargetHelper;
 import top.fifthlight.touchcontroller.helper.IntoJomlMatrix4f;
 
 @Mixin(GameRenderer.class)

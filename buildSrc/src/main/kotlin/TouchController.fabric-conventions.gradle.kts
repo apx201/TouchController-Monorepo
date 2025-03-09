@@ -2,8 +2,6 @@ import org.gradle.accessors.dm.LibrariesForLibs
 import top.fifthlight.touchcontoller.gradle.MinecraftVersion
 
 plugins {
-    idea
-    eclipse
     java
     id("fabric-loom")
     id("com.gradleup.gr8")
@@ -24,12 +22,13 @@ val modSource: String by extra.properties
 val modIssueTracker: String by extra.properties
 val javaVersion: String by extra.properties
 val gameVersion: String by extra.properties
-val yarnVersion: String by extra.properties
 val fabricApiVersion: String by extra.properties
 val modmenuVersion: String by extra.properties
 val bridgeSlf4j: String by extra.properties
 val bridgeSlf4jBool = bridgeSlf4j.toBoolean()
 val excludeR8: String by extra.properties
+val useMojangMap: String by extra.properties
+val useMojangMapBool = useMojangMap.toBoolean()
 val minecraftVersion = MinecraftVersion(gameVersion)
 
 val localProperties: Map<String, String> by rootProject.ext
@@ -92,7 +91,20 @@ fun DependencyHandlerScope.resource(dependency: Any) {
 
 dependencies {
     minecraft("com.mojang:minecraft:$gameVersion")
-    mappings("net.fabricmc:yarn:$yarnVersion:v2")
+    if (useMojangMapBool) {
+        val parchmentVersion = properties["parchmentVersion"]?.toString()
+        if (parchmentVersion != null) {
+            mappings(loom.layered {
+                officialMojangMappings()
+                parchment("org.parchmentmc.data:parchment-$gameVersion:$parchmentVersion@zip")
+            })
+        } else {
+            mappings(loom.officialMojangMappings())
+        }
+    } else {
+        val yarnVersion: String by properties
+        mappings("net.fabricmc:yarn:$yarnVersion:v2")
+    }
     modImplementation(libs.fabric.loader)
 
     resource(project(":mod:resources", "texture"))
@@ -106,6 +118,8 @@ dependencies {
         exclude("org.slf4j")
     }
     shadeAndImplementation(project(":combine"))
+    shadeAndImplementation(project(":mod:common-fabric"))
+    shadeAndImplementation(project(":mod:common-lwjgl3"))
     if (bridgeSlf4jBool) {
         shadeAndImplementation(project(":log4j-slf4j2-impl")) {
             exclude("org.apache.logging.log4j")
@@ -159,7 +173,7 @@ tasks.processResources {
 
     inputs.properties(properties)
 
-    filesMatching("fabric.mod.json") {
+    from(fileTree(project(":mod:common-fabric").layout.projectDirectory.file("src/main/resources"))) {
         expand(properties)
     }
 
@@ -179,10 +193,6 @@ tasks.processResources {
     }) {
         exclude("META-INF/MANIFEST.MF")
     }
-}
-
-sourceSets.main {
-    resources.srcDir("../common-fabric/src/main/resources")
 }
 
 val minecraftShadow = configurations.create("minecraftShadow") {

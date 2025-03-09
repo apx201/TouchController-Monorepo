@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.input.KeyboardInput
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import top.fifthlight.touchcontroller.model.ControllerHudModel
+import top.fifthlight.touchcontroller.common.model.ControllerHudModel
 
 object KeyboardInputEvents : KoinComponent {
     private val controllerHudModel: ControllerHudModel by inject()

@@ -9,8 +9,9 @@ import top.fifthlight.combine.paint.TextMeasurer
 import top.fifthlight.combine.platform.*
 import top.fifthlight.combine.screen.ScreenFactory
 import top.fifthlight.combine.sound.SoundManager
-import top.fifthlight.touchcontroller.config.ConfigDirectoryProvider
-import top.fifthlight.touchcontroller.config.GameConfigEditor
+import top.fifthlight.touchcontroller.common.config.ConfigDirectoryProvider
+import top.fifthlight.touchcontroller.common.config.GameConfigEditor
+import top.fifthlight.touchcontroller.common.gal.*
 import top.fifthlight.touchcontroller.gal.*
 
 val platformModule = module {

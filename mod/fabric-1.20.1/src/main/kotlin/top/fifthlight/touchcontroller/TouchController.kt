@@ -12,14 +12,14 @@ import org.koin.core.context.startKoin
 import org.koin.logger.slf4jLogger
 import org.slf4j.LoggerFactory
 import top.fifthlight.combine.platform.CanvasImpl
-import top.fifthlight.touchcontroller.config.GlobalConfigHolder
-import top.fifthlight.touchcontroller.di.appModule
-import top.fifthlight.touchcontroller.event.ConnectionEvents
-import top.fifthlight.touchcontroller.event.RenderEvents
-import top.fifthlight.touchcontroller.event.TickEvents
-import top.fifthlight.touchcontroller.event.WindowEvents
+import top.fifthlight.touchcontroller.common.config.GlobalConfigHolder
+import top.fifthlight.touchcontroller.common.di.appModule
+import top.fifthlight.touchcontroller.common.event.ConnectionEvents
+import top.fifthlight.touchcontroller.common.event.RenderEvents
+import top.fifthlight.touchcontroller.common.event.TickEvents
+import top.fifthlight.touchcontroller.common.event.WindowEvents
 import top.fifthlight.touchcontroller.gal.PlatformWindowProviderImpl
-import top.fifthlight.touchcontroller.model.ControllerHudModel
+import top.fifthlight.touchcontroller.common.model.ControllerHudModel
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback as FabricHudRenderCallback
 
 class TouchController : ClientModInitializer, KoinComponent {

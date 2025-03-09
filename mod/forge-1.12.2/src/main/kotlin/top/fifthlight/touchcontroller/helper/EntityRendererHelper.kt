@@ -11,10 +11,10 @@ import net.minecraft.util.math.Vec3d
 import org.joml.Matrix4f
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import top.fifthlight.touchcontroller.config.GlobalConfigHolder
-import top.fifthlight.touchcontroller.helper.CrosshairTargetHelper.getCrosshairDirection
-import top.fifthlight.touchcontroller.helper.CrosshairTargetHelper.lastCrosshairDirection
-import top.fifthlight.touchcontroller.model.ControllerHudModel
+import top.fifthlight.touchcontroller.common.config.GlobalConfigHolder
+import top.fifthlight.touchcontroller.common.helper.CrosshairTargetHelper.getCrosshairDirection
+import top.fifthlight.touchcontroller.common.helper.CrosshairTargetHelper.lastCrosshairDirection
+import top.fifthlight.touchcontroller.common.model.ControllerHudModel
 
 object EntityRendererHelper : KoinComponent {
     private val globalConfigHolder: GlobalConfigHolder by inject()

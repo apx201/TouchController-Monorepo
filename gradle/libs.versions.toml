@@ -5,10 +5,10 @@ loom = "1.9-SNAPSHOT"
 forge-gradle = "6.0.29"
 kotlinpoet = "2.0.0"
 coroutines = "1.10.1"
-serialization = "1.7.3"
+serialization = "1.8.0"
 collections-immutable = "0.3.8"
 parchmentmc-librarian-forgegradle = "1.+"
-mixin = "0.7.+"
+mixin-gradle = "0.7.+"
 gr8 = "0.11.2"
 koin = "4.0.2"
 # DONT UPDATE IT BECAUSE JOML 1.10.5 IS USED WHEN MINECRAFT INTRODUCE JOML IN VERSION 1.19.3
@@ -21,13 +21,18 @@ log4j = "2.8.1"
 aboutlibraries = "11.5.0"
 junit = "5.11.4"
 voyager = "1.1.0-beta03"
+asm = "9.7.1"
+# DONT UPDATE IT BECAUSE MINECRAFT DEPENDS ON LWJGL
+#noinspection GradleDependency
+lwjgl = "3.1.0"
+mod-dev-gradle = "2.0.78"
 
 # Android
 agp = "8.7.3"
 rust-android-gradle = "0.9.5"
 
 # Publish
-minotaur = "2.+"
+minotaur = "2.8.7"
 maven-publish = "0.30.0"
 
 # Compose
@@ -55,6 +60,10 @@ compose-runtime-saveable = { group = "org.jetbrains.compose.runtime", name = "ru
 voyager-navigator = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
 voyager-screenModel = { group = "cafe.adriel.voyager", name = "voyager-screenmodel", version.ref = "voyager" }
 voyager-koin = { group = "cafe.adriel.voyager", name = "voyager-koin", version.ref = "voyager" }
+asm = { group = "org.ow2.asm", name = "asm", version.ref = "asm" }
+asm-commons = { group = "org.ow2.asm", name = "asm-commons", version.ref = "asm" }
+lwjgl = { group = "org.lwjgl", name = "lwjgl", version.ref = "lwjgl" }
+lwjgl-glfw = { group = "org.lwjgl", name = "lwjgl-glfw", version.ref = "lwjgl" }
 
 # BELOW ARE GRADLE PLUGINS
 aboutlibraries-plugin = { group = "com.mikepenz.aboutlibraries.plugin", name = "com.mikepenz.aboutlibraries.plugin.gradle.plugin", version.ref = "aboutlibraries" }
@@ -62,8 +71,9 @@ gr8 = { group = "com.gradleup.gr8", name = "com.gradleup.gr8.gradle.plugin", ver
 fabric-loom = { group = "net.fabricmc", name = "fabric-loom", version.ref = "loom" }
 forge-gradle = { group = "net.minecraftforge.gradle", name = "ForgeGradle", version.ref = "forge-gradle" }
 parchmentmc-librarian-forgegradle = { group = "org.parchmentmc.librarian.forgegradle", name = "org.parchmentmc.librarian.forgegradle.gradle.plugin", version.ref = "parchmentmc-librarian-forgegradle" }
-mixin = { group = "org.spongepowered.mixin", name = "org.spongepowered.mixin.gradle.plugin", version.ref = "mixin" }
+mixin-gradle = { group = "org.spongepowered.mixin", name = "org.spongepowered.mixin.gradle.plugin", version.ref = "mixin-gradle" }
 modrinth-minotaur = { group = "com.modrinth.minotaur", name = "Minotaur", version.ref = "minotaur" }
+mod-dev-gradle = { group = "net.neoforged.moddev", name = "net.neoforged.moddev.gradle.plugin", version.ref = "mod-dev-gradle" }
 
 [plugins]
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

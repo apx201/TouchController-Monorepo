@@ -4,7 +4,7 @@ package top.fifthlight.touchcontroller.helper
 
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import top.fifthlight.touchcontroller.config.GlobalConfigHolder
+import top.fifthlight.touchcontroller.common.config.GlobalConfigHolder
 
 object MouseHelperHelper : KoinComponent {
     private val configHolder: GlobalConfigHolder by inject()

@@ -21,12 +21,17 @@ import org.koin.core.context.startKoin
 import org.koin.logger.slf4jLogger
 import org.slf4j.LoggerFactory
 import top.fifthlight.combine.platform.CanvasImpl
-import top.fifthlight.touchcontroller.config.GlobalConfigHolder
-import top.fifthlight.touchcontroller.di.appModule
-import top.fifthlight.touchcontroller.event.*
+import top.fifthlight.touchcontroller.buildinfo.BuildInfo
+import top.fifthlight.touchcontroller.common.config.GlobalConfigHolder
+import top.fifthlight.touchcontroller.common.di.appModule
+import top.fifthlight.touchcontroller.common.event.BlockBreakEvents
+import top.fifthlight.touchcontroller.common.event.ConnectionEvents
+import top.fifthlight.touchcontroller.common.event.RenderEvents
+import top.fifthlight.touchcontroller.common.event.TickEvents
+import top.fifthlight.touchcontroller.common.event.WindowEvents
 import top.fifthlight.touchcontroller.gal.PlatformWindowProviderImpl
-import top.fifthlight.touchcontroller.model.ControllerHudModel
-import top.fifthlight.touchcontroller.ui.screen.getConfigScreen
+import top.fifthlight.touchcontroller.common.model.ControllerHudModel
+import top.fifthlight.touchcontroller.common.ui.screen.getConfigScreen
 import java.util.function.BiFunction
 
 @Mod(BuildInfo.MOD_ID)

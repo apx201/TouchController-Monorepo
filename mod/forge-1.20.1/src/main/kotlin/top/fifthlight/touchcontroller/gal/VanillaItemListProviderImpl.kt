@@ -9,6 +9,8 @@ import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.CreativeModeTabs
 import top.fifthlight.combine.platform.TextImpl
 import top.fifthlight.combine.platform.toCombine
+import top.fifthlight.touchcontroller.common.gal.PlayerHandle
+import top.fifthlight.touchcontroller.common.gal.VanillaItemListProvider
 import kotlin.jvm.optionals.getOrNull
 
 object VanillaItemListProviderImpl : VanillaItemListProvider {

@@ -4,6 +4,9 @@ import net.minecraft.client.MainWindow
 import org.lwjgl.glfw.GLFWNativeWayland
 import org.lwjgl.glfw.GLFWNativeWin32
 import org.lwjgl.glfw.GLFWNativeX11
+import top.fifthlight.touchcontroller.common.gal.GlfwPlatform
+import top.fifthlight.touchcontroller.common.gal.NativeWindow
+import top.fifthlight.touchcontroller.common.gal.PlatformWindowProvider
 
 class PlatformWindowProviderImpl(
     private val inner: MainWindow,

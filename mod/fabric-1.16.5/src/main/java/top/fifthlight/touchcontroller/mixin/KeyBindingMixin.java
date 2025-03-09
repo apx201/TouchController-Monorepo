@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import top.fifthlight.touchcontroller.config.GlobalConfig;
-import top.fifthlight.touchcontroller.config.GlobalConfigHolder;
+import top.fifthlight.touchcontroller.common.config.GlobalConfig;
+import top.fifthlight.touchcontroller.common.config.GlobalConfigHolder;
 import top.fifthlight.touchcontroller.gal.KeyBindingHandlerImpl;
 import top.fifthlight.touchcontroller.helper.ClickableKeyBinding;
 

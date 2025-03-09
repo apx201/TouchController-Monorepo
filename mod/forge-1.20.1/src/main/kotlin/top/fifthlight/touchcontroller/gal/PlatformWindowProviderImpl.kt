@@ -4,6 +4,9 @@ import com.mojang.blaze3d.platform.Window
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.glfw.GLFWNativeWayland
 import org.lwjgl.glfw.GLFWNativeWin32
+import top.fifthlight.touchcontroller.common.gal.GlfwPlatform
+import top.fifthlight.touchcontroller.common.gal.NativeWindow
+import top.fifthlight.touchcontroller.common.gal.PlatformWindowProvider
 
 class PlatformWindowProviderImpl(
     private val inner: Window,

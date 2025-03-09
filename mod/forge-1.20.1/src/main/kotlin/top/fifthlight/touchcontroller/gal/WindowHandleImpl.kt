@@ -3,6 +3,7 @@ package top.fifthlight.touchcontroller.gal
 import net.minecraft.client.Minecraft
 import top.fifthlight.data.IntSize
 import top.fifthlight.data.Offset
+import top.fifthlight.touchcontroller.common.gal.WindowHandle
 
 object WindowHandleImpl : WindowHandle {
     private val client = Minecraft.getInstance()

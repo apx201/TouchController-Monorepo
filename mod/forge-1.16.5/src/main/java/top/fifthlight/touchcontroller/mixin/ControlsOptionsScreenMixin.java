@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.fifthlight.combine.platform.TextImpl;
-import top.fifthlight.touchcontroller.ui.screen.ConfigScreenKt;
+import top.fifthlight.touchcontroller.common.ui.screen.ConfigScreenKt;
 
 @Mixin(ControlsScreen.class)
 public abstract class ControlsOptionsScreenMixin extends Screen {

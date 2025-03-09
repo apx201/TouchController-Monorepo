@@ -31,7 +31,7 @@ import top.fifthlight.combine.util.CloseHandler
 import top.fifthlight.combine.util.LocalCloseHandler
 import top.fifthlight.data.IntSize
 import top.fifthlight.data.Offset
-import top.fifthlight.touchcontroller.gal.GameDispatcher
+import top.fifthlight.touchcontroller.common.gal.GameDispatcher
 import kotlin.coroutines.CoroutineContext
 import top.fifthlight.combine.data.Text as CombineText
 

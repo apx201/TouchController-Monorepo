@@ -23,8 +23,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.fifthlight.combine.platform.ItemFactoryImplKt;
-import top.fifthlight.touchcontroller.config.GlobalConfigHolder;
-import top.fifthlight.touchcontroller.helper.CrosshairTargetHelper;
+import top.fifthlight.touchcontroller.common.config.GlobalConfigHolder;
+import top.fifthlight.touchcontroller.common.helper.CrosshairTargetHelper;
 
 @Mixin(MultiPlayerGameMode.class)
 public abstract class MultiPlayerGameModeMixin {

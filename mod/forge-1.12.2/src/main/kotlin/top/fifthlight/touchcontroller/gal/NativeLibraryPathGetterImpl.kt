@@ -1,6 +1,7 @@
 package top.fifthlight.touchcontroller.gal
 
 import org.slf4j.LoggerFactory
+import top.fifthlight.touchcontroller.common.gal.NativeLibraryPathGetter
 import java.io.InputStream
 import java.nio.file.Path
 

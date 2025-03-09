@@ -7,8 +7,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import top.fifthlight.touchcontroller.config.GlobalConfig;
-import top.fifthlight.touchcontroller.config.GlobalConfigHolder;
+import top.fifthlight.touchcontroller.common.config.GlobalConfig;
+import top.fifthlight.touchcontroller.common.config.GlobalConfigHolder;
 
 import static org.lwjgl.glfw.GLFW.GLFW_CURSOR;
 import static org.lwjgl.glfw.GLFW.GLFW_CURSOR_NORMAL;

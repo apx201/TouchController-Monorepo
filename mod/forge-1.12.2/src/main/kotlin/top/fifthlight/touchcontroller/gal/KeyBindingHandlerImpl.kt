@@ -2,6 +2,9 @@ package top.fifthlight.touchcontroller.gal
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.settings.KeyBinding
+import top.fifthlight.touchcontroller.common.gal.KeyBindingHandler
+import top.fifthlight.touchcontroller.common.gal.KeyBindingState
+import top.fifthlight.touchcontroller.common.gal.KeyBindingType
 
 private class KeyBindingStateImpl(
     private val keyBinding: KeyBinding,

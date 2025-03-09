@@ -13,3 +13,7 @@ java {
     sourceCompatibility = JavaVersion.toVersion(javaVersionNum)
     targetCompatibility = JavaVersion.toVersion(javaVersionNum)
 }
+
+dependencies {
+
+}

@@ -2,6 +2,8 @@ package top.fifthlight.touchcontroller.gal
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.util.hit.HitResult
+import top.fifthlight.touchcontroller.common.gal.CrosshairTarget
+import top.fifthlight.touchcontroller.common.gal.ViewActionProvider
 import top.fifthlight.touchcontroller.mixin.ClientPlayerInteractionManagerInvoker
 
 object ViewActionProviderImpl : ViewActionProvider {

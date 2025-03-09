@@ -25,7 +25,19 @@ dependencies {
     implementation(libs.forge.gradle)
     implementation(libs.parchmentmc.librarian.forgegradle)
     implementation(libs.aboutlibraries.plugin)
-    implementation(libs.mixin)
+    implementation(libs.mixin.gradle)
+    implementation(libs.asm)
+    implementation(libs.asm.commons)
+    implementation(libs.mod.dev.gradle)
 
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+}
+
+gradlePlugin {
+    plugins {
+        create("stubgen") {
+            id = "top.fifthlight.stubgen"
+            implementationClass = "top.fifthlight.touchcontoller.gradle.plugin.StubGenPlugin"
+        }
+    }
 }

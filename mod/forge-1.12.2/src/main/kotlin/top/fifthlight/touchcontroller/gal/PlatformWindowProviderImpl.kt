@@ -2,6 +2,9 @@ package top.fifthlight.touchcontroller.gal
 
 import org.lwjgl.opengl.Display
 import org.slf4j.LoggerFactory
+import top.fifthlight.touchcontroller.common.gal.GlfwPlatform
+import top.fifthlight.touchcontroller.common.gal.NativeWindow
+import top.fifthlight.touchcontroller.common.gal.PlatformWindowProvider
 
 object PlatformWindowProviderImpl : PlatformWindowProvider {
     private val logger = LoggerFactory.getLogger(PlatformWindowProviderImpl::class.java)

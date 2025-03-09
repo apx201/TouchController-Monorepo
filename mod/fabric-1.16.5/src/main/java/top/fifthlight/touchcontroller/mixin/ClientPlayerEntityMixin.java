@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import top.fifthlight.touchcontroller.layout.ContextResult;
-import top.fifthlight.touchcontroller.model.ControllerHudModel;
+import top.fifthlight.touchcontroller.common.layout.ContextResult;
+import top.fifthlight.touchcontroller.common.model.ControllerHudModel;
 
 @Mixin(ClientPlayerEntity.class)
 public abstract class ClientPlayerEntityMixin {

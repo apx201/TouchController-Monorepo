@@ -6,7 +6,8 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.opengl.GL11
 import top.fifthlight.combine.paint.Canvas
 import top.fifthlight.data.Offset
-import top.fifthlight.touchcontroller.config.TouchRingConfig
+import top.fifthlight.touchcontroller.common.config.TouchRingConfig
+import top.fifthlight.touchcontroller.common.gal.CrosshairRenderer
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin

@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiScreen
 import net.minecraftforge.fml.client.IModGuiFactory
 import net.minecraftforge.fml.client.IModGuiFactory.RuntimeOptionCategoryElement
 import org.koin.core.component.KoinComponent
-import top.fifthlight.touchcontroller.ui.screen.getConfigScreen
+import top.fifthlight.touchcontroller.common.ui.screen.getConfigScreen
 
 @Suppress("unused")
 class ForgeGuiFactoryImpl : IModGuiFactory, KoinComponent {

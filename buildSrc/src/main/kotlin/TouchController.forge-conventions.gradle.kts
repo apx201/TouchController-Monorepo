@@ -4,7 +4,6 @@ import top.fifthlight.touchcontoller.gradle.MinecraftVersion
 
 plugins {
     idea
-    eclipse
     java
     id("net.minecraftforge.gradle")
     id("com.gradleup.gr8")
@@ -30,6 +29,8 @@ val forgeVersion: String by extra.properties
 val mappingType: String by extra.properties
 val useMixin: String by extra.properties
 val useMixinBool = useMixin.toBoolean()
+val remapOutput: String by extra.properties
+val remapOutputBool = remapOutput.toBoolean()
 val useAccessTransformer: String by extra.properties
 val useAccessTransformerBool = useAccessTransformer.toBoolean()
 val useCoreMod: String by extra.properties
@@ -48,8 +49,12 @@ group = "top.fifthlight.touchcontroller"
 minecraft {
     when (mappingType) {
         "official" -> {
-            val parchmentVersion: String by extra.properties
-            mappings("parchment", parchmentVersion)
+            val parchmentVersion = properties["parchmentVersion"]?.toString()
+            if (parchmentVersion != null) {
+                mappings("parchment", parchmentVersion)
+            } else {
+                mappings("official", gameVersion)
+            }
         }
 
         "mcp-snapshot" -> {
@@ -100,44 +105,17 @@ tasks.jar {
     archiveBaseName = "$modName-slim"
 }
 
-fun DependencyHandlerScope.shade(dependency: Any) {
-    add("shadow", dependency)
-}
-
-fun DependencyHandlerScope.shade(
-    dependency: String,
-    dependencyConfiguration: ExternalModuleDependency.() -> Unit,
-) {
-    add("shadow", dependency, dependencyConfiguration)
-}
-
-fun <T : ModuleDependency> DependencyHandlerScope.shade(
-    dependency: T,
-    dependencyConfiguration: T.() -> Unit,
-) {
-    add("shadow", dependency, dependencyConfiguration)
-}
-
 fun DependencyHandlerScope.shadeAndImplementation(dependency: Any) {
-    shade(dependency)
+    add("shadow", dependency)
     implementation(dependency)
     minecraftLibrary(dependency)
-}
-
-fun DependencyHandlerScope.shadeAndImplementation(
-    dependency: String,
-    dependencyConfiguration: ExternalModuleDependency.() -> Unit
-) {
-    shade(dependency, dependencyConfiguration)
-    implementation(dependency, dependencyConfiguration)
-    minecraftLibrary(dependency, dependencyConfiguration)
 }
 
 fun <T : ModuleDependency> DependencyHandlerScope.shadeAndImplementation(
     dependency: T,
     dependencyConfiguration: T.() -> Unit,
 ) {
-    shade(dependency, dependencyConfiguration)
+    add("shadow", dependency, dependencyConfiguration)
     implementation(dependency, dependencyConfiguration)
     minecraftLibrary(dependency, dependencyConfiguration)
 }
@@ -166,7 +144,7 @@ dependencies {
         shadeAndImplementation(libs.joml)
     }
 
-    if (useMixinBool) {
+    if (useMixinBool && remapOutputBool) {
         annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
     }
 }
@@ -218,6 +196,9 @@ tasks.withType<Jar> {
         if (useAccessTransformerBool) {
             attributes += ("FMLAT" to "touchcontroller_at.cfg")
         }
+        if (useMixinBool && !remapOutputBool) {
+            attributes += ("MixinConfigs" to "touchcontroller.mixins.json")
+        }
         attributes(attributes)
     }
 }
@@ -240,7 +221,7 @@ val minecraftShadow = configurations.create("minecraftShadow") {
 }
 
 gr8 {
-    val shadowedJar = create("gr8") {
+    create("gr8") {
         addProgramJarsFrom(configurations.getByName("shadow"))
         addProgramJarsFrom(tasks.jar)
 
@@ -258,13 +239,11 @@ gr8 {
         r8Version("8.9.21")
         proguardFile(rootProject.file("mod/common-forge/rules.pro"))
     }
-
-    replaceOutgoingJar(shadowedJar)
 }
 
 // Create a Jar task to exclude some META-INF files and module-info.class from R8 output,
 // and make ForgeGradle reobf task happy (FG requires JarTask for it's reobf input)
-tasks.register<Jar>("gr8Jar") {
+val gr8JarTask = tasks.register<Jar>("gr8Jar") {
     dependsOn("reobfJar")
 
     inputs.files(tasks.getByName("gr8Gr8ShadowedJar").outputs.files)
@@ -298,17 +277,24 @@ tasks.getByName("gr8Gr8ShadowedJar") {
 }
 
 reobf {
-    create("gr8Jar") {
-        if (useMixinBool) {
-            // Use mapping from compileJava, to avoid problems of @Shadow
-            extraMappings.from("build/tmp/compileJava/compileJava-mappings.tsrg")
+    if (remapOutputBool) {
+        create("gr8Jar") {
+            if (useMixinBool) {
+                // Use mapping from compileJava, to avoid problems of @Shadow
+                extraMappings.from("build/tmp/compileJava/compileJava-mappings.tsrg")
+            }
         }
     }
 }
 
 tasks.register<Copy>("renameOutputJar") {
-    dependsOn("reobfGr8Jar")
-    from("build/reobfGr8Jar/output.jar") {
+    val (dependTask, outputFile) = if (remapOutputBool) {
+        Pair("reobfGr8Jar", "build/reobfGr8Jar/output.jar")
+    } else {
+        Pair(gr8JarTask, gr8JarTask.map { it.outputs.files.first() })
+    }
+    dependsOn(dependTask)
+    from(outputFile) {
         rename {
             "$modName-$version.jar"
         }
@@ -317,6 +303,8 @@ tasks.register<Copy>("renameOutputJar") {
 }
 
 tasks.assemble {
-    dependsOn("reobfGr8Jar")
+    if (remapOutputBool) {
+        dependsOn("reobfGr8Jar")
+    }
     dependsOn("renameOutputJar")
 }

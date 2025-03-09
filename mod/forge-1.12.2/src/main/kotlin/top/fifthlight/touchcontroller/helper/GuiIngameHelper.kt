@@ -8,8 +8,8 @@ import net.minecraft.client.gui.GuiIngame
 import net.minecraft.client.gui.ScaledResolution
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import top.fifthlight.touchcontroller.event.RenderEvents
-import top.fifthlight.touchcontroller.model.ControllerHudModel
+import top.fifthlight.touchcontroller.common.event.RenderEvents
+import top.fifthlight.touchcontroller.common.model.ControllerHudModel
 
 object GuiIngameHelper : KoinComponent {
     private val controllerHudModel: ControllerHudModel by inject()

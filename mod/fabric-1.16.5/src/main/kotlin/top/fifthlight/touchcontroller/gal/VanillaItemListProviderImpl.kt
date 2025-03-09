@@ -8,6 +8,8 @@ import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.registry.Registry
 import top.fifthlight.combine.platform.TextImpl
 import top.fifthlight.combine.platform.toCombine
+import top.fifthlight.touchcontroller.common.gal.PlayerHandle
+import top.fifthlight.touchcontroller.common.gal.VanillaItemListProvider
 
 object VanillaItemListProviderImpl : VanillaItemListProvider {
     class CreativeTabImpl(group: ItemGroup, items: PersistentList<ItemStack>) :

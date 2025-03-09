@@ -12,7 +12,11 @@ import net.minecraft.util.Hand
 import top.fifthlight.combine.data.ItemStack
 import top.fifthlight.combine.platform.ItemStackImpl
 import top.fifthlight.combine.platform.toCombine
-import top.fifthlight.touchcontroller.config.ItemList
+import top.fifthlight.touchcontroller.common.config.ItemList
+import top.fifthlight.touchcontroller.common.gal.PlayerHandle
+import top.fifthlight.touchcontroller.common.gal.PlayerHandleFactory
+import top.fifthlight.touchcontroller.common.gal.PlayerInventory
+import top.fifthlight.touchcontroller.common.gal.RidingEntityType
 import top.fifthlight.touchcontroller.mixin.ClientPlayerInteractionManagerInvoker
 
 @JvmInline

@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.ScreenshotRecorder
 import top.fifthlight.combine.data.Text
 import top.fifthlight.combine.platform.toMinecraft
+import top.fifthlight.touchcontroller.common.gal.GameAction
 import top.fifthlight.touchcontroller.mixin.ClientOpenChatScreenInvoker
 
 object GameActionImpl : GameAction {

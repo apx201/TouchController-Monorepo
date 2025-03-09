@@ -1,7 +1,8 @@
 package top.fifthlight.touchcontroller
 
 import net.minecraftforge.fml.loading.FMLPaths
-import top.fifthlight.touchcontroller.config.ConfigDirectoryProvider
+import top.fifthlight.touchcontroller.buildinfo.BuildInfo
+import top.fifthlight.touchcontroller.common.config.ConfigDirectoryProvider
 import java.nio.file.Path
 
 object ConfigDirectoryProviderImpl : ConfigDirectoryProvider {

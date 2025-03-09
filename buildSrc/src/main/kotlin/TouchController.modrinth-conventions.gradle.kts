@@ -19,7 +19,7 @@ tasks.withType<TaskModrinthUpload> {
             dependsOn(tasks.getByName("renameOutputJar"))
         }
 
-        "fabric" -> {
+        "fabric", "neoforge" -> {
             dependsOn(tasks.getByName("copyJar"))
         }
 
@@ -35,7 +35,7 @@ modrinth {
         "forge" -> {
             uploadFile.set(layout.buildDirectory.file("libs/$modName-$version.jar"))
         }
-        "fabric" -> {
+        "fabric", "neoforge" -> {
             uploadFile.set(tasks.getByName("copyJar"))
         }
         else -> error("Bad modType: $modType")
@@ -46,7 +46,7 @@ modrinth {
 
     dependencies {
         when (modType) {
-            "forge" -> {
+            "forge", "neoforge" -> {
                 // No dependencies
             }
             "fabric" -> {

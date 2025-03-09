@@ -14,7 +14,7 @@ extern std::deque<ProxyMessage> g_event_queue;
 
 extern "C" {
 JNIEXPORT void JNICALL
-Java_top_fifthlight_touchcontroller_platform_win32_Interface_init(
+Java_top_fifthlight_touchcontroller_common_platform_win32_Interface_init(
     JNIEnv* env, jclass clazz, jlong window_handle) {
     try {
         init(reinterpret_cast<HWND>(window_handle));
@@ -24,7 +24,7 @@ Java_top_fifthlight_touchcontroller_platform_win32_Interface_init(
 }
 
 JNIEXPORT jint JNICALL
-Java_top_fifthlight_touchcontroller_platform_win32_Interface_pollEvent(
+Java_top_fifthlight_touchcontroller_common_platform_win32_Interface_pollEvent(
     JNIEnv* env, jclass clazz, jbyteArray buffer) {
     std::optional<std::vector<uint8_t>> event =
         touchcontroller::event::poll_event();

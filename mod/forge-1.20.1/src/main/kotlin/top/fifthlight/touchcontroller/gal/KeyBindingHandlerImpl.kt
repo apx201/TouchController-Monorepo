@@ -2,6 +2,9 @@ package top.fifthlight.touchcontroller.gal
 
 import net.minecraft.client.KeyMapping
 import net.minecraft.client.Minecraft
+import top.fifthlight.touchcontroller.common.gal.KeyBindingHandler
+import top.fifthlight.touchcontroller.common.gal.KeyBindingState
+import top.fifthlight.touchcontroller.common.gal.KeyBindingType
 import top.fifthlight.touchcontroller.helper.ClickableKeyBinding
 
 private fun KeyMapping.click() {

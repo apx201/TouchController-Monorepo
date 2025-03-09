@@ -25,7 +25,7 @@ fun generateBuildInfo(properties: Map<String, String>, outputDir: Path) {
     }.build()
 
     val file = FileSpec
-        .builder("top.fifthlight.touchcontroller", "BuildInfo")
+        .builder("top.fifthlight.touchcontroller.buildinfo", "BuildInfo")
         .addAnnotation(
             AnnotationSpec
                 .builder(Suppress::class)

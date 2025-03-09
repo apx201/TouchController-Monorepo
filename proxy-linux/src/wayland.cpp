@@ -251,7 +251,7 @@ void init(wl_display *display, wl_surface *surface) {
 
 extern "C" {
 JNIEXPORT void JNICALL
-Java_top_fifthlight_touchcontroller_platform_wayland_Interface_init(
+Java_top_fifthlight_touchcontroller_common_platform_wayland_Interface_init(
     JNIEnv *env, jclass clazz, jlong display_handle, jlong surface_handle) {
     wl_display *display = reinterpret_cast<wl_display *>(display_handle);
     wl_surface *surface = reinterpret_cast<wl_surface *>(surface_handle);
@@ -259,14 +259,14 @@ Java_top_fifthlight_touchcontroller_platform_wayland_Interface_init(
 }
 
 JNIEXPORT void JNICALL
-Java_top_fifthlight_touchcontroller_platform_wayland_Interface_resize(
+Java_top_fifthlight_touchcontroller_common_platform_wayland_Interface_resize(
     JNIEnv *env, jclass clazz, jint width, jint height) {
     surface_width = static_cast<uint32_t>(width);
     surface_height = static_cast<uint32_t>(height);
 }
 
 JNIEXPORT jint JNICALL
-Java_top_fifthlight_touchcontroller_platform_wayland_Interface_pollEvent(
+Java_top_fifthlight_touchcontroller_common_platform_wayland_Interface_pollEvent(
     JNIEnv *env, jclass clazz, jbyteArray buffer) {
     std::optional<std::vector<uint8_t>> event =
         touchcontroller::event::poll_event();

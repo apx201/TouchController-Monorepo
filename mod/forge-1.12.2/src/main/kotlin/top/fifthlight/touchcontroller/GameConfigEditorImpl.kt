@@ -2,7 +2,7 @@ package top.fifthlight.touchcontroller
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.settings.GameSettings
-import top.fifthlight.touchcontroller.config.GameConfigEditor
+import top.fifthlight.touchcontroller.common.config.GameConfigEditor
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 

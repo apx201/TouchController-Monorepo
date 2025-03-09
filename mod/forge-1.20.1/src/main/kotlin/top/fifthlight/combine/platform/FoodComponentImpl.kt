@@ -6,7 +6,7 @@ import net.minecraftforge.registries.ForgeRegistries
 import top.fifthlight.combine.data.DataComponentType
 import top.fifthlight.combine.data.Identifier
 import top.fifthlight.combine.data.Item
-import top.fifthlight.touchcontroller.BuildInfo
+import top.fifthlight.touchcontroller.buildinfo.BuildInfo
 
 object FoodComponentImpl : DataComponentType {
     override val id: Identifier = Identifier.of(BuildInfo.MOD_ID, "food")

@@ -6,9 +6,9 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.settings.KeyBinding
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import top.fifthlight.touchcontroller.config.GlobalConfigHolder
+import top.fifthlight.touchcontroller.common.config.GlobalConfigHolder
+import top.fifthlight.touchcontroller.common.model.ControllerHudModel
 import top.fifthlight.touchcontroller.gal.KeyBindingHandlerImpl
-import top.fifthlight.touchcontroller.model.ControllerHudModel
 
 object KeyBindingHelper : KoinComponent {
     private val controllerHudModel: ControllerHudModel by inject()

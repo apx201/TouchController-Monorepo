@@ -2,6 +2,7 @@ package top.fifthlight.touchcontroller;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.jetbrains.annotations.Nullable;
+import top.fifthlight.touchcontroller.buildinfo.BuildInfo;
 
 import java.util.Map;
 

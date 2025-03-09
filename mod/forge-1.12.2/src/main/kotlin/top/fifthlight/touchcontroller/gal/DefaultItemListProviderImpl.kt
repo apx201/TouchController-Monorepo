@@ -7,7 +7,8 @@ import net.minecraft.init.Items
 import net.minecraft.item.Item
 import top.fifthlight.combine.platform.ItemFactoryImpl
 import top.fifthlight.combine.platform.ItemImpl
-import top.fifthlight.touchcontroller.config.ItemList
+import top.fifthlight.touchcontroller.common.config.ItemList
+import top.fifthlight.touchcontroller.common.gal.DefaultItemListProvider
 
 object DefaultItemListProviderImpl : DefaultItemListProvider {
     override val usableItems = ItemList(

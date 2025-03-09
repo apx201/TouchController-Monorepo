@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiChat
 import net.minecraft.util.ScreenShotHelper
 import top.fifthlight.combine.data.Text
 import top.fifthlight.combine.platform.toMinecraft
+import top.fifthlight.touchcontroller.common.gal.GameAction
 
 object GameActionImpl : GameAction {
     private val client = Minecraft.getMinecraft()

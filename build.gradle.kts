@@ -27,5 +27,13 @@ subprojects {
             name = "Terraformers"
             url = uri("https://maven.terraformersmc.com/")
         }
+        maven {
+            name = "Fabric"
+            url = uri("https://maven.fabricmc.net/")
+        }
+        maven {
+            name = "Parchment"
+            url = uri("https://maven.parchmentmc.org")
+        }
     }
 }

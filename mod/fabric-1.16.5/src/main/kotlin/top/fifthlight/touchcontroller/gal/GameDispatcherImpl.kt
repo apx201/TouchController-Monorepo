@@ -3,6 +3,7 @@ package top.fifthlight.touchcontroller.gal
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
 import net.minecraft.client.MinecraftClient
+import top.fifthlight.touchcontroller.common.gal.GameDispatcher
 import kotlin.coroutines.CoroutineContext
 
 object GameDispatcherImpl : GameDispatcher() {
