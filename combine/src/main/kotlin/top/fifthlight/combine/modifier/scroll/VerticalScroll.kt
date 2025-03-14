@@ -19,11 +19,21 @@ import kotlin.math.roundToInt
 
 @Composable
 fun Modifier.verticalScroll(
+    reverse: Boolean,
+) = verticalScroll(
+    scrollState = rememberScrollState(),
+    reverse = reverse,
+)
+
+@Composable
+fun Modifier.verticalScroll(
     scrollState: ScrollState = rememberScrollState(),
-) = then(VerticalScrollNode(scrollState))
+    reverse: Boolean = false,
+) = then(VerticalScrollNode(scrollState, reverse))
 
 private data class VerticalScrollNode(
     val scrollState: ScrollState,
+    val reverse: Boolean,
 ) : LayoutModifierNode, DrawModifierNode, PointerInputModifierNode, Modifier.Node<VerticalScrollNode> {
     override fun onPointerEvent(
         event: PointerEvent,
@@ -33,7 +43,8 @@ private data class VerticalScrollNode(
     ): Boolean {
         return when (event.type) {
             PointerEventType.Scroll -> {
-                scrollState.updateProgress((scrollState.progress.value - event.scrollDelta.y * 12).toInt())
+                val scrollDelta = if (reverse) -event.scrollDelta.y else event.scrollDelta.y
+                scrollState.updateProgress((scrollState.progress.value - scrollDelta * 12).toInt())
                 true
             }
 
@@ -58,11 +69,19 @@ private data class VerticalScrollNode(
             PointerEventType.Move -> {
                 val initialPosition = scrollState.initialPointerPosition
                 if (scrollState.scrolling) {
-                    val distance = (scrollState.startPointerPosition!!.y - event.position.y).roundToInt()
+                    val distance = if (reverse) {
+                        (event.position.y - scrollState.startPointerPosition!!.y).roundToInt()
+                    } else {
+                        (scrollState.startPointerPosition!!.y - event.position.y).roundToInt()
+                    }
                     scrollState.updateProgress(distance + scrollState.startProgress)
                     true
                 } else if (initialPosition != null) {
-                    val distance = (initialPosition.y - event.position.y)
+                    val distance = if (reverse) {
+                        (event.position.y - initialPosition.y)
+                    } else {
+                        (initialPosition.y - event.position.y)
+                    }
                     if (distance.absoluteValue > 8) {
                         scrollState.scrolling = true
                         scrollState.startProgress = scrollState.progress.value
@@ -84,13 +103,11 @@ private data class VerticalScrollNode(
     override fun MeasureScope.measure(measurable: Measurable, constraints: Constraints): MeasureResult {
         val viewportMaxHeight = constraints.maxHeight
         if (viewportMaxHeight == Int.MAX_VALUE) {
-            error("Bad maxHeight of verticalScroll(): check whether you nested two verticalScroll() modifier")
+            error("Bad maxHeight of verticalScroll(): check nested scroll modifiers")
         }
 
         val placeable = measurable.measure(
             constraints.copy(
-                minWidth = constraints.minWidth,
-                maxWidth = constraints.maxWidth,
                 minHeight = constraints.minHeight,
                 maxHeight = Int.MAX_VALUE,
             )
@@ -100,13 +117,21 @@ private data class VerticalScrollNode(
         scrollState.contentHeight = placeable.height
         scrollState.viewportHeight = viewportHeight
 
-        val progress = scrollState.progress.value
-        if (progress + viewportHeight > placeable.height) {
-            scrollState.updateProgress(placeable.height - viewportHeight)
+        val maxScrollOffset = (placeable.height - viewportHeight).coerceAtLeast(0)
+        val currentProgress = scrollState.progress.value
+        if (currentProgress > maxScrollOffset) {
+            scrollState.updateProgress(maxScrollOffset)
+        } else if (currentProgress < 0) {
+            scrollState.updateProgress(0)
         }
 
         return layout(placeable.width, viewportHeight) {
-            placeable.placeAt(0, -progress)
+            val yOffset = if (reverse) {
+                -(maxScrollOffset - scrollState.progress.value)
+            } else {
+                -scrollState.progress.value
+            }
+            placeable.placeAt(0, yOffset)
         }
     }
 
@@ -128,7 +153,11 @@ private data class VerticalScrollNode(
             val progress =
                 scrollState.progress.value.toFloat() / (scrollState.contentHeight - scrollState.viewportHeight).toFloat()
             val barHeight = (node.height * scrollState.viewportHeight / scrollState.contentHeight).coerceAtLeast(12)
-            val barY = ((node.height - barHeight) * progress).roundToInt()
+            val barY = ((node.height - barHeight) * if (reverse) {
+                1f - progress
+            } else {
+                progress
+            }).roundToInt()
             fillRect(
                 offset = IntOffset(node.width - 3, barY),
                 size = IntSize(3, barHeight),

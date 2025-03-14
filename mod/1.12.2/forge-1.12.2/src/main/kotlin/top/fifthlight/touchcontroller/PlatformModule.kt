@@ -36,4 +36,5 @@ val platformModule = module {
     single<GameDispatcher> { GameDispatcherImpl }
     single<TextMeasurer> { TextMeasurerImpl }
     single<VanillaItemListProvider> { VanillaItemListProviderImpl }
+    single<ChatMessageProvider> { ChatMessageProviderImpl }
 }
