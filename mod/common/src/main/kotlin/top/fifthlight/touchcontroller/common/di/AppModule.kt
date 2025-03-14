@@ -40,6 +40,7 @@ val appModule = module {
     factory { params -> CustomControlLayoutTabModel(params[0]) }
     factory { params -> PresetsTabModel(params[0]) }
     factory { params -> LayersTabModel(params[0]) }
+    factory { params -> ImportPresetScreenModel(params[0]) }
     factory { params -> WidgetsTabModel(params[0]) }
     factory { ConfigScreenModel() }
     factory { ChatScreenModel() }

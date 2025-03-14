@@ -12,7 +12,7 @@ import top.fifthlight.touchcontroller.common.control.CustomWidget
 import top.fifthlight.touchcontroller.common.control.InventoryButton
 
 @Serializable
-data class BuiltinPresetKey(
+data class BuiltInPresetKey(
     @SerialName("texture_set")
     val textureSet: TextureSet.TextureSetKey = TextureSet.TextureSetKey.CLASSIC,
     @SerialName("control_style")
@@ -75,7 +75,7 @@ data class BuiltinPresetKey(
             SprintButtonLocation.RIGHT -> BuiltinLayers.sprintRightButton
         }
         LayoutPreset(
-            name = "TODO",
+            name = "Built-in preset",
             controlInfo = PresetControlInfo(
                 splitControls = controlStyle is ControlStyle.SplitControls,
                 disableTouchGesture = controlStyle is ControlStyle.SplitControls && controlStyle.buttonInteraction,
@@ -101,6 +101,6 @@ data class BuiltinPresetKey(
     }
 
     companion object {
-        val DEFAULT = BuiltinPresetKey()
+        val DEFAULT = BuiltInPresetKey()
     }
 }

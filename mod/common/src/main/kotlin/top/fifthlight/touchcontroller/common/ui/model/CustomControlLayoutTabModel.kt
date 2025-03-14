@@ -10,7 +10,7 @@ import top.fifthlight.touchcontroller.common.config.LayoutLayer
 import top.fifthlight.touchcontroller.common.config.preset.LayoutPreset
 import top.fifthlight.touchcontroller.common.config.preset.PresetConfig
 import top.fifthlight.touchcontroller.common.config.preset.PresetManager
-import top.fifthlight.touchcontroller.common.config.preset.builtin.BuiltinPresetKey
+import top.fifthlight.touchcontroller.common.config.preset.builtin.BuiltInPresetKey
 import top.fifthlight.touchcontroller.common.config.widget.WidgetPresetManager
 import top.fifthlight.touchcontroller.common.control.ControllerWidget
 import top.fifthlight.touchcontroller.common.ext.combineStates
@@ -186,7 +186,7 @@ class CustomControlLayoutTabModel(
             )
         }
         val uuid = fastRandomUuid()
-        val preset = preset ?: BuiltinPresetKey.DEFAULT.preset.copy(
+        val preset = preset ?: BuiltInPresetKey.DEFAULT.preset.copy(
             name = "New preset"
         )
         presetManager.savePreset(uuid, preset)

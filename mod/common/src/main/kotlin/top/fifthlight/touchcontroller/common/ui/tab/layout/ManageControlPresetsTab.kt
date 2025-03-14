@@ -1,154 +1,38 @@
 package top.fifthlight.touchcontroller.common.ui.tab.layout
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import org.koin.core.parameter.parametersOf
-import top.fifthlight.combine.data.LocalTextFactory
 import top.fifthlight.combine.data.Text
-import top.fifthlight.combine.input.MutableInteractionSource
 import top.fifthlight.combine.layout.Alignment
 import top.fifthlight.combine.layout.Arrangement
-import top.fifthlight.combine.layout.Layout
 import top.fifthlight.combine.modifier.Modifier
-import top.fifthlight.combine.modifier.ParentDataModifierNode
 import top.fifthlight.combine.modifier.drawing.background
 import top.fifthlight.combine.modifier.drawing.border
-import top.fifthlight.combine.modifier.placement.fillMaxHeight
-import top.fifthlight.combine.modifier.placement.fillMaxSize
 import top.fifthlight.combine.modifier.placement.fillMaxWidth
 import top.fifthlight.combine.modifier.placement.padding
-import top.fifthlight.combine.modifier.pointer.toggleable
-import top.fifthlight.combine.modifier.scroll.verticalScroll
-import top.fifthlight.combine.ui.style.ColorTheme
-import top.fifthlight.combine.ui.style.LocalColorTheme
-import top.fifthlight.combine.widget.base.layout.*
-import top.fifthlight.combine.widget.ui.*
-import top.fifthlight.data.IntSize
+import top.fifthlight.combine.widget.base.layout.Box
+import top.fifthlight.combine.widget.base.layout.Column
+import top.fifthlight.combine.widget.base.layout.Row
+import top.fifthlight.combine.widget.ui.GuideButton
+import top.fifthlight.combine.widget.ui.Text
+import top.fifthlight.combine.widget.ui.WarningButton
 import top.fifthlight.touchcontroller.assets.BackgroundTextures
 import top.fifthlight.touchcontroller.assets.Texts
-import top.fifthlight.touchcontroller.assets.TextureSet
 import top.fifthlight.touchcontroller.assets.Textures
-import top.fifthlight.touchcontroller.common.config.ControllerLayout
-import top.fifthlight.touchcontroller.common.config.LayerConditionValue
 import top.fifthlight.touchcontroller.common.config.preset.PresetConfig
-import top.fifthlight.touchcontroller.common.config.preset.builtin.BuiltinPresetKey
-import top.fifthlight.touchcontroller.common.control.ControllerWidget
 import top.fifthlight.touchcontroller.common.ui.component.AppBar
 import top.fifthlight.touchcontroller.common.ui.component.BackButton
-import top.fifthlight.touchcontroller.common.ui.component.ControllerWidget
+import top.fifthlight.touchcontroller.common.ui.component.BuiltInPresetKeySelector
 import top.fifthlight.touchcontroller.common.ui.component.Scaffold
 import top.fifthlight.touchcontroller.common.ui.model.LocalConfigScreenModel
 import top.fifthlight.touchcontroller.common.ui.model.ManageControlPresetsTabModel
 import top.fifthlight.touchcontroller.common.ui.tab.Tab
 import top.fifthlight.touchcontroller.common.ui.tab.TabGroup
 import top.fifthlight.touchcontroller.common.ui.tab.TabOptions
-import kotlin.math.min
-
-@Composable
-private fun RadioContainer(
-    modifier: Modifier = Modifier,
-    content: @Composable ColumnScope.() -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .padding(4)
-            .border(Textures.WIDGET_BACKGROUND_FLOAT_WINDOW)
-            .then(modifier),
-        verticalArrangement = Arrangement.spacedBy(4),
-    ) {
-        content()
-    }
-}
-
-@Composable
-private fun RadioBoxItem(
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    value: Boolean,
-    onValueChanged: (Boolean) -> Unit,
-    content: @Composable RowScope.() -> Unit,
-) {
-    Row(
-        modifier = Modifier.toggleable(
-            interactionSource = interactionSource,
-            value = value,
-            onValueChanged = onValueChanged
-        ),
-        horizontalArrangement = Arrangement.spacedBy(4),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        RadioIcon(
-            interactionSource = interactionSource,
-            value = value,
-        )
-        CompositionLocalProvider(
-            LocalColorTheme provides ColorTheme.light,
-        ) {
-            content()
-        }
-    }
-}
-
-private data class ControllerWidgetModifierNode(
-    val widget: ControllerWidget,
-) : ParentDataModifierNode, Modifier.Node<ControllerWidgetModifierNode> {
-    override fun modifierParentData(parentData: Any?): ControllerWidget = widget
-}
-
-@Composable
-private fun PresetPreview(
-    modifier: Modifier = Modifier,
-    preset: ControllerLayout = ControllerLayout(),
-    minimumLogicalSize: IntSize = IntSize(480, 270),
-) {
-    var scale by remember { mutableStateOf<Float?>(null) }
-    Layout(
-        modifier = modifier,
-        measurePolicy = { measurables, constraints ->
-            val size = IntSize(constraints.maxWidth, constraints.maxHeight)
-            val displayScale = min(
-                size.width.toFloat() / minimumLogicalSize.width.toFloat(),
-                size.height.toFloat() / minimumLogicalSize.height.toFloat(),
-            ).coerceAtMost(1f)
-            scale = displayScale
-            val logicalSize = (size.toSize() / displayScale).toIntSize()
-            val childConstraint = constraints.copy(
-                minWidth = 0,
-                minHeight = 0,
-            )
-            val placeables = measurables.map {
-                it.measure(childConstraint)
-            }
-            layout(size) {
-                for ((index, placeable) in placeables.withIndex()) {
-                    val measurable = measurables[index]
-                    val widget = (measurable.parentData as? ControllerWidget)
-                        ?: error("Bad parent data: ${measurable.parentData}")
-                    val offset =
-                        widget.align.alignOffset(logicalSize, widget.size(), widget.offset).toOffset() * displayScale
-                    placeable.placeAt(offset.toIntOffset())
-                }
-            }
-        }
-    ) {
-        val currentScale = scale
-        if (currentScale == null) {
-            return@Layout
-        }
-        for (layer in preset.layers) {
-            if (layer.condition.values.any { it != LayerConditionValue.NEVER }) {
-                continue
-            }
-            for (widget in layer.widgets) {
-                ControllerWidget(
-                    modifier = Modifier.then(ControllerWidgetModifierNode(widget)),
-                    widget = widget,
-                    scale = currentScale,
-                )
-            }
-        }
-    }
-}
 
 object ManageControlPresetsTab : Tab() {
     override val options = TabOptions(
@@ -178,270 +62,11 @@ object ManageControlPresetsTab : Tab() {
             val presetConfig by screenModel.presetConfig.collectAsState()
             val currentPresetConfig = presetConfig
             if (currentPresetConfig != null) {
-                val presetKey = currentPresetConfig.key
-                Row(
-                    modifier = Modifier
-                        .background(BackgroundTextures.BRICK_BACKGROUND)
-                        .then(modifier)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(6f)
-                            .fillMaxHeight(),
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f),
-                            alignment = Alignment.Center,
-                        ) {
-                            Text("Real-time preview")
-                            PresetPreview(
-                                modifier = Modifier.fillMaxSize(),
-                                preset = currentPresetConfig.key.preset.layout,
-                            )
-                        }
-                        Row(
-                            modifier = Modifier
-                                .padding(4)
-                                .border(Textures.WIDGET_BACKGROUND_BACKGROUND_DARK)
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(4),
-                        ) {
-                            Column(
-                                verticalArrangement = Arrangement.spacedBy(4),
-                            ) {
-                                Text(Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_TEXTURE_STYLE))
-                                RadioContainer {
-                                    for (textureSet in TextureSet.TextureSetKey.entries) {
-                                        RadioBoxItem(
-                                            value = presetKey.textureSet == textureSet,
-                                            onValueChanged = {
-                                                screenModel.updateKey { copy(textureSet = textureSet) }
-                                            },
-                                        ) {
-                                            Text(Text.translatable(textureSet.titleText))
-                                        }
-                                    }
-                                }
-                            }
-                            Column(
-                                modifier = Modifier.weight(1f),
-                                verticalArrangement = Arrangement.spacedBy(4),
-                            ) {
-                                Text(
-                                    Text.format(
-                                        Texts.SCREEN_CONFIG_PERCENT,
-                                        Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_OPACITY),
-                                        (presetKey.opacity * 100).toInt().toString()
-                                    )
-                                )
-                                Slider(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    range = 0f..1f,
-                                    value = presetKey.opacity,
-                                    onValueChanged = {
-                                        screenModel.updateKey { copy(opacity = it) }
-                                    },
-                                )
-
-                                Text(
-                                    Text.format(
-                                        Texts.SCREEN_CONFIG_PERCENT,
-                                        Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_SCALE),
-                                        (presetKey.scale * 100).toInt().toString()
-                                    )
-                                )
-                                Slider(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    range = .5f..4f,
-                                    value = presetKey.scale,
-                                    onValueChanged = {
-                                        screenModel.updateKey { copy(scale = it) }
-                                    },
-                                )
-                            }
-                        }
-                    }
-                    Column(
-                        modifier = Modifier
-                            .padding(4)
-                            .weight(4f)
-                            .verticalScroll()
-                            .fillMaxHeight(),
-                        verticalArrangement = Arrangement.spacedBy(4),
-                    ) {
-                        Text(Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_CONTROL_STYLE))
-                        RadioContainer(modifier = Modifier.fillMaxWidth()) {
-                            RadioBoxItem(
-                                value = presetKey.controlStyle == BuiltinPresetKey.ControlStyle.TouchGesture,
-                                onValueChanged = {
-                                    screenModel.updateKey {
-                                        if (presetKey.controlStyle != BuiltinPresetKey.ControlStyle.TouchGesture) {
-                                            copy(controlStyle = BuiltinPresetKey.ControlStyle.TouchGesture)
-                                        } else {
-                                            this
-                                        }
-                                    }
-                                }
-                            ) {
-                                Text(Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_CONTROL_STYLE_CLICK_TO_INTERACT))
-                            }
-
-                            RadioBoxItem(
-                                value = presetKey.controlStyle is BuiltinPresetKey.ControlStyle.SplitControls,
-                                onValueChanged = {
-                                    screenModel.updateKey {
-                                        if (presetKey.controlStyle !is BuiltinPresetKey.ControlStyle.SplitControls) {
-                                            copy(controlStyle = BuiltinPresetKey.ControlStyle.SplitControls())
-                                        } else {
-                                            this
-                                        }
-                                    }
-                                }
-                            ) {
-                                Text(Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_CONTROL_STYLE_AIMING_BY_CROSSHAIR))
-                            }
-                        }
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                modifier = Modifier.weight(1f),
-                                text = Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_ATTACK_AND_INTERACT_BY_BUTTON),
-                            )
-                            Switch(
-                                enabled = presetKey.controlStyle is BuiltinPresetKey.ControlStyle.SplitControls,
-                                value = (presetKey.controlStyle as? BuiltinPresetKey.ControlStyle.SplitControls)?.buttonInteraction == true,
-                                onValueChanged = {
-                                    screenModel.updateKey {
-                                        if (controlStyle is BuiltinPresetKey.ControlStyle.SplitControls) {
-                                            copy(controlStyle = controlStyle.copy(buttonInteraction = it))
-                                        } else {
-                                            this
-                                        }
-                                    }
-                                },
-                            )
-                        }
-
-                        Text(Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_MOVE_METHOD))
-                        RadioContainer(modifier = Modifier.fillMaxWidth()) {
-                            RadioBoxItem(
-                                value = presetKey.moveMethod is BuiltinPresetKey.MoveMethod.Dpad,
-                                onValueChanged = {
-                                    screenModel.updateKey {
-                                        if (moveMethod !is BuiltinPresetKey.MoveMethod.Dpad) {
-                                            copy(moveMethod = BuiltinPresetKey.MoveMethod.Dpad())
-                                        } else {
-                                            this
-                                        }
-                                    }
-                                }
-                            ) {
-                                Text(Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_MOVE_METHOD_DPAD))
-                            }
-
-                            RadioBoxItem(
-                                value = presetKey.moveMethod is BuiltinPresetKey.MoveMethod.Joystick,
-                                onValueChanged = {
-                                    screenModel.updateKey {
-                                        if (moveMethod !is BuiltinPresetKey.MoveMethod.Joystick) {
-                                            copy(moveMethod = BuiltinPresetKey.MoveMethod.Joystick())
-                                        } else {
-                                            this
-                                        }
-                                    }
-                                }
-                            ) {
-                                Text(Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_MOVE_METHOD_JOYSTICK))
-                            }
-                        }
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                modifier = Modifier.weight(1f),
-                                text = Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_SPRINT_USING_JOYSTICK),
-                            )
-                            Switch(
-                                enabled = presetKey.moveMethod is BuiltinPresetKey.MoveMethod.Joystick,
-                                value = (presetKey.moveMethod as? BuiltinPresetKey.MoveMethod.Joystick)?.triggerSprint == true,
-                                onValueChanged = {
-                                    screenModel.updateKey {
-                                        if (moveMethod is BuiltinPresetKey.MoveMethod.Joystick) {
-                                            copy(moveMethod = moveMethod.copy(triggerSprint = it))
-                                        } else {
-                                            this
-                                        }
-                                    }
-                                },
-                            )
-                        }
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                modifier = Modifier.weight(1f),
-                                text = Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_SWAP_JUMP_AND_SNEAK),
-                            )
-                            Switch(
-                                enabled = presetKey.moveMethod is BuiltinPresetKey.MoveMethod.Dpad,
-                                value = (presetKey.moveMethod as? BuiltinPresetKey.MoveMethod.Dpad)?.swapJumpAndSneak == true,
-                                onValueChanged = {
-                                    screenModel.updateKey {
-                                        if (moveMethod is BuiltinPresetKey.MoveMethod.Dpad) {
-                                            copy(moveMethod = moveMethod.copy(swapJumpAndSneak = it))
-                                        } else {
-                                            this
-                                        }
-                                    }
-                                },
-                            )
-                        }
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                modifier = Modifier.weight(1f),
-                                text = Text.translatable(Texts.SCREEN_MANAGE_CONTROL_PRESET_SPRINT),
-                            )
-                            var expanded by remember { mutableStateOf(false) }
-                            Select(
-                                expanded = expanded,
-                                onExpandedChanged = { expanded = it },
-                                dropDownContent = {
-                                    val selectedIndex =
-                                        BuiltinPresetKey.SprintButtonLocation.entries.indexOf(presetKey.sprintButtonLocation)
-                                    val textFactory = LocalTextFactory.current
-                                    DropdownItemList(
-                                        modifier = Modifier.verticalScroll(),
-                                        items = BuiltinPresetKey.SprintButtonLocation.entries,
-                                        textProvider = { textFactory.of(it.nameId) },
-                                        selectedIndex = selectedIndex,
-                                        onItemSelected = { index ->
-                                            expanded = false
-                                            screenModel.updateKey {
-                                                copy(sprintButtonLocation = BuiltinPresetKey.SprintButtonLocation.entries[index])
-                                            }
-                                        }
-                                    )
-                                }
-                            ) {
-                                Text(Text.translatable(presetKey.sprintButtonLocation.nameId))
-                                SelectIcon(expanded = expanded)
-                            }
-                        }
-                    }
-                }
+                BuiltInPresetKeySelector(
+                    modifier = modifier,
+                    value = currentPresetConfig.key,
+                    onValueChanged = screenModel::updateKey,
+                )
             } else {
                 Box(
                     modifier = Modifier

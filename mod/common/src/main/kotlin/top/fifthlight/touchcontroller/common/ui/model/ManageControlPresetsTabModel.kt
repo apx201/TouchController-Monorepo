@@ -1,7 +1,7 @@
 package top.fifthlight.touchcontroller.common.ui.model
 
 import top.fifthlight.touchcontroller.common.config.preset.PresetConfig
-import top.fifthlight.touchcontroller.common.config.preset.builtin.BuiltinPresetKey
+import top.fifthlight.touchcontroller.common.config.preset.builtin.BuiltInPresetKey
 import top.fifthlight.touchcontroller.common.ext.mapState
 
 class ManageControlPresetsTabModel(
@@ -20,10 +20,10 @@ class ManageControlPresetsTabModel(
         }
     }
 
-    fun updateKey(editor: BuiltinPresetKey.() -> BuiltinPresetKey) {
+    fun updateKey(key: BuiltInPresetKey) {
         configScreenModel.updateConfig {
             if (preset is PresetConfig.BuiltIn) {
-                copy(preset = preset.copy(key = editor(preset.key)))
+                copy(preset = preset.copy(key = key))
             } else {
                 this
             }

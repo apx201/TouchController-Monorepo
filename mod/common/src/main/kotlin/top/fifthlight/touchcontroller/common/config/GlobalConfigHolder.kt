@@ -10,7 +10,7 @@ import org.koin.core.component.inject
 import org.slf4j.LoggerFactory
 import top.fifthlight.touchcontroller.common.config.preset.PresetConfig
 import top.fifthlight.touchcontroller.common.config.preset.PresetManager
-import top.fifthlight.touchcontroller.common.config.preset.builtin.BuiltinPresetKey
+import top.fifthlight.touchcontroller.common.config.preset.builtin.BuiltInPresetKey
 import top.fifthlight.touchcontroller.common.config.widget.WidgetPresetManager
 import top.fifthlight.touchcontroller.common.ext.combineStates
 import top.fifthlight.touchcontroller.common.gal.DefaultItemListProvider
@@ -34,7 +34,7 @@ class GlobalConfigHolder : KoinComponent {
     val currentPreset = combineStates(config, presetManager.presets) { config, presets ->
         when (val preset = config.preset) {
             is PresetConfig.BuiltIn -> preset.key.preset
-            is PresetConfig.Custom -> presets[preset.uuid] ?: BuiltinPresetKey.Companion.DEFAULT.preset
+            is PresetConfig.Custom -> presets[preset.uuid] ?: BuiltInPresetKey.Companion.DEFAULT.preset
         }
     }
 

@@ -140,9 +140,13 @@
   "touchcontroller.screen.custom_control_layout.presets.split_controls": "Split controls",
   "touchcontroller.screen.custom_control_layout.presets.disable_touch_gestures": "Disable touch gestures",
   "touchcontroller.screen.custom_control_layout.presets.name.placeholder": "Preset name",
-  "touchcontroller.screen.custom_control_layout.presets.create_preset": "Create preset",
-  "touchcontroller.screen.custom_control_layout.presets.create_preset.create": "Create",
-  "touchcontroller.screen.custom_control_layout.presets.create_preset.cancel": "Cancel",
+  "touchcontroller.screen.custom_control_layout.presets.create_preset_choose": "Create preset",
+  "touchcontroller.screen.custom_control_layout.presets.create_preset_choose.preset": "Import from built-in presets",
+  "touchcontroller.screen.custom_control_layout.presets.create_preset_choose.empty": "Create from scratch",
+  "touchcontroller.screen.custom_control_layout.presets.create_preset_choose.cancel": "Cancel",
+  "touchcontroller.screen.custom_control_layout.presets.create_empty_preset": "Create empty preset",
+  "touchcontroller.screen.custom_control_layout.presets.create_empty_preset.create": "Create",
+  "touchcontroller.screen.custom_control_layout.presets.create_empty_preset.cancel": "Cancel",
   "touchcontroller.screen.custom_control_layout.presets.edit_preset": "Edit preset",
   "touchcontroller.screen.custom_control_layout.presets.edit_preset.ok": "OK",
   "touchcontroller.screen.custom_control_layout.presets.edit_preset.cancel": "Cancel",
@@ -150,6 +154,9 @@
   "touchcontroller.screen.custom_control_layout.presets.delete_preset.2": " '%s' will be lost forever! (A long time!)",
   "touchcontroller.screen.custom_control_layout.presets.delete_preset.delete": "Delete",
   "touchcontroller.screen.custom_control_layout.presets.delete_preset.cancel": "Cancel",
+
+  "touchcontroller.screen.import_builtin_preset": "Import built-in presets",
+  "touchcontroller.screen.import_builtin_preset.finish": "Finish",
 
   "touchcontroller.screen.config.layout.gui_control_layout.title": "GUI control layout",
 

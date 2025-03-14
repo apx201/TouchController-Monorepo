@@ -20,13 +20,18 @@ class PresetsTabModel(
         _uiState.value = PresetsTabState.Empty
     }
 
-    fun openCreatePresetDialog() {
-        _uiState.value = PresetsTabState.Create()
+    fun openCreatePresetChooseDialog() {
+        _uiState.value = PresetsTabState.CreateChoose
     }
 
-    fun updateCreatePresetState(editor: PresetsTabState.Create.() -> PresetsTabState.Create) {
+
+    fun openCreateEmptyPresetDialog() {
+        _uiState.value = PresetsTabState.CreateEmpty()
+    }
+
+    fun updateCreatePresetState(editor: PresetsTabState.CreateEmpty.() -> PresetsTabState.CreateEmpty) {
         _uiState.getAndUpdate {
-            if (it is PresetsTabState.Create) {
+            if (it is PresetsTabState.CreateEmpty) {
                 editor(it)
             } else {
                 it
@@ -34,7 +39,7 @@ class PresetsTabModel(
         }
     }
 
-    fun createPreset(state: PresetsTabState.Create) {
+    fun createPreset(state: PresetsTabState.CreateEmpty) {
         val preset = state.toPreset()
         screenModel.newPreset(preset)
         clearState()

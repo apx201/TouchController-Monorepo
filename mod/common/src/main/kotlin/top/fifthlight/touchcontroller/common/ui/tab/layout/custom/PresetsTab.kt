@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
 import org.koin.core.parameter.parametersOf
 import top.fifthlight.combine.data.Text
 import top.fifthlight.combine.layout.Alignment
@@ -32,10 +33,51 @@ object PresetsTab: CustomTab() {
         val (screenModel, uiState, tabsButton, sideBarAtRight) = LocalCustomTabContext.current
         val tabModel: PresetsTabModel = koinScreenModel { parametersOf(screenModel) }
         val tabState by tabModel.uiState.collectAsState()
+        val navigator = LocalNavigator.current
         when (val state = tabState) {
-            is PresetsTabState.Create -> AlertDialog(
+            is PresetsTabState.CreateChoose -> AlertDialog(
+                onDismissRequest = { tabModel.clearState() },
                 title = {
-                    Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_CREATE_PRESET))
+                    Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_CREATE_PRESET_CHOOSE))
+                },
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(.4f),
+                    verticalArrangement = Arrangement.spacedBy(4),
+                ) {
+                    Button(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            navigator?.parent?.push(ImportPresetScreen { key ->
+                                screenModel.newPreset(key.preset)
+                            })
+                            tabModel.clearState()
+                        },
+                    ) {
+                        Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_CREATE_PRESET_CHOOSE_PRESET))
+                    }
+                    Button(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            tabModel.openCreateEmptyPresetDialog()
+                        },
+                    ) {
+                        Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_CREATE_PRESET_CHOOSE_EMPTY))
+                    }
+                    Button(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            tabModel.clearState()
+                        },
+                    ) {
+                        Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_CREATE_PRESET_CHOOSE_CANCEL))
+                    }
+                }
+            }
+
+            is PresetsTabState.CreateEmpty -> AlertDialog(
+                title = {
+                    Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_CREATE_EMPTY_PRESET))
                 },
                 action = {
                     GuideButton(
@@ -43,14 +85,14 @@ object PresetsTab: CustomTab() {
                             tabModel.createPreset(state)
                         },
                     ) {
-                        Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_CREATE_PRESET_CREATE))
+                        Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_CREATE_EMPTY_PRESET_CREATE))
                     }
                     Button(
                         onClick = {
                             tabModel.clearState()
                         },
                     ) {
-                        Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_CREATE_PRESET_CANCEL))
+                        Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_CREATE_EMPTY_PRESET_CANCEL))
                     }
                 }
             ) {
@@ -213,7 +255,7 @@ object PresetsTab: CustomTab() {
                 val currentPreset = uiState.selectedPreset
                 IconButton(
                     onClick = {
-                        tabModel.openCreatePresetDialog()
+                        tabModel.openCreatePresetChooseDialog()
                     }
                 ) {
                     Icon(Textures.ICON_ADD)
@@ -261,7 +303,7 @@ object PresetsTab: CustomTab() {
                     }
                     Button(
                         modifier = Modifier.weight(1f),
-                        enabled = index > 0,
+                        enabled = selectedUuid != null && index > 0,
                         onClick = {
                             selectedUuid?.let { uuid ->
                                 tabModel.movePreset(uuid, -1)
@@ -272,7 +314,7 @@ object PresetsTab: CustomTab() {
                     }
                     Button(
                         modifier = Modifier.weight(1f),
-                        enabled = index < indices.last,
+                        enabled = selectedUuid != null && index < indices.last,
                         onClick = {
                             selectedUuid?.let { uuid ->
                                 tabModel.movePreset(uuid, 1)

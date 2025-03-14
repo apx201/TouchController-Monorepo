@@ -18,11 +18,11 @@ object BuiltinLayers {
         val dpadSwapButtonInteract: PersistentList<ControllerWidget> = dpadSwap,
         val joystick: PersistentList<ControllerWidget> = dpadNormal,
     ) {
-        fun getByKey(key: BuiltinPresetKey) = LayoutLayer(
+        fun getByKey(key: BuiltInPresetKey) = LayoutLayer(
             name = name,
             condition = condition,
             widgets = when (val moveMethod = key.moveMethod) {
-                is BuiltinPresetKey.MoveMethod.Dpad -> if (key.controlStyle is BuiltinPresetKey.ControlStyle.SplitControls && key.controlStyle.buttonInteraction) {
+                is BuiltInPresetKey.MoveMethod.Dpad -> if (key.controlStyle is BuiltInPresetKey.ControlStyle.SplitControls && key.controlStyle.buttonInteraction) {
                     if (moveMethod.swapJumpAndSneak) {
                         dpadSwapButtonInteract
                     } else {
@@ -36,7 +36,7 @@ object BuiltinLayers {
                     }
                 }
 
-                is BuiltinPresetKey.MoveMethod.Joystick -> joystick.map {
+                is BuiltInPresetKey.MoveMethod.Joystick -> joystick.map {
                     if (it is Joystick) {
                         it.copy(triggerSprint = moveMethod.triggerSprint)
                     } else {

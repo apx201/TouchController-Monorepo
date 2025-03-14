@@ -7,7 +7,9 @@ import kotlin.uuid.Uuid
 sealed class PresetsTabState {
     data object Empty : PresetsTabState()
 
-    data class Create(
+    data object CreateChoose : PresetsTabState()
+
+    data class CreateEmpty(
         val name: String = LayoutPreset.DEFAULT_PRESET_NAME,
         val controlInfo: PresetControlInfo = PresetControlInfo(),
     ) : PresetsTabState() {
