@@ -13,14 +13,19 @@ import top.fifthlight.touchcontroller.assets.Texts
 fun BackButton(
     modifier: Modifier = Modifier,
     screenName: Text,
+    onClick: (() -> Unit)? = null,
 ) {
     val closeHandler = LocalCloseHandler.current
     val navigator = LocalNavigator.current
     TextButton(
         modifier = modifier,
         onClick = {
-            if (navigator?.pop() != true) {
-                closeHandler.close()
+            if (onClick != null) {
+                onClick()
+            } else {
+                if (navigator?.pop() != true) {
+                    closeHandler.close()
+                }
             }
         }
     ) {

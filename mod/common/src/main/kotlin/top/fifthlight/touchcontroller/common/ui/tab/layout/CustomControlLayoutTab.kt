@@ -35,10 +35,7 @@ import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.common.config.LayoutLayer
 import top.fifthlight.touchcontroller.common.control.ControllerWidget
 import top.fifthlight.touchcontroller.common.layout.Align
-import top.fifthlight.touchcontroller.common.ui.component.AppBar
-import top.fifthlight.touchcontroller.common.ui.component.BackButton
-import top.fifthlight.touchcontroller.common.ui.component.Scaffold
-import top.fifthlight.touchcontroller.common.ui.component.TouchControllerNavigator
+import top.fifthlight.touchcontroller.common.ui.component.*
 import top.fifthlight.touchcontroller.common.ui.model.CustomControlLayoutTabModel
 import top.fifthlight.touchcontroller.common.ui.model.LocalConfigScreenModel
 import top.fifthlight.touchcontroller.common.ui.state.CustomControlLayoutTabState
@@ -167,8 +164,7 @@ private fun LayoutEditorPanel(
             val widgetOffset = if (index == selectedWidgetIndex) {
                 val dragIntOffset = dragTotalOffset.toIntOffset()
                 val normalizedOffset = widget.align.normalizeOffset(dragIntOffset)
-                val widgetSize = widget.size()
-                clampOffset(widget.align, widgetSize, normalizedOffset + widget.offset)
+                normalizedOffset + widget.offset
             } else {
                 null
             }
@@ -183,7 +179,9 @@ private fun LayoutEditorPanel(
                     },
                     onRelease = { _, _ ->
                         val widgetOffset = widgetOffset ?: return@draggable
-                        val newWidget = widget.cloneBase(offset = widgetOffset)
+                        val widgetSize = widget.size()
+                        val clampedOffset = clampOffset(widget.align, widgetSize, widgetOffset)
+                        val newWidget = widget.cloneBase(offset = clampedOffset)
                         dragTotalOffset = Offset.ZERO
                         onWidgetChanged(index, newWidget)
                     }
@@ -195,7 +193,7 @@ private fun LayoutEditorPanel(
                     }
                 }
             }
-            top.fifthlight.touchcontroller.common.ui.component.ControllerWidget(
+            ControllerWidget(
                 modifier = Modifier
                     .then(WidgetDataModifierNode(widget, widgetOffset))
                     .then(modifier),

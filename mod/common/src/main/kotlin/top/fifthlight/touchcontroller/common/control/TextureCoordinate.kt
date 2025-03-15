@@ -6,8 +6,8 @@ import top.fifthlight.touchcontroller.assets.TextureSet
 
 @Serializable
 data class TextureCoordinate(
-    val textureSet: TextureSet.TextureSetKey,
-    val textureItem: TextureSet.TextureKey,
+    val textureSet: TextureSet.TextureSetKey = TextureSet.TextureSetKey.CLASSIC,
+    val textureItem: TextureSet.TextureKey = TextureSet.TextureKey.Up,
 ) {
     val texture: Texture
         get() = textureItem.get(textureSet.textureSet)

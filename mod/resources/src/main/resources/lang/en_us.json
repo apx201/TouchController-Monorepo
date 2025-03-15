@@ -8,6 +8,11 @@
   "touchcontroller.screen.chat.title": "Chat and commands",
   "touchcontroller.screen.chat.exit": "Exit",
 
+  "touchcontroller.screen.import_builtin_preset": "Import built-in presets",
+  "touchcontroller.screen.import_builtin_preset.finish": "Finish",
+
+  "touchcontroller.screen.texture_coordinate_select": "Select texture",
+
   "touchcontroller.screen.config": "Touch Settings...",
   "touchcontroller.screen.config.title": "Touch Settings",
 
@@ -155,9 +160,6 @@
   "touchcontroller.screen.custom_control_layout.presets.delete_preset.delete": "Delete",
   "touchcontroller.screen.custom_control_layout.presets.delete_preset.cancel": "Cancel",
 
-  "touchcontroller.screen.import_builtin_preset": "Import built-in presets",
-  "touchcontroller.screen.import_builtin_preset.finish": "Finish",
-
   "touchcontroller.screen.config.layout.gui_control_layout.title": "GUI control layout",
 
   "touchcontroller.screen.config.general.title": "Global",
@@ -271,6 +273,8 @@
   "touchcontroller.empty_texture.empty_4_active": "New function active",
   "touchcontroller.empty_texture.empty_5": "GUI button",
   "touchcontroller.empty_texture.empty_5_active": "GUI button active",
+  "touchcontroller.texture_coordinate.edit": "Edit",
+  "touchcontroller.texture_coordinate.texture_set": "Texture set",
 
   "touchcontroller.widget.general.property.lock_moving": "Lock moving",
   "touchcontroller.widget.general.property.anchor.name": "Anchor",

@@ -8,6 +8,11 @@
   "touchcontroller.screen.chat.title": "聊天与命令",
   "touchcontroller.screen.chat.exit": "退出",
 
+  "touchcontroller.screen.import_builtin_preset": "导入预设预设",
+  "touchcontroller.screen.import_builtin_preset.finish": "确定",
+
+  "touchcontroller.screen.texture_coordinate_select": "选择贴图",
+
   "touchcontroller.screen.config": "触摸设置…",
   "touchcontroller.screen.config.title": "触摸设置",
 
@@ -155,9 +160,6 @@
   "touchcontroller.screen.custom_control_layout.presets.delete_preset.delete": "删除",
   "touchcontroller.screen.custom_control_layout.presets.delete_preset.cancel": "取消",
 
-  "touchcontroller.screen.import_builtin_preset": "导入预设预设",
-  "touchcontroller.screen.import_builtin_preset.finish": "确定",
-
   "touchcontroller.screen.config.layout.gui_control_layout.title": "GUI 控件布局",
 
   "touchcontroller.screen.config.general.title": "通用",
@@ -271,6 +273,8 @@
   "touchcontroller.empty_texture.empty_4_active": "新样式功能激活",
   "touchcontroller.empty_texture.empty_5": "GUI 按钮",
   "touchcontroller.empty_texture.empty_5_active": "GUI 按钮激活",
+  "touchcontroller.texture_coordinate.edit": "编辑",
+  "touchcontroller.texture_coordinate.texture_set": "图集",
 
   "touchcontroller.widget.general.property.lock_moving": "移动锁定",
   "touchcontroller.widget.general.property.anchor.name": "锚点",

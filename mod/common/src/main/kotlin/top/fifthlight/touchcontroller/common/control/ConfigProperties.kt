@@ -10,8 +10,10 @@ import top.fifthlight.combine.data.Texture
 import top.fifthlight.combine.layout.Alignment
 import top.fifthlight.combine.layout.Arrangement
 import top.fifthlight.combine.modifier.Modifier
-import top.fifthlight.combine.modifier.placement.fillMaxWidth
-import top.fifthlight.combine.modifier.placement.width
+import top.fifthlight.combine.modifier.drawing.background
+import top.fifthlight.combine.modifier.drawing.innerLine
+import top.fifthlight.combine.modifier.placement.*
+import top.fifthlight.combine.modifier.pointer.clickable
 import top.fifthlight.combine.modifier.scroll.verticalScroll
 import top.fifthlight.combine.paint.Color
 import top.fifthlight.combine.paint.Colors
@@ -23,11 +25,12 @@ import top.fifthlight.combine.widget.ui.*
 import top.fifthlight.data.IntOffset
 import top.fifthlight.data.IntPadding
 import top.fifthlight.data.IntSize
-import top.fifthlight.touchcontroller.assets.EmptyTexture
-import top.fifthlight.touchcontroller.assets.Texts
-import top.fifthlight.touchcontroller.assets.Textures
+import top.fifthlight.touchcontroller.assets.*
 import top.fifthlight.touchcontroller.common.annoations.DontTranslate
 import top.fifthlight.touchcontroller.common.layout.Align
+import top.fifthlight.touchcontroller.common.ui.component.AppBar
+import top.fifthlight.touchcontroller.common.ui.component.BackButton
+import top.fifthlight.touchcontroller.common.ui.component.Scaffold
 
 @Immutable
 class BooleanProperty<Config : ControllerWidget>(
@@ -372,6 +375,143 @@ class IntPaddingProperty<Config : ControllerWidget>(
 }
 
 @Immutable
+class TextureCoordinateProperty<Config : ControllerWidget>(
+    private val getValue: (Config) -> TextureCoordinate,
+    private val setValue: (Config, TextureCoordinate) -> Config,
+    private val name: Text,
+) : ControllerWidget.Property<Config, TextureCoordinate> {
+    @Composable
+    override fun controller(modifier: Modifier, config: ControllerWidget, onConfigChanged: (ControllerWidget) -> Unit) {
+        @Suppress("UNCHECKED_CAST")
+        val widgetConfig = config as Config
+        val value = getValue(widgetConfig)
+        Row(
+            modifier = Modifier
+                .height(24)
+                .then(modifier),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(name)
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(
+                modifier = Modifier.fillMaxHeight(),
+                drawable = value.texture,
+            )
+            Spacer(modifier = Modifier.width(4))
+            var showDialog by remember { mutableStateOf(false) }
+            Button(
+                modifier = Modifier.fillMaxHeight(),
+                onClick = {
+                    showDialog = true
+                }
+            ) {
+                Text(Text.translatable(Texts.TEXTURE_COORDINATE_EDIT))
+            }
+
+            if (showDialog) {
+                FullScreenDialog(
+                    onDismissRequest = { showDialog = false }
+                ) {
+                    Scaffold(
+                        topBar = {
+                            AppBar(
+                                modifier = Modifier.fillMaxWidth(),
+                                leading = {
+                                    BackButton(
+                                        screenName = Text.translatable(Texts.SCREEN_TEXTURE_COORDINATE_SELECT),
+                                        onClick = {
+                                            showDialog = false
+                                        },
+                                    )
+                                },
+                            )
+                        },
+                    ) { modifier ->
+                        Column(
+                            modifier = Modifier
+                                .padding(4)
+                                .background(BackgroundTextures.BRICK_BACKGROUND)
+                                .then(modifier),
+                            verticalArrangement = Arrangement.spacedBy(4),
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4),
+                            ) {
+                                Text("Texture set")
+
+                                val textFactory = LocalTextFactory.current
+                                var expanded by remember { mutableStateOf(false) }
+                                Select(
+                                    expanded = expanded,
+                                    onExpandedChanged = { expanded = it },
+                                    dropDownContent = {
+                                        DropdownItemList(
+                                            modifier = Modifier.verticalScroll(),
+                                            items = TextureSet.TextureSetKey.entries,
+                                            textProvider = { textFactory.of(it.nameText) },
+                                            selectedIndex = TextureSet.TextureSetKey.entries.indexOf(value.textureSet),
+                                            onItemSelected = {
+                                                val item = TextureSet.TextureSetKey.entries[it]
+                                                onConfigChanged(setValue(config, value.copy(textureSet = item)))
+                                                expanded = false
+                                            }
+                                        )
+                                    }
+                                ) {
+                                    Text(Text.translatable(value.textureSet.nameText))
+                                    Spacer(modifier = Modifier.width(8))
+                                    SelectIcon(expanded = expanded)
+                                }
+                            }
+
+                            FlowRow(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxWidth()
+                                    .verticalScroll()
+                            ) {
+                                for (key in TextureSet.TextureKey.all) {
+                                    val borderModifier = if (key == value.textureItem) {
+                                        Modifier.innerLine(Colors.WHITE)
+                                    } else {
+                                        Modifier
+                                    }
+                                    Column(
+                                        modifier = Modifier
+                                            .then(borderModifier)
+                                            .width(72)
+                                            .height(86)
+                                            .clickable {
+                                                onConfigChanged(setValue(config, value.copy(textureItem = key)))
+                                            },
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(4),
+                                    ) {
+                                        val texture = remember(
+                                            value.textureSet.textureSet,
+                                            key
+                                        ) { key.get(value.textureSet.textureSet) }
+                                        Icon(
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .fillMaxWidth(),
+                                            drawable = texture,
+                                        )
+                                        Text(Text.literal(key.name))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Immutable
 class ButtonTextureProperty<Config : ControllerWidget>(
     private val getValue: (Config) -> ButtonTexture,
     private val setValue: (Config, ButtonTexture) -> Config,
@@ -408,6 +548,16 @@ class ButtonTextureProperty<Config : ControllerWidget>(
     ) = ColorProperty<Config>(
         getValue = { getColor(getValue(it)) ?: Colors.BLACK },
         setValue = { config, value -> setValue(config, setColor(getValue(config), value)) },
+        name = name,
+    )
+
+    private fun <Texture : ButtonTexture> textureCoordinateProperty(
+        getCoordinate: (ButtonTexture) -> TextureCoordinate?,
+        setCoordinate: (ButtonTexture, TextureCoordinate) -> Texture,
+        name: Text,
+    ) = TextureCoordinateProperty<Config>(
+        getValue = { getCoordinate(getValue(it)) ?: TextureCoordinate() },
+        setValue = { config, value -> setValue(config, setCoordinate(getValue(config), value)) },
         name = name,
     )
 
@@ -498,6 +648,17 @@ class ButtonTextureProperty<Config : ControllerWidget>(
         name = textFactory.of(Texts.WIDGET_TEXTURE_FILL_BACKGROUND_COLOR),
     )
 
+    private val fixedTextureCoordinateProperty = textureCoordinateProperty(
+        getCoordinate = { (it as? ButtonTexture.Fixed)?.texture },
+        setCoordinate = { texture, value ->
+            when (texture) {
+                is ButtonTexture.Fixed -> texture.copy(texture = value)
+                else -> ButtonTexture.Fixed(texture = value)
+            }
+        },
+        name = textFactory.of(Texts.WIDGET_TEXTURE_FIXED_TEXTURE),
+    )
+
     private val fixedTextureScaleProperty = scaleProperty(
         getScale = { (it as? ButtonTexture.Fixed)?.scale },
         setScale = { texture, value ->
@@ -506,6 +667,7 @@ class ButtonTextureProperty<Config : ControllerWidget>(
                 else -> ButtonTexture.Fixed(scale = value)
             }
         },
+        range = .5f..4f,
         name = textFactory.of(Texts.WIDGET_TEXTURE_FIXED_SCALE),
     )
 
@@ -599,6 +761,7 @@ class ButtonTextureProperty<Config : ControllerWidget>(
                 }
 
                 is ButtonTexture.Fixed -> {
+                    fixedTextureCoordinateProperty.controller()
                     fixedTextureScaleProperty.controller()
                 }
 

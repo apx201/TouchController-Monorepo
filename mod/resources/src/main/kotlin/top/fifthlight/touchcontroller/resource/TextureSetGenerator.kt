@@ -78,7 +78,11 @@ fun generateTextureSet(textures: Map<String, PlacedTexture>, basePath: Path, out
             .builder(itemName, textureTypeName)
             .apply {
                 if (itemName.endsWith("Active")) {
-                    initializer(itemName.removeSuffix("Active"))
+                    getter(
+                        FunSpec.getterBuilder()
+                            .addCode("return %L", itemName.removeSuffix("Active"))
+                            .build()
+                    )
                     addModifiers(KModifier.OPEN)
                 } else {
                     addModifiers(KModifier.ABSTRACT)
@@ -115,7 +119,11 @@ fun generateTextureSet(textures: Map<String, PlacedTexture>, basePath: Path, out
                 PropertySpec
                     .builder(target.snakeToCamelCase(), textureTypeName)
                     .addModifiers(KModifier.OVERRIDE)
-                    .initializer("%L", fallback.snakeToCamelCase())
+                    .getter(
+                        FunSpec.getterBuilder()
+                            .addCode("return %L", fallback.snakeToCamelCase())
+                            .build()
+                    )
                     .build()
                     .let(this::addProperty)
             }
@@ -176,6 +184,12 @@ fun generateTextureSet(textures: Map<String, PlacedTexture>, basePath: Path, out
         TypeSpec.classBuilder("TextureKey").run {
             addModifiers(KModifier.SEALED)
             addAnnotation(Serializable::class)
+            addProperty(
+                PropertySpec
+                    .builder("name", String::class)
+                    .addModifiers(KModifier.ABSTRACT)
+                    .build()
+            )
             val getLambdaType = LambdaTypeName.get(
                 parameters = arrayOf(textureSetTypeName),
                 returnType = textureTypeName,
@@ -197,6 +211,13 @@ fun generateTextureSet(textures: Map<String, PlacedTexture>, basePath: Path, out
                             AnnotationSpec
                                 .builder(SerialName::class)
                                 .addMember("%S", itemName)
+                                .build()
+                        )
+                        .addProperty(
+                            PropertySpec
+                                .builder("name", String::class)
+                                .addModifiers(KModifier.OVERRIDE)
+                                .initializer("%S", itemName.snakeToCamelCase(true))
                                 .build()
                         )
                         .addProperty(
