@@ -14,15 +14,15 @@ fun Context.BoatButton(config: BoatButton) {
     val (_, clicked) = Button(config.id) { clicked ->
         if (config.classic) {
             if (clicked) {
-                Texture(Textures.CONTROL_CLASSIC_DPAD_UP, tint = Color(0xFFAAAAAAu))
+                Texture(config.textureSet.textureSet.up, tint = Color(0xFFAAAAAAu))
             } else {
-                Texture(Textures.CONTROL_CLASSIC_DPAD_UP)
+                Texture(config.textureSet.textureSet.up)
             }
         } else {
             if (clicked) {
-                Texture(Textures.CONTROL_NEW_DPAD_UP_ACTIVE)
+                Texture(config.textureSet.textureSet.upActive)
             } else {
-                Texture(Textures.CONTROL_NEW_DPAD_UP)
+                Texture(config.textureSet.textureSet.up)
             }
         }
     }

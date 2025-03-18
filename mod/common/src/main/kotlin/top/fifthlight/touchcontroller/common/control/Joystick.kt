@@ -11,6 +11,7 @@ import top.fifthlight.combine.data.TextFactory
 import top.fifthlight.data.IntOffset
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Texts
+import top.fifthlight.touchcontroller.assets.TextureSet
 import top.fifthlight.touchcontroller.common.ext.fastRandomUuid
 import top.fifthlight.touchcontroller.common.layout.Align
 import top.fifthlight.touchcontroller.common.layout.Context
@@ -21,8 +22,9 @@ import kotlin.uuid.Uuid
 @Serializable
 @SerialName("joystick")
 data class Joystick(
-    val size: Float = 1f,
-    val stickSize: Float = 1f,
+    val textureSet: TextureSet.TextureSetKey = TextureSet.TextureSetKey.NEW,
+    val size: Float = 1.5f,
+    val stickSize: Float = 1.5f,
     val triggerSprint: Boolean = false,
     val increaseOpacityWhenActive: Boolean = true,
     override val id: Uuid = fastRandomUuid(),
@@ -47,6 +49,12 @@ data class Joystick(
                         round(it * 100f).toString()
                     )
                 },
+            ),
+            TextureSetProperty(
+                textFactory = textFactory,
+                getValue = { it.textureSet },
+                setValue = { config, value -> config.copy(textureSet = value) },
+                name = textFactory.of(Texts.WIDGET_JOYSTICK_PROPERTY_TEXTURE_SET),
             ),
             FloatProperty(
                 getValue = { it.stickSize },

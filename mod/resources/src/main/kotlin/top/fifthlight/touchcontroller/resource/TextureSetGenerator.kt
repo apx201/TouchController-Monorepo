@@ -235,9 +235,9 @@ fun generateTextureSet(textures: Map<String, PlacedTexture>, basePath: Path, out
                     .addProperty(
                         PropertySpec
                             .builder("all", List::class.asClassName().parameterizedBy(textureKeyTypeName))
-                            .initializer(
-                                "listOf(%L)",
-                                textureItems.joinToString(",\n") { it.value.name.snakeToCamelCase(true) })
+                            .delegate("lazy { listOf(%L) }", textureItems.joinToString(",\n") {
+                                it.value.name.snakeToCamelCase(true)
+                            })
                             .build()
                     )
                     .build()

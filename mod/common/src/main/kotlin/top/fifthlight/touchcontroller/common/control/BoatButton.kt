@@ -11,6 +11,7 @@ import top.fifthlight.combine.data.TextFactory
 import top.fifthlight.data.IntOffset
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Texts
+import top.fifthlight.touchcontroller.assets.TextureSet
 import top.fifthlight.touchcontroller.common.ext.fastRandomUuid
 import top.fifthlight.touchcontroller.common.layout.Align
 import top.fifthlight.touchcontroller.common.layout.BoatButton
@@ -30,9 +31,9 @@ enum class BoatButtonSide {
 @Serializable
 @SerialName("boat_button")
 data class BoatButton(
+    val textureSet: TextureSet.TextureSetKey = TextureSet.TextureSetKey.CLASSIC,
     val size: Float = 3f,
     val side: BoatButtonSide = BoatButtonSide.LEFT,
-    val classic: Boolean = true,
     override val id: Uuid = fastRandomUuid(),
     override val name: Name = Name.Translatable(Texts.WIDGET_BOAT_BUTTON_NAME),
     override val align: Align = Align.LEFT_BOTTOM,
@@ -56,6 +57,12 @@ data class BoatButton(
                     )
                 },
             ),
+            TextureSetProperty(
+                textFactory = textFactory,
+                getValue = { it.textureSet },
+                setValue = { config, value -> config.copy(textureSet = value) },
+                name = textFactory.of(Texts.WIDGET_BOAT_BUTTON_PROPERTY_TEXTURE_SET),
+            ),
             EnumProperty(
                 getValue = { it.side },
                 setValue = { config, value -> config.copy(side = value) },
@@ -65,18 +72,18 @@ data class BoatButton(
                     BoatButtonSide.RIGHT to textFactory.of(Texts.WIDGET_BOAT_BUTTON_PROPERTY_SIDE_RIGHT),
                 )
             ),
-            BooleanProperty(
-                getValue = { it.classic },
-                setValue = { config, value -> config.copy(classic = value) },
-                name = textFactory.of(Texts.WIDGET_BOAT_BUTTON_PROPERTY_CLASSIC),
-            ),
         ) as PersistentList<Property<ControllerWidget, *>>
     }
 
     override val properties
         get() = _properties
 
-    override fun size(): IntSize = IntSize((size * 22).toInt())
+    private val textureSize
+        get() = textureSet.textureSet.up.size
+
+    override fun size(): IntSize = (textureSize.toSize() * size).toIntSize()
+
+    val classic = textureSet == TextureSet.TextureSetKey.CLASSIC || textureSet == TextureSet.TextureSetKey.CLASSIC_EXTENSION
 
     override fun layout(context: Context) {
         context.BoatButton(this)

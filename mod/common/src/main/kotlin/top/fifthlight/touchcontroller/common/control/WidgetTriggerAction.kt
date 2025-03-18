@@ -166,6 +166,17 @@ sealed class WidgetTriggerAction {
             }
         }
 
+        @Serializable
+        @SerialName("hide_hud")
+        data object HideHud : Game() {
+            override val nameId: Identifier
+                get() = Texts.WIDGET_TRIGGER_GAME_ACTION_TAKE_PANORAMA
+
+            override fun trigger(gameAction: GameAction) {
+                gameAction.hudHidden = !gameAction.hudHidden
+            }
+        }
+
         companion object {
             val all by lazy {
                 persistentListOf(
@@ -175,6 +186,7 @@ sealed class WidgetTriggerAction {
                     NextPerspective,
                     TakeScreenshot,
                     TakePanorama,
+                    HideHud,
                 )
             }
         }

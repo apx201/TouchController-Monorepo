@@ -8,8 +8,7 @@ import top.fifthlight.touchcontroller.assets.TextureSet
 import top.fifthlight.touchcontroller.common.config.controllerLayoutOf
 import top.fifthlight.touchcontroller.common.config.preset.LayoutPreset
 import top.fifthlight.touchcontroller.common.config.preset.PresetControlInfo
-import top.fifthlight.touchcontroller.common.control.CustomWidget
-import top.fifthlight.touchcontroller.common.control.InventoryButton
+import top.fifthlight.touchcontroller.common.control.*
 
 @Serializable
 data class BuiltInPresetKey(
@@ -69,10 +68,11 @@ data class BuiltInPresetKey(
     }
 
     val preset by lazy {
+        val layers = BuiltinLayers[textureSet]
         val sprintButton = when (sprintButtonLocation) {
             SprintButtonLocation.NONE -> null
-            SprintButtonLocation.RIGHT_TOP -> BuiltinLayers.sprintRightTopButton
-            SprintButtonLocation.RIGHT -> BuiltinLayers.sprintRightButton
+            SprintButtonLocation.RIGHT_TOP -> layers.sprintRightTopButton
+            SprintButtonLocation.RIGHT -> layers.sprintRightButton
         }
         LayoutPreset(
             name = "Built-in preset",
@@ -81,22 +81,69 @@ data class BuiltInPresetKey(
                 disableTouchGesture = controlStyle is ControlStyle.SplitControls && controlStyle.buttonInteraction,
             ),
             layout = controllerLayoutOf(
-                BuiltinLayers.controlLayer,
-                BuiltinLayers.interactionLayer.takeIf { controlStyle is ControlStyle.SplitControls && controlStyle.buttonInteraction },
-                BuiltinLayers.normalLayer.getByKey(this) + sprintButton,
-                BuiltinLayers.swimmingLayer.getByKey(this),
-                BuiltinLayers.flyingLayer.getByKey(this),
-                BuiltinLayers.onBoatLayer.getByKey(this),
-                BuiltinLayers.onMinecartLayer.getByKey(this),
-                BuiltinLayers.ridingOnEntityLayer.getByKey(this),
+                layers.controlLayer,
+                layers.interactionLayer.takeIf { controlStyle is ControlStyle.SplitControls && controlStyle.buttonInteraction },
+                layers.normalLayer.getByKey(this) + sprintButton,
+                layers.swimmingLayer.getByKey(this),
+                layers.flyingLayer.getByKey(this),
+                layers.onBoatLayer.getByKey(this),
+                layers.onMinecartLayer.getByKey(this),
+                layers.ridingOnEntityLayer.getByKey(this),
             )
         ).mapWidgets { widget ->
             when (widget) {
-                // TODO
-                is CustomWidget -> widget
-                is InventoryButton -> widget
-                else -> widget.cloneBase(opacity = opacity)
-            }
+                is CustomWidget -> {
+                    if ((widget.normalTexture as? ButtonTexture.Fixed)?.texture?.textureItem == TextureSet.TextureKey.Inventory) {
+                        return@mapWidgets widget
+                    }
+
+                    fun scaleTexture(scale: Float, texture: ButtonTexture) = when (texture) {
+                        is ButtonTexture.Fixed -> texture.copy(scale = texture.scale * scale)
+                        else -> texture
+                    }
+
+                    fun scaleActiveTexture(scale: Float, texture: ButtonActiveTexture) = when (texture) {
+                        is ButtonActiveTexture.Texture -> ButtonActiveTexture.Texture(
+                            scaleTexture(
+                                scale,
+                                texture.texture
+                            )
+                        )
+
+                        else -> texture
+                    }
+                    widget.copy(
+                        normalTexture = scaleTexture(scale, widget.normalTexture),
+                        activeTexture = scaleActiveTexture(scale, widget.activeTexture),
+                    )
+                }
+
+                is DPad -> widget.copy(
+                    size = widget.size * scale,
+                    textureSet = textureSet,
+                    padding = if (textureSet == TextureSet.TextureSetKey.CLASSIC || textureSet == TextureSet.TextureSetKey.CLASSIC_EXTENSION) 4 else -1,
+                    extraButton = if (textureSet == TextureSet.TextureSetKey.CLASSIC || textureSet == TextureSet.TextureSetKey.CLASSIC_EXTENSION) DPadExtraButton.SNEAK_DOUBLE_CLICK else DPadExtraButton.SNEAK_SINGLE_CLICK,
+                )
+
+                is Joystick -> widget.copy(
+                    size = widget.size * scale,
+                    stickSize = widget.stickSize * scale,
+                    textureSet = textureSet,
+                )
+
+                is BoatButton -> widget.copy(
+                    size = widget.size * scale,
+                    textureSet = textureSet,
+                )
+
+                is ForwardButton -> widget.copy(
+                    size = widget.size * scale,
+                    textureSet = textureSet,
+                )
+            }.cloneBase(
+                opacity = opacity,
+                offset = (widget.offset.toOffset() * scale).toIntOffset(),
+            )
         }
     }
 

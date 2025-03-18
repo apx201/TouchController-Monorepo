@@ -3,7 +3,6 @@ package top.fifthlight.touchcontroller.common.layout
 import top.fifthlight.combine.paint.Color
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Textures
-import top.fifthlight.touchcontroller.common.control.SneakButton
 import top.fifthlight.touchcontroller.common.control.SneakButtonTexture
 import top.fifthlight.touchcontroller.common.control.SneakButtonTrigger
 import top.fifthlight.touchcontroller.common.gal.DefaultKeyBindingType
@@ -98,12 +97,4 @@ fun Context.RawSneakButton(
             }
         }
     }
-}
-
-fun Context.SneakButton(config: SneakButton) {
-    RawSneakButton(
-        id = config.id,
-        trigger = config.trigger,
-        texture = config.texture
-    )
 }

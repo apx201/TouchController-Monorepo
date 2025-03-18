@@ -3,13 +3,19 @@ package top.fifthlight.touchcontroller.common.config.preset.builtin
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import org.koin.core.component.KoinComponent
 import top.fifthlight.data.IntOffset
+import top.fifthlight.touchcontroller.assets.TextureSet
 import top.fifthlight.touchcontroller.common.config.*
 import top.fifthlight.touchcontroller.common.control.*
 import top.fifthlight.touchcontroller.common.layout.Align
+import java.util.concurrent.ConcurrentHashMap
 
-object BuiltinLayers {
-    data class BuiltinLayers(
+@ConsistentCopyVisibility
+data class BuiltinLayers private constructor(
+    private val textureSet: TextureSet.TextureSetKey,
+): KoinComponent {
+    data class Layers(
         val name: String,
         val condition: LayoutLayerCondition,
         val dpadNormal: PersistentList<ControllerWidget>,
@@ -47,19 +53,21 @@ object BuiltinLayers {
         )
     }
 
+    private val widgets = BuiltInWidgets[textureSet]
+
     val controlLayer = LayoutLayer(
         name = "Control",
         condition = layoutLayerConditionOf(),
         widgets = persistentListOf(
-            PauseButton(
+            widgets.pause.copy(
                 align = Align.CENTER_TOP,
                 offset = IntOffset(-9, 0),
             ),
-            ChatButton(
+            widgets.chat.copy(
                 align = Align.CENTER_TOP,
                 offset = IntOffset(9, 0),
             ),
-            InventoryButton(),
+            widgets.inventory,
         )
     )
 
@@ -67,28 +75,28 @@ object BuiltinLayers {
         name = "Interaction",
         condition = layoutLayerConditionOf(),
         widgets = persistentListOf(
-            AttackButton(
+            widgets.attack.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(86, 70),
             ),
-            UseButton(
+            widgets.use.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 37),
             ),
         )
     )
 
-    val sprintRightButton = SprintButton(
+    val sprintRightButton = widgets.sprint.copy(
         align = Align.RIGHT_BOTTOM,
         offset = IntOffset(42, 131),
     )
 
-    val sprintRightTopButton = SprintButton(
+    val sprintRightTopButton = widgets.sprint.copy(
         align = Align.RIGHT_TOP,
         offset = IntOffset(42, 44),
     )
 
-    val normalLayer = BuiltinLayers(
+    val normalLayer = Layers(
         name = "Normal",
         condition = layoutLayerConditionOf(
             LayerConditionKey.SWIMMING to LayerConditionValue.NEVER,
@@ -101,7 +109,7 @@ object BuiltinLayers {
                 offset = IntOffset(12, 16),
                 extraButton = DPadExtraButton.SNEAK_DOUBLE_CLICK,
             ),
-            JumpButton(
+            widgets.jump.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(42, 68),
             ),
@@ -112,7 +120,7 @@ object BuiltinLayers {
                 offset = IntOffset(12, 16),
                 extraButton = DPadExtraButton.JUMP,
             ),
-            SneakButton(
+            widgets.sneak.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(42, 68),
             ),
@@ -123,11 +131,11 @@ object BuiltinLayers {
                 offset = IntOffset(12, 16),
                 extraButton = DPadExtraButton.SNEAK_DOUBLE_CLICK,
             ),
-            JumpButton(
+            widgets.jump.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 165),
             ),
-            SneakButton(
+            widgets.sneak.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 102),
             ),
@@ -138,11 +146,11 @@ object BuiltinLayers {
                 offset = IntOffset(12, 16),
                 extraButton = DPadExtraButton.JUMP,
             ),
-            JumpButton(
+            widgets.jump.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 165),
             ),
-            SneakButton(
+            widgets.sneak.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 102),
             ),
@@ -152,18 +160,18 @@ object BuiltinLayers {
                 align = Align.LEFT_BOTTOM,
                 offset = IntOffset(29, 32),
             ),
-            JumpButton(
+            widgets.jump.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 165),
             ),
-            SneakButton(
+            widgets.sneak.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 102),
             ),
         ),
     )
 
-    val swimmingLayer = BuiltinLayers(
+    val swimmingLayer = Layers(
         name = "Swimming",
         condition = layoutLayerConditionOf(
             LayerConditionKey.RIDING to LayerConditionValue.NEVER,
@@ -177,15 +185,13 @@ object BuiltinLayers {
                 offset = IntOffset(12, 16),
                 extraButton = DPadExtraButton.NONE,
             ),
-            AscendButton(
+            widgets.ascendSwimming.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(42, 68),
-                texture = AscendButtonTexture.SWIMMING,
             ),
-            DescendButton(
+            widgets.descendSwimming.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(42, 18),
-                texture = DescendButtonTexture.SWIMMING,
             )
         ),
         dpadSwap = persistentListOf(
@@ -195,10 +201,9 @@ object BuiltinLayers {
                 // TODO ascend button
                 extraButton = DPadExtraButton.JUMP,
             ),
-            DescendButton(
+            widgets.descendSwimming.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(42, 18),
-                texture = DescendButtonTexture.SWIMMING,
             )
         ),
         dpadNormalButtonInteract = persistentListOf(
@@ -207,15 +212,13 @@ object BuiltinLayers {
                 offset = IntOffset(12, 16),
                 extraButton = DPadExtraButton.NONE,
             ),
-            AscendButton(
+            widgets.ascendSwimming.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 165),
-                texture = AscendButtonTexture.SWIMMING,
             ),
-            DescendButton(
+            widgets.descendSwimming.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(42, 18),
-                texture = DescendButtonTexture.SWIMMING,
             )
         ),
         joystick = persistentListOf(
@@ -223,18 +226,18 @@ object BuiltinLayers {
                 align = Align.LEFT_BOTTOM,
                 offset = IntOffset(29, 32),
             ),
-            JumpButton(
+            widgets.jump.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 165),
             ),
-            SneakButton(
+            widgets.sneak.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 102),
             ),
         ),
     )
 
-    val flyingLayer = BuiltinLayers(
+    val flyingLayer = Layers(
         name = "Flying",
         condition = layoutLayerConditionOf(
             LayerConditionKey.FLYING to LayerConditionValue.REQUIRE,
@@ -245,15 +248,13 @@ object BuiltinLayers {
                 offset = IntOffset(12, 16),
                 extraButton = DPadExtraButton.NONE,
             ),
-            AscendButton(
+            widgets.ascendFlying.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(42, 68),
-                texture = AscendButtonTexture.FLYING,
             ),
-            DescendButton(
+            widgets.descendFlying.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(42, 18),
-                texture = DescendButtonTexture.FLYING,
             )
         ),
         dpadSwap = persistentListOf(
@@ -263,10 +264,9 @@ object BuiltinLayers {
                 // TODO ascend button
                 extraButton = DPadExtraButton.JUMP,
             ),
-            DescendButton(
+            widgets.descendFlying.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(42, 18),
-                texture = DescendButtonTexture.FLYING,
             )
         ),
         dpadNormalButtonInteract = persistentListOf(
@@ -275,15 +275,13 @@ object BuiltinLayers {
                 offset = IntOffset(12, 16),
                 extraButton = DPadExtraButton.NONE,
             ),
-            AscendButton(
+            widgets.ascendFlying.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 164),
-                texture = AscendButtonTexture.SWIMMING,
             ),
-            DescendButton(
+            widgets.descendFlying.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 102),
-                texture = DescendButtonTexture.SWIMMING,
             )
         ),
         joystick = persistentListOf(
@@ -291,18 +289,18 @@ object BuiltinLayers {
                 align = Align.LEFT_BOTTOM,
                 offset = IntOffset(29, 32),
             ),
-            AscendButton(
+            widgets.ascendFlying.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 165),
             ),
-            DescendButton(
+            widgets.descendFlying.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 102),
             ),
         ),
     )
 
-    val onMinecartLayer = BuiltinLayers(
+    val onMinecartLayer = Layers(
         name = "On minecart",
         condition = layoutLayerConditionOf(
             LayerConditionKey.ON_MINECART to LayerConditionValue.REQUIRE,
@@ -312,10 +310,9 @@ object BuiltinLayers {
                 align = Align.LEFT_BOTTOM,
                 offset = IntOffset(59, 111)
             ),
-            SneakButton(
+            widgets.dismount.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(42, 68),
-                texture = SneakButtonTexture.DISMOUNT,
             ),
         ),
         dpadSwap = persistentListOf(
@@ -323,10 +320,9 @@ object BuiltinLayers {
                 align = Align.LEFT_BOTTOM,
                 offset = IntOffset(59, 111)
             ),
-            SneakButton(
+            widgets.dismount.copy(
                 align = Align.LEFT_BOTTOM,
                 offset = IntOffset(59, 63),
-                texture = SneakButtonTexture.DISMOUNT,
             ),
         ),
         joystick = persistentListOf(
@@ -334,16 +330,14 @@ object BuiltinLayers {
                 align = Align.LEFT_BOTTOM,
                 offset = IntOffset(29, 32),
             ),
-            SneakButton(
+            widgets.dismount.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 165),
-                trigger = SneakButtonTrigger.SINGLE_CLICK_TRIGGER,
-                texture = SneakButtonTexture.DISMOUNT,
             ),
         ),
     )
 
-    val onBoatLayer = BuiltinLayers(
+    val onBoatLayer = Layers(
         name = "On boat",
         condition = layoutLayerConditionOf(
             LayerConditionKey.ON_BOAT to LayerConditionValue.REQUIRE,
@@ -358,23 +352,25 @@ object BuiltinLayers {
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(16, 16),
                 side = BoatButtonSide.RIGHT,
-            )
+            ),
+            widgets.dismount.copy(
+                align = Align.CENTER_BOTTOM,
+                offset = IntOffset(0, 24),
+            ),
         ),
         joystick = persistentListOf(
             Joystick(
                 align = Align.LEFT_BOTTOM,
                 offset = IntOffset(29, 32),
             ),
-            SneakButton(
+            widgets.dismount.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 165),
-                trigger = SneakButtonTrigger.SINGLE_CLICK_TRIGGER,
-                texture = SneakButtonTexture.DISMOUNT,
             ),
         ),
     )
 
-    val ridingOnEntityLayer = BuiltinLayers(
+    val ridingOnEntityLayer = Layers(
         name = "Riding on entity",
         condition = layoutLayerConditionOf(
             LayerConditionKey.RIDING to LayerConditionValue.REQUIRE,
@@ -391,15 +387,13 @@ object BuiltinLayers {
                 align = Align.LEFT_BOTTOM,
                 offset = IntOffset(29, 32),
             ),
-            JumpButton(
+            widgets.jumpHorse.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 165),
             ),
-            SneakButton(
+            widgets.dismount.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 102),
-                trigger = SneakButtonTrigger.SINGLE_CLICK_TRIGGER,
-                texture = SneakButtonTexture.DISMOUNT,
             ),
         ),
         joystick = persistentListOf(
@@ -407,17 +401,19 @@ object BuiltinLayers {
                 align = Align.LEFT_BOTTOM,
                 offset = IntOffset(29, 32),
             ),
-            JumpButton(
+            widgets.jumpHorse.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 165),
-                texture = JumpButtonTexture.NEW_HORSE,
             ),
-            SneakButton(
+            widgets.dismount.copy(
                 align = Align.RIGHT_BOTTOM,
                 offset = IntOffset(22, 102),
-                trigger = SneakButtonTrigger.SINGLE_CLICK_TRIGGER,
-                texture = SneakButtonTexture.DISMOUNT,
             ),
         ),
     )
+
+    companion object {
+        private val cache = ConcurrentHashMap<TextureSet.TextureSetKey, BuiltinLayers>()
+        operator fun get(textureSet: TextureSet.TextureSetKey): BuiltinLayers = cache.computeIfAbsent(textureSet, ::BuiltinLayers)
+    }
 }

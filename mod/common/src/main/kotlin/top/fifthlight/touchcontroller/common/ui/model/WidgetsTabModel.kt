@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.getAndUpdate
 import org.koin.core.component.inject
 import top.fifthlight.touchcontroller.common.config.widget.WidgetPresetManager
+import top.fifthlight.touchcontroller.common.control.BuiltInWidgets
 import top.fifthlight.touchcontroller.common.control.ControllerWidget
 import top.fifthlight.touchcontroller.common.ext.combineStates
 import top.fifthlight.touchcontroller.common.ui.state.WidgetsTabState
@@ -17,7 +18,7 @@ class WidgetsTabModel(
     val uiState = combineStates(tabState, widgetPresetManager.presets) { tabState, presets ->
         WidgetsTabState(
             listContent = when (tabState.listState) {
-                WidgetsTabState.ListState.BUILTIN -> ListContent.BuiltIn
+                WidgetsTabState.ListState.BUILTIN -> ListContent.BuiltIn(builtIn = BuiltInWidgets[tabState.newWidgetParams.textureSet])
                 WidgetsTabState.ListState.CUSTOM -> ListContent.Custom(widgets = presets)
             },
             tabState = tabState,

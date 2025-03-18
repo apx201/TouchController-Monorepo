@@ -1,6 +1,7 @@
 package top.fifthlight.touchcontroller.common.control
 
 import androidx.compose.runtime.*
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import org.koin.compose.koinInject
@@ -181,7 +182,7 @@ class EnumProperty<Config : ControllerWidget, T>(
     private val getValue: (Config) -> T,
     private val setValue: (Config, T) -> Config,
     private val name: Text,
-    private val items: List<Pair<T, Text>>,
+    private val items: PersistentList<Pair<T, Text>>,
 ) : ControllerWidget.Property<Config, T>, KoinComponent {
     private val textFactory: TextFactory by inject()
 
@@ -226,6 +227,20 @@ class EnumProperty<Config : ControllerWidget, T>(
         }
     }
 }
+
+fun <Config: ControllerWidget> TextureSetProperty(
+    textFactory: TextFactory,
+    getValue: (Config) -> TextureSet.TextureSetKey,
+    setValue: (Config, TextureSet.TextureSetKey) -> Config,
+    name: Text,
+) = EnumProperty(
+    getValue = getValue,
+    setValue = setValue,
+    items = TextureSet.TextureSetKey.entries.map {
+        Pair(it, textFactory.of(it.nameText))
+    }.toPersistentList(),
+    name = name,
+)
 
 @Immutable
 class FloatProperty<Config : ControllerWidget>(
@@ -528,10 +543,9 @@ class TextureCoordinateProperty<Config : ControllerWidget>(
                                         horizontalAlignment = Alignment.CenterHorizontally,
                                         verticalArrangement = Arrangement.spacedBy(4),
                                     ) {
-                                        val texture = remember(
-                                            value.textureSet.textureSet,
-                                            key
-                                        ) { key.get(value.textureSet.textureSet) }
+                                        val texture = remember(value.textureSet.textureSet, key) {
+                                            key.get(value.textureSet.textureSet)
+                                        }
                                         Icon(
                                             modifier = Modifier
                                                 .weight(1f)
@@ -623,7 +637,7 @@ class ButtonTextureProperty<Config : ControllerWidget>(
         setEnum: (ButtonTexture, T) -> Texture,
         defaultValue: T,
         name: Text,
-        items: List<Pair<T, Text>>,
+        items: PersistentList<Pair<T, Text>>,
     ) = EnumProperty<Config, T>(
         getValue = { getEnum(getValue(it)) ?: defaultValue },
         setValue = { config, value -> setValue(config, setEnum(getValue(config), value)) },
@@ -720,7 +734,7 @@ class ButtonTextureProperty<Config : ControllerWidget>(
         },
         defaultValue = EmptyTexture.EMPTY_1,
         name = textFactory.of(Texts.WIDGET_TEXTURE_NINE_PATCH_TEXTURE),
-        items = EmptyTexture.entries.map { Pair(it, textFactory.of(it.nameId)) },
+        items = EmptyTexture.entries.map { Pair(it, textFactory.of(it.nameId)) }.toPersistentList(),
     )
 
     private val ninePatchTexturePaddingProperty = paddingProperty(

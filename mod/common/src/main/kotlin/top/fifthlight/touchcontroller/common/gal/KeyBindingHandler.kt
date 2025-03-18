@@ -79,6 +79,8 @@ interface KeyBindingHandler {
     fun getState(id: String): KeyBindingState?
     fun getAllStates(): Map<String, KeyBindingState>
 
+    fun mapDefaultType(type: DefaultKeyBindingType) = getState(type).id
+
     companion object Empty : KeyBindingHandler {
         override fun renderTick() {}
         override fun clientTick() {}

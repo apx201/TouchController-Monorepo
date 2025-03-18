@@ -3,9 +3,7 @@ package top.fifthlight.touchcontroller.common.layout
 import top.fifthlight.combine.paint.Color
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Textures
-import top.fifthlight.touchcontroller.common.control.JumpButton
 import top.fifthlight.touchcontroller.common.control.JumpButtonTexture
-import top.fifthlight.touchcontroller.common.gal.DefaultKeyBindingType
 import kotlin.uuid.Uuid
 
 private fun Context.JumpButtonTexture(size: IntSize, clicked: Boolean, texture: JumpButtonTexture) {
@@ -41,10 +39,4 @@ fun Context.DPadJumpButton(
     texture: JumpButtonTexture = JumpButtonTexture.CLASSIC,
 ): ButtonResult = SwipeButton(id = id) { clicked ->
     JumpButtonTexture(size, clicked, texture)
-}
-
-fun Context.JumpButton(config: JumpButton) {
-    KeyMappingButton(id = config.id, keyType = DefaultKeyBindingType.JUMP) { clicked ->
-        JumpButtonTexture(config.size(), clicked, config.texture)
-    }
 }

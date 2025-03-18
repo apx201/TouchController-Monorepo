@@ -1,6 +1,7 @@
 package top.fifthlight.touchcontroller.common.layout
 
 import top.fifthlight.combine.paint.Color
+import top.fifthlight.touchcontroller.assets.TextureSet
 import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.common.control.*
 import top.fifthlight.touchcontroller.common.gal.DefaultKeyBindingType
@@ -9,11 +10,7 @@ import top.fifthlight.touchcontroller.common.state.PointerState
 fun Context.DPad(config: DPad) {
     val buttonSize = config.buttonSize()
     val buttonDisplaySize = config.buttonDisplaySize()
-    val smallDisplaySize = if (config.classic) {
-        config.smallButtonDisplaySize()
-    } else {
-        config.buttonDisplaySize()
-    }
+    val smallDisplaySize = config.smallButtonDisplaySize()
     val extraButtonDisplaySize = config.extraButtonDisplaySize()
     val offset = (buttonDisplaySize - smallDisplaySize) / 2
 
@@ -29,10 +26,10 @@ fun Context.DPad(config: DPad) {
                 size = buttonDisplaySize
             ) {
                 when (Pair(config.classic, clicked)) {
-                    Pair(true, false) -> Texture(texture = Textures.CONTROL_CLASSIC_DPAD_UP)
-                    Pair(true, true) -> Texture(texture = Textures.CONTROL_CLASSIC_DPAD_UP, tint = Color(0xFFAAAAAAu))
-                    Pair(false, false) -> Texture(texture = Textures.CONTROL_NEW_DPAD_UP)
-                    Pair(false, true) -> Texture(texture = Textures.CONTROL_NEW_DPAD_UP_ACTIVE)
+                    Pair(true, false) -> Texture(texture = config.textureSet.textureSet.up)
+                    Pair(true, true) -> Texture(texture = config.textureSet.textureSet.up, tint = Color(0xFFAAAAAAu))
+                    Pair(false, false) -> Texture(texture = config.textureSet.textureSet.up)
+                    Pair(false, true) -> Texture(texture = config.textureSet.textureSet.upActive)
                 }
             }
         }.clicked
@@ -50,10 +47,10 @@ fun Context.DPad(config: DPad) {
                 size = buttonDisplaySize
             ) {
                 when (Pair(config.classic, clicked)) {
-                    Pair(true, false) -> Texture(texture = Textures.CONTROL_CLASSIC_DPAD_DOWN)
-                    Pair(true, true) -> Texture(texture = Textures.CONTROL_CLASSIC_DPAD_DOWN, tint = Color(0xFFAAAAAAu))
-                    Pair(false, false) -> Texture(texture = Textures.CONTROL_NEW_DPAD_DOWN)
-                    Pair(false, true) -> Texture(texture = Textures.CONTROL_NEW_DPAD_DOWN_ACTIVE)
+                    Pair(true, false) -> Texture(texture = config.textureSet.textureSet.down)
+                    Pair(true, true) -> Texture(texture = config.textureSet.textureSet.down, tint = Color(0xFFAAAAAAu))
+                    Pair(false, false) -> Texture(texture = config.textureSet.textureSet.down)
+                    Pair(false, true) -> Texture(texture = config.textureSet.textureSet.downActive)
                 }
             }
         }.clicked
@@ -71,10 +68,10 @@ fun Context.DPad(config: DPad) {
                 size = buttonDisplaySize
             ) {
                 when (Pair(config.classic, clicked)) {
-                    Pair(true, false) -> Texture(texture = Textures.CONTROL_CLASSIC_DPAD_LEFT)
-                    Pair(true, true) -> Texture(texture = Textures.CONTROL_CLASSIC_DPAD_LEFT, tint = Color(0xFFAAAAAAu))
-                    Pair(false, false) -> Texture(texture = Textures.CONTROL_NEW_DPAD_LEFT)
-                    Pair(false, true) -> Texture(texture = Textures.CONTROL_NEW_DPAD_LEFT_ACTIVE)
+                    Pair(true, false) -> Texture(texture = config.textureSet.textureSet.left)
+                    Pair(true, true) -> Texture(texture = config.textureSet.textureSet.left, tint = Color(0xFFAAAAAAu))
+                    Pair(false, false) -> Texture(texture = config.textureSet.textureSet.left)
+                    Pair(false, true) -> Texture(texture = config.textureSet.textureSet.leftActive)
                 }
             }
         }.clicked
@@ -92,14 +89,10 @@ fun Context.DPad(config: DPad) {
                 size = buttonDisplaySize
             ) {
                 when (Pair(config.classic, clicked)) {
-                    Pair(true, false) -> Texture(texture = Textures.CONTROL_CLASSIC_DPAD_RIGHT)
-                    Pair(true, true) -> Texture(
-                        texture = Textures.CONTROL_CLASSIC_DPAD_RIGHT,
-                        tint = Color(0xFFAAAAAAu)
-                    )
-
-                    Pair(false, false) -> Texture(texture = Textures.CONTROL_NEW_DPAD_RIGHT)
-                    Pair(false, true) -> Texture(texture = Textures.CONTROL_NEW_DPAD_RIGHT_ACTIVE)
+                    Pair(true, false) -> Texture(texture = config.textureSet.textureSet.right)
+                    Pair(true, true) -> Texture(texture = config.textureSet.textureSet.right, tint = Color(0xFFAAAAAAu))
+                    Pair(false, false) -> Texture(texture = config.textureSet.textureSet.right)
+                    Pair(false, true) -> Texture(texture = config.textureSet.textureSet.rightActive)
                 }
             }
         }.clicked
@@ -124,14 +117,10 @@ fun Context.DPad(config: DPad) {
                     offset = offset,
                 ) {
                     when (Pair(config.classic, clicked)) {
-                        Pair(true, false) -> Texture(texture = Textures.CONTROL_CLASSIC_DPAD_UP_LEFT)
-                        Pair(true, true) -> Texture(
-                            texture = Textures.CONTROL_CLASSIC_DPAD_UP_LEFT,
-                            tint = Color(0xFFAAAAAAu)
-                        )
-
-                        Pair(false, false) -> Texture(texture = Textures.CONTROL_NEW_DPAD_UP_LEFT)
-                        Pair(false, true) -> Texture(texture = Textures.CONTROL_NEW_DPAD_UP_LEFT_ACTIVE)
+                        Pair(true, false) -> Texture(texture = config.textureSet.textureSet.upLeft)
+                        Pair(true, true) -> Texture(texture = config.textureSet.textureSet.upLeft, tint = Color(0xFFAAAAAAu))
+                        Pair(false, false) -> Texture(texture = config.textureSet.textureSet.upLeft)
+                        Pair(false, true) -> Texture(texture = config.textureSet.textureSet.upLeftActive)
                     }
                 }
             }.clicked
@@ -154,14 +143,10 @@ fun Context.DPad(config: DPad) {
                     offset = offset,
                 ) {
                     when (Pair(config.classic, clicked)) {
-                        Pair(true, false) -> Texture(texture = Textures.CONTROL_CLASSIC_DPAD_UP_RIGHT)
-                        Pair(true, true) -> Texture(
-                            texture = Textures.CONTROL_CLASSIC_DPAD_UP_RIGHT,
-                            tint = Color(0xFFAAAAAAu)
-                        )
-
-                        Pair(false, false) -> Texture(texture = Textures.CONTROL_NEW_DPAD_UP_RIGHT)
-                        Pair(false, true) -> Texture(texture = Textures.CONTROL_NEW_DPAD_UP_RIGHT_ACTIVE)
+                        Pair(true, false) -> Texture(texture = config.textureSet.textureSet.upRight)
+                        Pair(true, true) -> Texture(texture = config.textureSet.textureSet.upRight, tint = Color(0xFFAAAAAAu))
+                        Pair(false, false) -> Texture(texture = config.textureSet.textureSet.upRight)
+                        Pair(false, true) -> Texture(texture = config.textureSet.textureSet.upRightActive)
                     }
                 }
             }.clicked
@@ -183,10 +168,10 @@ fun Context.DPad(config: DPad) {
                     size = smallDisplaySize,
                     offset = offset,
                 ) {
-                    if (clicked) {
-                        Texture(texture = Textures.CONTROL_NEW_DPAD_DOWN_LEFT_ACTIVE)
+                    if (!clicked) {
+                        Texture(texture = config.textureSet.textureSet.upRight)
                     } else {
-                        Texture(texture = Textures.CONTROL_NEW_DPAD_DOWN_LEFT)
+                        Texture(texture = config.textureSet.textureSet.upRightActive)
                     }
                 }
             }.clicked
@@ -208,10 +193,10 @@ fun Context.DPad(config: DPad) {
                     size = smallDisplaySize,
                     offset = offset,
                 ) {
-                    if (clicked) {
-                        Texture(texture = Textures.CONTROL_NEW_DPAD_DOWN_RIGHT_ACTIVE)
+                    if (!clicked) {
+                        Texture(texture = config.textureSet.textureSet.downRight)
                     } else {
-                        Texture(texture = Textures.CONTROL_NEW_DPAD_DOWN_RIGHT)
+                        Texture(texture = config.textureSet.textureSet.downRightActive)
                     }
                 }
             }.clicked

@@ -10,6 +10,7 @@ import top.fifthlight.combine.data.TextFactory
 import top.fifthlight.data.IntOffset
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Texts
+import top.fifthlight.touchcontroller.assets.TextureSet
 import top.fifthlight.touchcontroller.common.ext.fastRandomUuid
 import top.fifthlight.touchcontroller.common.layout.Align
 import top.fifthlight.touchcontroller.common.layout.Context
@@ -18,19 +19,10 @@ import kotlin.math.round
 import kotlin.uuid.Uuid
 
 @Serializable
-enum class ForwardButtonTexture {
-    @SerialName("classic")
-    CLASSIC,
-
-    @SerialName("new")
-    NEW,
-}
-
-@Serializable
 @SerialName("forward_button")
 data class ForwardButton(
+    val textureSet: TextureSet.TextureSetKey = TextureSet.TextureSetKey.CLASSIC,
     val size: Float = 2f,
-    val texture: ForwardButtonTexture = ForwardButtonTexture.CLASSIC,
     override val id: Uuid = fastRandomUuid(),
     override val name: Name = Name.Translatable(Texts.WIDGET_FORWARD_BUTTON_NAME),
     override val align: Align = Align.LEFT_BOTTOM,
@@ -54,14 +46,11 @@ data class ForwardButton(
                     )
                 }
             ),
-            EnumProperty(
-                getValue = { it.texture },
-                setValue = { config, value -> config.copy(texture = value) },
-                name = textFactory.of(Texts.WIDGET_FORWARD_BUTTON_PROPERTY_STYLE),
-                items = listOf(
-                    ForwardButtonTexture.CLASSIC to textFactory.of(Texts.WIDGET_FORWARD_BUTTON_PROPERTY_STYLE_CLASSIC),
-                    ForwardButtonTexture.NEW to textFactory.of(Texts.WIDGET_FORWARD_BUTTON_PROPERTY_STYLE_NEW),
-                ),
+            TextureSetProperty(
+                textFactory = textFactory,
+                getValue = { it.textureSet },
+                setValue = { config, value -> config.copy(textureSet = value) },
+                name = textFactory.of(Texts.WIDGET_FORWARD_BUTTON_PROPERTY_TEXTURE_SET),
             ),
         ) as PersistentList<Property<ControllerWidget, *>>
     }
@@ -70,9 +59,11 @@ data class ForwardButton(
         get() = _properties
 
     private val textureSize
-        get() = 22
+        get() = textureSet.textureSet.up.size
 
-    override fun size(): IntSize = IntSize((size * textureSize).toInt())
+    override fun size(): IntSize = (textureSize.toSize() * size).toIntSize()
+
+    val classic = textureSet == TextureSet.TextureSetKey.CLASSIC || textureSet == TextureSet.TextureSetKey.CLASSIC_EXTENSION
 
 
     override fun layout(context: Context) {

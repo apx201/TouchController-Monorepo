@@ -3,6 +3,7 @@ package top.fifthlight.touchcontroller.common.layout
 import top.fifthlight.combine.paint.Color
 import top.fifthlight.data.Offset
 import top.fifthlight.data.Rect
+import top.fifthlight.touchcontroller.assets.TextureSet
 import top.fifthlight.touchcontroller.assets.Textures
 import top.fifthlight.touchcontroller.common.control.Joystick
 import top.fifthlight.touchcontroller.common.gal.DefaultKeyBindingType
@@ -67,7 +68,7 @@ fun Context.Joystick(layout: Joystick) {
         drawQueue.enqueue { canvas ->
             val color = Color(((0xFF * opacity).toInt() shl 24) or 0xFFFFFF)
             canvas.drawTexture(
-                texture = Textures.CONTROL_NEW_JOYSTICK_PAD,
+                texture = layout.textureSet.textureSet.pad,
                 dstRect = Rect(size = size.toSize()),
                 tint = color
             )
@@ -75,7 +76,7 @@ fun Context.Joystick(layout: Joystick) {
             val stickSize = layout.stickSize()
             val actualOffset = ((drawOffset + 1f) / 2f * size) - stickSize.toSize() / 2f
             canvas.drawTexture(
-                texture = Textures.CONTROL_NEW_JOYSTICK_STICK,
+                texture = layout.textureSet.textureSet.stick,
                 dstRect = Rect(
                     offset = actualOffset,
                     size = stickSize.toSize()

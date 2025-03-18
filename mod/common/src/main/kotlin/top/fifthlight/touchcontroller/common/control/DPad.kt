@@ -11,6 +11,7 @@ import top.fifthlight.combine.data.TextFactory
 import top.fifthlight.data.IntOffset
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Texts
+import top.fifthlight.touchcontroller.assets.TextureSet
 import top.fifthlight.touchcontroller.common.ext.fastRandomUuid
 import top.fifthlight.touchcontroller.common.layout.Align
 import top.fifthlight.touchcontroller.common.layout.Context
@@ -51,10 +52,10 @@ enum class DPadExtraButton {
 @Serializable
 @SerialName("dpad")
 data class DPad(
-    val classic: Boolean = true,
+    val textureSet: TextureSet.TextureSetKey = TextureSet.TextureSetKey.CLASSIC,
     val size: Float = 2f,
-    val padding: Int = if (classic) 4 else -1,
-    val extraButton: DPadExtraButton = DPadExtraButton.SNEAK_DOUBLE_CLICK,
+    val padding: Int = if (textureSet == TextureSet.TextureSetKey.CLASSIC || textureSet == TextureSet.TextureSetKey.CLASSIC_EXTENSION) 4 else -1,
+    val extraButton: DPadExtraButton = if (textureSet == TextureSet.TextureSetKey.CLASSIC || textureSet == TextureSet.TextureSetKey.CLASSIC_EXTENSION) DPadExtraButton.SNEAK_DOUBLE_CLICK else DPadExtraButton.SNEAK_SINGLE_CLICK,
     val extraButtonSize: Int = 22,
     val idForward: Uuid = fastRandomUuid(),
     val idBackward: Uuid = fastRandomUuid(),
@@ -81,7 +82,7 @@ data class DPad(
                 getValue = { it.extraButton },
                 setValue = { config, value -> config.copy(extraButton = value) },
                 name = textFactory.of(Texts.WIDGET_DPAD_PROPERTY_EXTRA_BUTTON_FUNCTION_NAME),
-                items = listOf(
+                items = persistentListOf(
                     DPadExtraButton.NONE to textFactory.of(Texts.WIDGET_DPAD_PROPERTY_EXTRA_BUTTON_FUNCTION_NONE),
                     DPadExtraButton.SNEAK_DOUBLE_CLICK to textFactory.of(Texts.WIDGET_DPAD_PROPERTY_EXTRA_BUTTON_FUNCTION_SNEAK_DOUBLE_CLICK),
                     DPadExtraButton.SNEAK_SINGLE_CLICK to textFactory.of(Texts.WIDGET_DPAD_PROPERTY_EXTRA_BUTTON_FUNCTION_SNEAK_SINGLE_CLICK),
@@ -92,6 +93,12 @@ data class DPad(
                     DPadExtraButton.JUMP_WITHOUT_LOCKING to textFactory.of(Texts.WIDGET_DPAD_PROPERTY_EXTRA_BUTTON_FUNCTION_JUMP_WITHOUT_LOCKING),
                     DPadExtraButton.FLYING to textFactory.of(Texts.WIDGET_DPAD_PROPERTY_EXTRA_BUTTON_FUNCTION_FLYING),
                 ),
+            ),
+            TextureSetProperty(
+                textFactory = textFactory,
+                getValue = { it.textureSet },
+                setValue = { config, value -> config.copy(textureSet = value) },
+                name = textFactory.of(Texts.WIDGET_DPAD_PROPERTY_TEXTURE_SET),
             ),
             FloatProperty(
                 getValue = { it.size },
@@ -121,20 +128,17 @@ data class DPad(
                     )
                 }
             ),
-            BooleanProperty(
-                getValue = { it.classic },
-                setValue = { config, value -> config.copy(classic = value) },
-                name = textFactory.of(Texts.WIDGET_DPAD_PROPERTY_CLASSIC),
-            )
         ) as PersistentList<Property<ControllerWidget, *>>
     }
 
     override val properties
         get() = _properties
 
-    fun buttonSize() = IntSize(((22 + padding) * size).toInt())
-    fun buttonDisplaySize() = IntSize((22 * size).toInt())
-    fun smallButtonDisplaySize() = IntSize((18 * size).toInt())
+    val classic = textureSet == TextureSet.TextureSetKey.CLASSIC || textureSet == TextureSet.TextureSetKey.CLASSIC_EXTENSION
+
+    fun buttonSize() = IntSize(((textureSet.textureSet.up.size.width + padding) * size).toInt())
+    fun buttonDisplaySize() = IntSize((textureSet.textureSet.up.size.width * size).toInt())
+    fun smallButtonDisplaySize() = IntSize((textureSet.textureSet.upLeft.size.width * size).toInt())
     fun extraButtonDisplaySize() = IntSize((extraButtonSize * size).toInt())
 
     override fun size(): IntSize = buttonSize() * 3
