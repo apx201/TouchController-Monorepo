@@ -344,7 +344,7 @@ class CanvasImpl(
         RenderSystem.defaultBlendFunc()
     }
 
-    private val clipStack = arrayListOf<IntRect>()
+    private val clipStack = ClipStack()
 
     override fun pushClip(absoluteArea: IntRect, relativeArea: IntRect) {
         val scaleFactor = client.window.scaleFactor.toInt()
@@ -352,24 +352,16 @@ class CanvasImpl(
             offset = absoluteArea.offset * scaleFactor,
             size = absoluteArea.size * scaleFactor,
         )
-        RenderSystem.enableScissor(
-            rect.left,
-            client.window.framebufferHeight - rect.bottom,
-            rect.size.width,
-            rect.size.height
-        )
-        clipStack.add(rect)
+        val clipRect = clipStack.pushClip(rect)
+        RenderSystem.enableScissor(clipRect.left, client.window.framebufferHeight - clipRect.bottom, clipRect.size.width, clipRect.size.height)
     }
 
     override fun popClip() {
-        if (clipStack.isEmpty()) {
-            return
-        } else if (clipStack.size == 1) {
-            clipStack.clear()
-            RenderSystem.disableScissor()
+        val clipRect = clipStack.popClip()
+        if (clipRect != null) {
+            RenderSystem.enableScissor(clipRect.left, client.window.framebufferHeight - clipRect.bottom, clipRect.size.width, clipRect.size.height)
         } else {
-            val item = clipStack.removeLast<IntRect>()
-            RenderSystem.enableScissor(item.left, client.window.height - item.bottom, item.size.width, item.size.height)
+            RenderSystem.disableScissor()
         }
     }
 }

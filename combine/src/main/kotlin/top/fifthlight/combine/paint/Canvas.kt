@@ -2,6 +2,8 @@ package top.fifthlight.combine.paint
 
 import top.fifthlight.combine.data.*
 import top.fifthlight.data.*
+import kotlin.math.max
+import kotlin.math.min
 
 enum class BlendFactor {
     ONE,
@@ -92,6 +94,37 @@ interface Canvas {
     fun defaultBlendFunction()
     fun pushClip(absoluteArea: IntRect, relativeArea: IntRect)
     fun popClip()
+}
+
+class ClipStack {
+    private val clipStack = arrayListOf<IntRect>()
+
+    fun pushClip(rect: IntRect): IntRect {
+        var rect = rect
+        clipStack.lastOrNull()?.let { lastRect ->
+            val x1 = max(rect.left, lastRect.left)
+            val y1 = max(rect.top, lastRect.top)
+            val x2 = min(rect.right, lastRect.right)
+            val y2 = min(rect.bottom, lastRect.bottom)
+            rect = IntRect(
+                offset = IntOffset(
+                    x = x1,
+                    y = y1,
+                ),
+                size = IntSize(
+                    width = (x2 - x1).coerceAtLeast(0),
+                    height = (y2 - y1).coerceAtLeast(0),
+                ),
+            )
+        }
+        clipStack.add(rect)
+        return rect
+    }
+
+    fun popClip(): IntRect? {
+        clipStack.removeLastOrNull()
+        return clipStack.lastOrNull()
+    }
 }
 
 inline fun Canvas.withState(crossinline block: () -> Unit) {

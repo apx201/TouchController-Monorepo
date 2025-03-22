@@ -366,7 +366,7 @@ class CanvasImpl : Canvas, Gui() {
         )
     }
 
-    private val clipStack = arrayListOf<IntRect>()
+    private val clipStack = ClipStack()
 
     override fun pushClip(absoluteArea: IntRect, relativeArea: IntRect) {
         val scaleFactor = scaledResolution.scaleFactor
@@ -374,22 +374,16 @@ class CanvasImpl : Canvas, Gui() {
             offset = absoluteArea.offset * scaleFactor,
             size = absoluteArea.size * scaleFactor,
         )
-        GL11.glScissor(rect.left, client.displayHeight - rect.bottom, rect.size.width, rect.size.height)
-        if (clipStack.isEmpty()) {
-            GL11.glEnable(GL11.GL_SCISSOR_TEST)
-        }
-        clipStack.add(rect)
+        val clipRect = clipStack.pushClip(rect)
+        GL11.glScissor(clipRect.left, client.displayHeight - clipRect.bottom, clipRect.size.width, clipRect.size.height)
     }
 
     override fun popClip() {
-        if (clipStack.isEmpty()) {
-            return
-        } else if (clipStack.size == 1) {
-            clipStack.clear()
-            GL11.glDisable(GL11.GL_SCISSOR_TEST)
+        val clipRect = clipStack.popClip()
+        if (clipRect != null) {
+            GL11.glScissor(clipRect.left, client.displayHeight - clipRect.bottom, clipRect.size.width, clipRect.size.height)
         } else {
-            val item = clipStack.removeLast<IntRect>()
-            GL11.glScissor(item.left, client.displayHeight - item.bottom, item.size.width, item.size.height)
+            GL11.glDisable(GL11.GL_SCISSOR_TEST)
         }
     }
 }
