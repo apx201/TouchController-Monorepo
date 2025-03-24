@@ -264,7 +264,7 @@ val gr8JarTask = tasks.register<Jar>("gr8Jar") {
         exclude { file ->
             val path = file.relativePath
             if (path.segments.first() == "META-INF") {
-                excludeWhitelist.all { path.lastName != it }
+                excludeWhitelist.all { !path.endsWith(it) }
             } else {
                 path.lastName == "module-info.class"
             }
