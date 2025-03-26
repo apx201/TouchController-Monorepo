@@ -11,12 +11,39 @@ then
     echo "No MODRINTH_PROJECT_ID set"
     exit 1
 fi
+if [ -z "$MCMOD_COOKIE" ]
+then
+    echo "No MCMOD_COOKIE set"
+    exit 1
+fi
+if [ -z "$MCMOD_CLASSID" ]
+then
+    echo "No MCMOD_CLASSID set"
+    exit 1
+fi
 
 ./gradlew clean build
 
 mod_name="$(grep modName gradle.properties | cut -d= -f2)"
 mod_version="$(grep modVersion gradle.properties | cut -d= -f2)"
 mod_state="$(grep modState gradle.properties | cut -d= -f2)"
+
+mcmod_tag=""
+case "$mod_state" in
+    "beta")
+        mcmod_tag="beta"
+        ;;
+    "alpha")
+        mcmod_tag="alpha"
+        ;;
+    "release")
+        mcmod_tag=""
+        ;;
+    *)
+        echo "Bad mod state: $mod_state"
+        exit 1
+        ;;
+esac
 
 function extract_changelog() {
     awk -v target_version="$1" '
@@ -61,7 +88,7 @@ do
     mod_files+=("$mod_file")
 
     function upload_modrinth() {
-        if echo "$modrinth_versions" | grep -F "$version_id"
+        if echo "$modrinth_versions" | grep -F "$version_id" > /dev/null
         then
             echo "Version $version_id is already on Modrinth, skip."
             return 0
@@ -93,7 +120,7 @@ do
             )"
         fi
         modrinth_data="$(jq -n \
-            --arg name "$module_game_version"           \
+            --arg name "$mod_version"                   \
             --arg version_number "$version_id"          \
             --arg changelog "$changelog"                \
             --arg dependencies "$modrinth_dependencies" \
@@ -105,6 +132,7 @@ do
                 "name": $name,
                 "version_number": $version_number,
                 "changelog": $changelog,
+                "featured": true,
                 "dependencies": '"$modrinth_dependencies"',
                 "game_versions": [$game_version],
                 "version_type": $version_type,
@@ -119,9 +147,47 @@ do
             -H "Authorization: $MODRINTH_TOKEN"                     \
             -F data="$modrinth_data"                                \
             -F primary_file="@$mod_file"
+        echo
+    }
+
+    function upload_mcmod() {
+        api_list=""
+        case "$module_loader" in
+            "fabric")
+                api_list="2"
+                ;;
+            "forge")
+                api_list="1"
+                ;;
+            "neoforge")
+                api_list="13"
+                ;;
+            *)
+                echo "Bad loader: $module_loader"
+                return 1
+                ;;
+        esac
+
+        echo "Uploading $version_id to mcmod"
+        upload_result="$(                                           \
+            curl -sf "https://modfile-dl.mcmod.cn/action/upload/"   \
+            --cookie "$MCMOD_COOKIE"                                \
+            -F classID="$MCMOD_CLASSID"                             \
+            -F mcverList="$module_game_version"                     \
+            -F platformList="1"                                     \
+            -F apiList="$api_list"                                  \
+            -F tagList="$mcmod_tag"                                 \
+            -F 0="@$mod_file"                                       \
+        )"
+        if [ "$(jq .state <<< "$upload_result")" -ne 0 ]
+        then
+            echo "mcmod upload failed: $upload_result"
+            exit 1
+        fi
     }
 
     upload_modrinth
+    upload_mcmod
 
     # TODO: Upload CurseForge
 done
