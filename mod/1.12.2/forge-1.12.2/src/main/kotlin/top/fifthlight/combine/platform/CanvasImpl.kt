@@ -286,6 +286,7 @@ class CanvasImpl : Canvas, Gui() {
             size = absoluteArea.size * scaleFactor,
         )
         val clipRect = clipStack.pushClip(rect)
+        GL11.glEnable(GL11.GL_SCISSOR_TEST)
         GL11.glScissor(clipRect.left, client.displayHeight - clipRect.bottom, clipRect.size.width, clipRect.size.height)
     }
 
