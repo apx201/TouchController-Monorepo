@@ -64,7 +64,8 @@ class PresetsTabModel(
     }
 
     fun editPreset(state: PresetsTabState.Edit) {
-        screenModel.editPreset(state::edit)
+        val preset = presetManager.presets.value[state.uuid] ?: return
+        presetManager.savePreset(state.uuid, state.edit(preset), false)
         clearState()
     }
 

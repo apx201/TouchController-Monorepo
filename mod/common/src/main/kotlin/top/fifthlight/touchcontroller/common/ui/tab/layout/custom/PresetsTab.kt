@@ -154,7 +154,13 @@ object PresetsTab : CustomTab() {
             action = { state ->
                 GuideButton(
                     onClick = {
-                        tabModel.editPreset(state)
+                        if (uiState.selectedPresetUuid == state.uuid) {
+                            screenModel.editPreset(false, state::edit)
+                            screenModel.savePreset()
+                            tabModel.clearState()
+                        } else {
+                            tabModel.editPreset(state)
+                        }
                     },
                 ) {
                     Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_PRESETS_EDIT_PRESET_OK))
