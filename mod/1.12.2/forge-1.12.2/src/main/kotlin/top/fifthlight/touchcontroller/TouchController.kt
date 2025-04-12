@@ -8,6 +8,7 @@ import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.world.BlockEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
+import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.PlayerEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
@@ -59,11 +60,14 @@ class TouchController : KoinComponent {
         }
     }
 
+    @Mod.EventHandler
+    fun onLoadComplete(event: FMLLoadCompleteEvent) {
+        GameConfigEditorImpl.executePendingCallback()
+    }
+
     private fun initialize() {
         val configHolder: GlobalConfigHolder = get()
         configHolder.load()
-
-        GameConfigEditorImpl.executePendingCallback()
 
         MinecraftForge.EVENT_BUS.register(object {
             @SubscribeEvent

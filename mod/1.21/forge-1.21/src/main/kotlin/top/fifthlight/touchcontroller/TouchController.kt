@@ -10,6 +10,7 @@ import net.minecraftforge.event.level.BlockEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -30,7 +31,10 @@ class TouchController : KoinComponent {
     private val logger = LoggerFactory.getLogger(TouchController::class.java)
 
     init {
-        FMLJavaModLoadingContext.get().modEventBus.addListener(::onClientSetup)
+        FMLJavaModLoadingContext.get().modEventBus.apply {
+            addListener(::onClientSetup)
+            addListener(::onInterModProcess)
+        }
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -58,11 +62,14 @@ class TouchController : KoinComponent {
         }
     }
 
+    @Suppress("UNUSED_PARAMETER")
+    private fun onInterModProcess(event: InterModProcessEvent) {
+        GameConfigEditorImpl.executePendingCallback()
+    }
+
     private fun initialize() {
         val configHolder: GlobalConfigHolder = get()
         configHolder.load()
-
-        GameConfigEditorImpl.executePendingCallback()
 
         MinecraftForge.registerConfigScreen { client, parent ->
             getConfigScreen(parent) as Screen

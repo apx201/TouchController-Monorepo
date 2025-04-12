@@ -31,10 +31,12 @@ object GameConfigEditorImpl : GameConfigEditor {
             }
             pendingCallbacks = null
             with(EditorImpl(Minecraft.getInstance().options)) {
-                callbacks.forEach { callback ->
-                    callback.invoke(this)
+                if (callbacks.isNotEmpty()) {
+                    callbacks.forEach { callback ->
+                        callback.invoke(this)
+                    }
+                    options.save()
                 }
-                options.save()
             }
         }
     }

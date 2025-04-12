@@ -25,11 +25,13 @@ object GameConfigEditorImpl : GameConfigEditor {
                 return
             }
             pendingCallbacks = null
-            with(EditorImpl(Minecraft.getMinecraft().gameSettings)) {
-                callbacks.forEach { callback ->
-                    callback.invoke(this)
+            if (callbacks.isNotEmpty()) {
+                with(EditorImpl(Minecraft.getMinecraft().gameSettings)) {
+                    callbacks.forEach { callback ->
+                        callback.invoke(this)
+                    }
+                    options.saveOptions()
                 }
-                options.saveOptions()
             }
         }
     }

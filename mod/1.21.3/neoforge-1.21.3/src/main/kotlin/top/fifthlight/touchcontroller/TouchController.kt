@@ -7,6 +7,7 @@ import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.ModContainer
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
+import net.neoforged.fml.event.lifecycle.InterModProcessEvent
 import net.neoforged.neoforge.client.event.*
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.common.NeoForge
@@ -32,6 +33,7 @@ class TouchController(modEventBus: IEventBus, private val container: ModContaine
 
     init {
         modEventBus.addListener(::onClientSetup)
+        modEventBus.addListener(::onInterModProcess)
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -59,11 +61,14 @@ class TouchController(modEventBus: IEventBus, private val container: ModContaine
         }
     }
 
+    @Suppress("UNUSED_PARAMETER")
+    private fun onInterModProcess(event: InterModProcessEvent) {
+        GameConfigEditorImpl.executePendingCallback()
+    }
+
     private fun initialize() {
         val configHolder: GlobalConfigHolder = get()
         configHolder.load()
-
-        GameConfigEditorImpl.executePendingCallback()
 
         container.registerExtensionPoint(IConfigScreenFactory::class.java, IConfigScreenFactory { _, parent ->
             getConfigScreen(parent) as Screen
