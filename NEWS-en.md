@@ -2,6 +2,8 @@
 
 ## 0.2.1-beta03
 
+- Added option of custom widget to widget list 
+- Fixed keybinding settings being dropped on Forge and NeoForge after game restart
 - Fixed crash with ImmediatelyFast on 1.21.5
 - Fixed problem with chest boat
 - Fixed problem when renaming preset
