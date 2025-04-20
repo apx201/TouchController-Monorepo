@@ -165,7 +165,10 @@ class PlatformProvider : KoinComponent {
                 }
                 val platformName = when (platform) {
                     is GlfwPlatform.Wayland -> "wayland"
-                    is GlfwPlatform.X11 -> logger.warn("X11 is not supported for now")
+                    is GlfwPlatform.X11 -> {
+                        logger.warn("X11 is not supported for now")
+                        return null
+                    }
                     else -> throw AssertionError()
                 }
                 // TODO: detect musl, and use musl libraries
