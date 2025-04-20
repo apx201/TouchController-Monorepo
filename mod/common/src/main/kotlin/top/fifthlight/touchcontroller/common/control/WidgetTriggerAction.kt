@@ -128,7 +128,7 @@ sealed class WidgetTriggerAction {
                 get() = Texts.WIDGET_TRIGGER_GAME_ACTION_VANILLA_CHAT_SCREEN
 
             override fun trigger(gameAction: GameAction) {
-                gameAction.openGameMenu()
+                gameAction.openChatScreen()
             }
         }
 
