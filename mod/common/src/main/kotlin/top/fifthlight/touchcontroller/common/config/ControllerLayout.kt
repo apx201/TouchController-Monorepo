@@ -88,6 +88,9 @@ enum class LayerConditionKey(val text: Identifier) {
 
     @SerialName("riding")
     RIDING(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_LAYERS_CONDITIONS_RIDING),
+
+    @SerialName("block_selected")
+    BLOCK_SELECTED(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_LAYERS_CONDITIONS_BLOCK_SELECTED),
 }
 
 @Serializable(with = LayerConditionSerializer::class)

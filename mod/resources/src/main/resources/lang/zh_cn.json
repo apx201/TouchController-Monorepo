@@ -132,6 +132,7 @@
   "touchcontroller.screen.custom_control_layout.layers.conditions.on_llama": "在羊驼上",
   "touchcontroller.screen.custom_control_layout.layers.conditions.on_strider": "在炽足兽上",
   "touchcontroller.screen.custom_control_layout.layers.conditions.riding": "乘坐在实体上",
+  "touchcontroller.screen.custom_control_layout.layers.conditions.block_selected": "选中方块",
   "touchcontroller.screen.custom_control_layout.layers.name.placeholder": "图层名称",
   "touchcontroller.screen.custom_control_layout.layers.create_layer": "创建图层",
   "touchcontroller.screen.custom_control_layout.layers.create_layer.create": "创建",

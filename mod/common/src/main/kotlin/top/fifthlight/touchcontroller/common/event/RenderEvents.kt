@@ -30,6 +30,7 @@ object RenderEvents : KoinComponent {
     private val platformProvider: PlatformProvider by inject()
     private val gameStateProvider: GameStateProvider by inject()
     private val keyBindingHandler: KeyBindingHandler by inject()
+    private val viewActionProvider: ViewActionProvider by inject()
     private var prevWidth = 0
     private var prevHeight = 0
 
@@ -110,6 +111,7 @@ object RenderEvents : KoinComponent {
             put(LayerConditionKey.NOT_ON_GROUND, !player.onGround)
             put(LayerConditionKey.USING_ITEM, player.isUsingItem)
             put(LayerConditionKey.RIDING, ridingType != null)
+            put(LayerConditionKey.BLOCK_SELECTED, viewActionProvider.getCrosshairTarget() == CrosshairTarget.BLOCK)
             put(LayerConditionKey.ON_MINECART, ridingType == RidingEntityType.MINECART)
             put(LayerConditionKey.ON_BOAT, ridingType == RidingEntityType.BOAT)
             put(LayerConditionKey.ON_PIG, ridingType == RidingEntityType.PIG)

@@ -132,6 +132,7 @@
   "touchcontroller.screen.custom_control_layout.layers.conditions.on_llama": "On llama",
   "touchcontroller.screen.custom_control_layout.layers.conditions.on_strider": "On strider",
   "touchcontroller.screen.custom_control_layout.layers.conditions.riding": "Riding entity",
+  "touchcontroller.screen.custom_control_layout.layers.conditions.block_selected": "Block selected",
   "touchcontroller.screen.custom_control_layout.layers.name.placeholder": "Layer name",
   "touchcontroller.screen.custom_control_layout.layers.create_layer": "Create layer",
   "touchcontroller.screen.custom_control_layout.layers.create_layer.create": "Create",
