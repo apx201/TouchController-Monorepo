@@ -11,6 +11,7 @@ import top.fifthlight.combine.data.Identifier
 import top.fifthlight.combine.data.TextFactory
 import top.fifthlight.combine.paint.Color
 import top.fifthlight.data.IntOffset
+import top.fifthlight.data.IntPadding
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Texts
 import top.fifthlight.touchcontroller.assets.TextureSet
@@ -232,9 +233,11 @@ data class DPad private constructor(
     override val properties
         get() = _properties
 
-    fun buttonSize() = IntSize(((textureSet.textureSet.up.size.width + padding) * size).toInt())
+    fun buttonSize() = IntSize((textureSet.textureSet.up.size.width * size).toInt())
 
-    override fun size(): IntSize = buttonSize() * 3
+    val paddingSize = (padding * size).toInt()
+
+    override fun size(): IntSize = buttonSize() * 3 + paddingSize * 2
 
     override fun cloneBase(
         id: Uuid,
@@ -293,57 +296,71 @@ data class DPad private constructor(
     override fun layout(context: Context): Unit = with(context) {
         val config = this@DPad
         val buttonSize = buttonSize()
-        val buttonDisplaySize = IntSize((textureSet.textureSet.up.size.width * config.size).toInt())
         val smallDisplaySize = IntSize((textureSet.textureSet.upLeft.size.width * config.size).toInt())
-        val smallButtonOffset = (buttonDisplaySize - smallDisplaySize) / 2
+        val smallButtonOffset = IntOffset(paddingSize)
         val classicTrigger =
             textureSet == TextureSet.TextureSetKey.CLASSIC || textureSet == TextureSet.TextureSetKey.CLASSIC_EXTENSION
+        val texturePadding = if (padding == -1) { 1 } else { 0 }
 
         val forward = withRect(
-            x = buttonSize.width,
+            x = buttonSize.width + paddingSize,
             y = 0,
             width = buttonSize.width,
-            height = buttonSize.height
+            height = buttonSize.height + paddingSize,
         ) {
+            val padding = IntPadding(bottom = texturePadding)
             SwipeButton(id = config.idForward) { clicked ->
                 withAlign(
-                    align = Align.CENTER_CENTER,
-                    size = buttonDisplaySize
+                    align = Align.CENTER_TOP,
+                    size = buttonSize,
                 ) {
                     when (Pair(classicTrigger, clicked)) {
-                        Pair(true, false) -> Texture(texture = config.textureSet.textureSet.up)
+                        Pair(true, false) -> Texture(
+                            texture = config.textureSet.textureSet.up,
+                        )
                         Pair(true, true) -> Texture(
                             texture = config.textureSet.textureSet.up,
                             tint = Color(0xFFAAAAAAu)
                         )
-
-                        Pair(false, false) -> Texture(texture = config.textureSet.textureSet.up)
-                        Pair(false, true) -> Texture(texture = config.textureSet.textureSet.upActive)
+                        Pair(false, false) -> Texture(
+                            texture = config.textureSet.textureSet.up,
+                            padding = padding,
+                        )
+                        Pair(false, true) -> Texture(
+                            texture = config.textureSet.textureSet.upActive,
+                            padding = padding,
+                        )
                     }
                 }
             }.clicked
         }
 
         val backward = withRect(
-            x = buttonSize.width,
-            y = buttonSize.height * 2,
+            x = buttonSize.width + paddingSize,
+            y = buttonSize.height * 2 + paddingSize,
             width = buttonSize.width,
-            height = buttonSize.height
+            height = buttonSize.height + paddingSize,
         ) {
             SwipeButton(id = config.idBackward) { clicked ->
                 withAlign(
-                    align = Align.CENTER_CENTER,
-                    size = buttonDisplaySize
+                    align = Align.CENTER_BOTTOM,
+                    size = buttonSize,
                 ) {
+                    val padding = IntPadding(top = texturePadding)
                     when (Pair(classicTrigger, clicked)) {
                         Pair(true, false) -> Texture(texture = config.textureSet.textureSet.down)
                         Pair(true, true) -> Texture(
                             texture = config.textureSet.textureSet.down,
                             tint = Color(0xFFAAAAAAu)
                         )
-
-                        Pair(false, false) -> Texture(texture = config.textureSet.textureSet.down)
-                        Pair(false, true) -> Texture(texture = config.textureSet.textureSet.downActive)
+                        Pair(false, false) -> Texture(
+                            texture = config.textureSet.textureSet.down,
+                            padding = padding
+                        )
+                        Pair(false, true) -> Texture(
+                            texture = config.textureSet.textureSet.downActive,
+                            padding = padding
+                        )
                     }
                 }
             }.clicked
@@ -351,49 +368,61 @@ data class DPad private constructor(
 
         val left = withRect(
             x = 0,
-            y = buttonSize.height,
-            width = buttonSize.width,
+            y = buttonSize.height + paddingSize,
+            width = buttonSize.width + paddingSize,
             height = buttonSize.height
         ) {
             SwipeButton(id = config.idLeft) { clicked ->
                 withAlign(
-                    align = Align.CENTER_CENTER,
-                    size = buttonDisplaySize
+                    align = Align.LEFT_CENTER,
+                    size = buttonSize,
                 ) {
+                    val padding = IntPadding(right = texturePadding)
                     when (Pair(classicTrigger, clicked)) {
                         Pair(true, false) -> Texture(texture = config.textureSet.textureSet.left)
                         Pair(true, true) -> Texture(
                             texture = config.textureSet.textureSet.left,
                             tint = Color(0xFFAAAAAAu)
                         )
-
-                        Pair(false, false) -> Texture(texture = config.textureSet.textureSet.left)
-                        Pair(false, true) -> Texture(texture = config.textureSet.textureSet.leftActive)
+                        Pair(false, false) -> Texture(
+                            texture = config.textureSet.textureSet.left,
+                            padding = padding
+                        )
+                        Pair(false, true) -> Texture(
+                            texture = config.textureSet.textureSet.leftActive,
+                            padding = padding
+                        )
                     }
                 }
             }.clicked
         }
 
         val right = withRect(
-            x = buttonSize.width * 2,
-            y = buttonSize.height,
-            width = buttonSize.width,
+            x = buttonSize.width * 2 + paddingSize,
+            y = buttonSize.height + paddingSize,
+            width = buttonSize.width + paddingSize,
             height = buttonSize.height
         ) {
             SwipeButton(id = config.idRight) { clicked ->
                 withAlign(
-                    align = Align.CENTER_CENTER,
-                    size = buttonDisplaySize
+                    align = Align.RIGHT_CENTER,
+                    size = buttonSize,
                 ) {
+                    val padding = IntPadding(left = texturePadding)
                     when (Pair(classicTrigger, clicked)) {
                         Pair(true, false) -> Texture(texture = config.textureSet.textureSet.right)
                         Pair(true, true) -> Texture(
                             texture = config.textureSet.textureSet.right,
                             tint = Color(0xFFAAAAAAu)
                         )
-
-                        Pair(false, false) -> Texture(texture = config.textureSet.textureSet.right)
-                        Pair(false, true) -> Texture(texture = config.textureSet.textureSet.rightActive)
+                        Pair(false, false) -> Texture(
+                            texture = config.textureSet.textureSet.right,
+                            padding = padding
+                        )
+                        Pair(false, true) -> Texture(
+                            texture = config.textureSet.textureSet.rightActive,
+                            padding = padding
+                        )
                     }
                 }
             }.clicked
@@ -408,8 +437,8 @@ data class DPad private constructor(
             withRect(
                 x = 0,
                 y = 0,
-                width = buttonSize.width,
-                height = buttonSize.height
+                width = buttonSize.width + paddingSize,
+                height = buttonSize.height + paddingSize,
             ) {
                 SwipeButton(id = config.idLeftForward) { clicked ->
                     withAlign(
@@ -436,10 +465,10 @@ data class DPad private constructor(
 
         val rightForward = if (showRightForward) {
             withRect(
-                x = buttonSize.width * 2,
+                x = buttonSize.width * 2 + paddingSize,
                 y = 0,
-                width = buttonSize.width,
-                height = buttonSize.height
+                width = buttonSize.width + paddingSize,
+                height = buttonSize.height + paddingSize,
             ) {
                 SwipeButton(id = config.idRightForward) { clicked ->
                     withAlign(
@@ -467,9 +496,9 @@ data class DPad private constructor(
         val leftBackward = if (showLeftBackward) {
             withRect(
                 x = 0,
-                y = buttonSize.height * 2,
-                width = buttonSize.width,
-                height = buttonSize.height
+                y = buttonSize.height * 2 + paddingSize,
+                width = buttonSize.width + paddingSize,
+                height = buttonSize.height + paddingSize,
             ) {
                 SwipeButton(id = config.idLeftBackward) { clicked ->
                     withAlign(
@@ -496,10 +525,10 @@ data class DPad private constructor(
 
         val rightBackward = if (showRightBackward) {
             withRect(
-                x = buttonSize.width * 2,
-                y = buttonSize.width * 2,
-                width = buttonSize.width,
-                height = buttonSize.height
+                x = buttonSize.width * 2 + paddingSize,
+                y = buttonSize.width * 2 + paddingSize,
+                width = buttonSize.width + paddingSize,
+                height = buttonSize.height + paddingSize,
             ) {
                 SwipeButton(id = config.idRightBackward) { clicked ->
                     withAlign(
@@ -551,33 +580,26 @@ data class DPad private constructor(
             info: DPadExtraButton.ButtonInfo,
             clicked: Boolean,
         ) {
-            // TODO clip one pixel for new texture
-            val extraDisplaySize = IntSize((info.size * config.size).toInt())
-            withAlign(
-                align = Align.CENTER_CENTER,
-                size = extraDisplaySize,
-            ) {
-                if (clicked) {
-                    when (info.activeTexture) {
-                        DPadExtraButton.ActiveTexture.Gray -> {
-                            Texture(
-                                texture = info.texture.texture,
-                                tint = Color(0xFFAAAAAAu),
-                            )
-                        }
-
-                        DPadExtraButton.ActiveTexture.Same -> Texture(texture = info.texture.texture)
-                        is DPadExtraButton.ActiveTexture.Texture -> Texture(texture = info.activeTexture.texture.texture)
+            if (clicked) {
+                when (info.activeTexture) {
+                    DPadExtraButton.ActiveTexture.Gray -> {
+                        Texture(
+                            texture = info.texture.texture,
+                            tint = Color(0xFFAAAAAAu),
+                        )
                     }
-                } else {
-                    Texture(texture = info.texture.texture)
+
+                    DPadExtraButton.ActiveTexture.Same -> Texture(texture = info.texture.texture)
+                    is DPadExtraButton.ActiveTexture.Texture -> Texture(texture = info.activeTexture.texture.texture)
                 }
+            } else {
+                Texture(texture = info.texture.texture)
             }
         }
 
         withRect(
-            x = buttonSize.width,
-            y = buttonSize.height,
+            x = buttonSize.width + paddingSize,
+            y = buttonSize.height + paddingSize,
             width = buttonSize.width,
             height = buttonSize.height
         ) {
