@@ -48,8 +48,7 @@ object AboutTab : Tab() {
         Column(
             modifier = Modifier
                 .padding(8)
-                .verticalScroll()
-                .background(BackgroundTextures.BRICK_BACKGROUND)
+                .verticalScroll(background = BackgroundTextures.BRICK_BACKGROUND)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8),
         ) {

@@ -1,6 +1,7 @@
 package top.fifthlight.combine.modifier.scroll
 
 import androidx.compose.runtime.Composable
+import top.fifthlight.combine.data.BackgroundTexture
 import top.fifthlight.combine.input.pointer.PointerEvent
 import top.fifthlight.combine.input.pointer.PointerEventType
 import top.fifthlight.combine.layout.Measurable
@@ -14,6 +15,9 @@ import top.fifthlight.combine.paint.Color
 import top.fifthlight.data.IntOffset
 import top.fifthlight.data.IntRect
 import top.fifthlight.data.IntSize
+import top.fifthlight.data.Offset
+import top.fifthlight.data.Rect
+import top.fifthlight.data.Size
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
@@ -29,11 +33,20 @@ fun Modifier.verticalScroll(
 fun Modifier.verticalScroll(
     scrollState: ScrollState = rememberScrollState(),
     reverse: Boolean = false,
-) = then(VerticalScrollNode(scrollState, reverse))
+    background: BackgroundTexture? = null,
+    backgroundScale: Float = 1f
+) = then(VerticalScrollNode(
+    scrollState = scrollState,
+    reverse = reverse,
+    background = background,
+    backgroundScale = backgroundScale
+))
 
 private data class VerticalScrollNode(
     val scrollState: ScrollState,
     val reverse: Boolean,
+    val background: BackgroundTexture?,
+    val backgroundScale: Float,
 ) : LayoutModifierNode, DrawModifierNode, PointerInputModifierNode, Modifier.Node<VerticalScrollNode> {
     override fun onPointerEvent(
         event: PointerEvent,
@@ -148,6 +161,28 @@ private data class VerticalScrollNode(
                 size = IntSize(node.width, node.height)
             ),
         )
+        background?.let { background ->
+            val height = background.size.height
+            if (height == 0) {
+                return@let
+            }
+            val tileHeight = height * backgroundScale
+            val tileOffset = scrollState.progress.value.toFloat() % tileHeight
+            drawBackgroundTexture(
+                texture = background,
+                scale = backgroundScale,
+                dstRect = Rect(
+                    offset = Offset(
+                        x = 0f,
+                        y = -tileHeight - tileOffset,
+                    ),
+                    size = Size(
+                        width = node.width.toFloat(),
+                        height = node.height.toFloat() + tileHeight * 2,
+                    ),
+                )
+            )
+        }
     }
 
     override fun Canvas.renderAfter(node: Placeable) {
