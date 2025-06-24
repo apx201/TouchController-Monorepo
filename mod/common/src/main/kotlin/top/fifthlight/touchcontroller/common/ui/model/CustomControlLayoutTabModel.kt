@@ -110,8 +110,13 @@ class CustomControlLayoutTabModel(
         }
     }
 
-    fun setShowSideBar(showSideBar: Boolean) {
-        pageState.getAndUpdate { it.copy(showSideBar = showSideBar) }
+    fun setShowSideBar(showSideBar: Boolean, autoToggle: Boolean = false) {
+        pageState.getAndUpdate {
+            it.copy(
+                showSideBar = showSideBar,
+                sideBarAutoToggle = autoToggle,
+            )
+        }
     }
 
     fun setMoveLocked(moveLocked: Boolean) {

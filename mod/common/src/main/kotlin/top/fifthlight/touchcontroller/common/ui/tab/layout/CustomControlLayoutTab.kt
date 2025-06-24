@@ -83,6 +83,7 @@ private fun LayoutEditorPanel(
     lockMoving: Boolean = false,
     highlight: Boolean = false,
     onWidgetChanged: (Int, ControllerWidget) -> Unit = { _, _ -> },
+    onEmptyAreaClicked: () -> Unit = {},
 ) {
     val selectedWidget = layer.widgets.getOrNull(selectedWidgetIndex)
     var panelSize by remember { mutableStateOf(IntSize.ZERO) }
@@ -90,6 +91,7 @@ private fun LayoutEditorPanel(
         modifier = Modifier
             .consumePress {
                 onSelectedWidgetChanged(-1)
+                onEmptyAreaClicked()
             }
             .then(modifier),
         measurePolicy = { measurables, constraints ->
@@ -311,12 +313,28 @@ object CustomControlLayoutTab : Tab(), KoinComponent {
                         LayoutEditorPanel(
                             modifier = Modifier.fillMaxSize(),
                             selectedWidgetIndex = uiState.pageState.selectedWidgetIndex,
-                            onSelectedWidgetChanged = screenModel::selectWidget,
+                            onSelectedWidgetChanged = {
+                                screenModel.selectWidget(it)
+                                if (!uiState.pageState.showSideBar && uiState.pageState.sideBarAutoToggle) {
+                                    screenModel.setShowSideBar(
+                                        showSideBar = true,
+                                        autoToggle = true
+                                    )
+                                }
+                            },
                             layer = uiState.selectedLayer,
                             layerIndex = uiState.pageState.selectedLayerIndex,
                             lockMoving = uiState.pageState.moveLocked,
                             highlight = uiState.pageState.highlight,
                             onWidgetChanged = screenModel::editWidget,
+                            onEmptyAreaClicked = {
+                                if (uiState.pageState.showSideBar) {
+                                    screenModel.setShowSideBar(
+                                        showSideBar = false,
+                                        autoToggle = true,
+                                    )
+                                }
+                            },
                         )
                     } else if (uiState.selectedPreset != null) {
                         Text(Text.translatable(Texts.SCREEN_CUSTOM_CONTROL_LAYOUT_NO_LAYER_SELECTED))

@@ -93,6 +93,7 @@ sealed class CustomControlLayoutTabState {
             val moveLocked: Boolean = false,
             val highlight: Boolean = false,
             val showSideBar: Boolean = false,
+            val sideBarAutoToggle: Boolean = false,
             val copiedWidget: ControllerWidget? = null,
             val editState: EditState? = null,
         )
