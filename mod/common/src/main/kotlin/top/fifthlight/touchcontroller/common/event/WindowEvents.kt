@@ -10,9 +10,9 @@ object WindowEvents : KoinComponent {
     private val logger = LoggerFactory.getLogger(WindowEvents::class.java)
     private val platformProvider: PlatformProvider by inject()
     private lateinit var windowProvider: PlatformWindowProvider
-    internal val windowWidth: Int
+    val windowWidth: Int
         get() = windowProvider.windowWidth
-    internal val windowHeight: Int
+    val windowHeight: Int
         get() = windowProvider.windowHeight
 
     fun onWindowCreated(windowProvider: PlatformWindowProvider) {

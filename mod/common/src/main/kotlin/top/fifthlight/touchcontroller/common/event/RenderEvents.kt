@@ -4,12 +4,15 @@ import kotlinx.collections.immutable.toPersistentMap
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.slf4j.LoggerFactory
+import top.fifthlight.combine.input.input.TextInputState
+import top.fifthlight.combine.input.input.TextRange
 import top.fifthlight.combine.paint.Canvas
 import top.fifthlight.data.IntOffset
 import top.fifthlight.data.Offset
 import top.fifthlight.touchcontroller.common.config.GlobalConfigHolder
 import top.fifthlight.touchcontroller.common.config.LayerConditionKey
 import top.fifthlight.touchcontroller.common.gal.*
+import top.fifthlight.touchcontroller.common.input.InputManager
 import top.fifthlight.touchcontroller.common.layout.Context
 import top.fifthlight.touchcontroller.common.layout.ContextInput
 import top.fifthlight.touchcontroller.common.layout.DrawQueue
@@ -86,6 +89,18 @@ object RenderEvents : KoinComponent {
                         }
                     }
 
+                    is InputStatusMessage -> {
+                        message.status?.let { status ->
+                            InputManager.updateNativeState(
+                                TextInputState(
+                                    text = status.text,
+                                    composition = TextRange(status.composition.start, status.composition.length),
+                                    selection = TextRange(status.selection.start, status.selection.length),
+                                    selectionLeft = status.selectionLeft,
+                                )
+                            )
+                        }
+                    }
                     else -> {}
                 }
             }

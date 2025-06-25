@@ -47,6 +47,7 @@ val compileNativeTasks = targets.mapValues { (arch, target) ->
             add(buildCommands)
         })
         inputs.apply {
+            dir("../proxy-common/src")
             property("image.linux-gnu", imageName)
             property("podman.command", podmanCommand)
             property("podman.extra-args", podmanExtraArguments)

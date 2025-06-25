@@ -2,10 +2,13 @@ package top.fifthlight.combine.widget.ui
 
 import androidx.compose.runtime.*
 import kotlinx.coroutines.delay
+import top.fifthlight.combine.data.LocalTextFactory
 import top.fifthlight.combine.data.Text
 import top.fifthlight.combine.input.MutableInteractionSource
 import top.fifthlight.combine.input.input.LocalClipboard
 import top.fifthlight.combine.input.input.TextInputState
+import top.fifthlight.combine.input.input.TextRange
+import top.fifthlight.combine.input.input.substring
 import top.fifthlight.combine.input.key.Key
 import top.fifthlight.combine.layout.Alignment
 import top.fifthlight.combine.modifier.Modifier
@@ -14,6 +17,7 @@ import top.fifthlight.combine.modifier.focus.FocusInteraction
 import top.fifthlight.combine.modifier.focus.focusable
 import top.fifthlight.combine.modifier.input.textInput
 import top.fifthlight.combine.modifier.key.onKeyEvent
+import top.fifthlight.combine.modifier.placement.anchor
 import top.fifthlight.combine.modifier.placement.minHeight
 import top.fifthlight.combine.modifier.pointer.clickable
 import top.fifthlight.combine.node.LocalInputHandler
@@ -24,6 +28,7 @@ import top.fifthlight.combine.widget.base.Canvas
 import top.fifthlight.combine.widget.base.layout.Box
 import top.fifthlight.combine.widget.base.layout.Column
 import top.fifthlight.data.IntOffset
+import top.fifthlight.data.IntRect
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Textures
 
@@ -35,7 +40,7 @@ val defaultEditTextDrawable = DrawableSet(
     disabled = Textures.WIDGET_TEXTFIELD_TEXTFIELD_DISABLED,
 )
 
-val LocalEditTextDrawableSet = staticCompositionLocalOf<DrawableSet> { defaultEditTextDrawable }
+val LocalEditTextDrawableSet = staticCompositionLocalOf { defaultEditTextDrawable }
 
 @Composable
 fun EditText(
@@ -49,11 +54,20 @@ fun EditText(
 ) {
     val clipboard = LocalClipboard.current
     val textMeasurer = LocalTextMeasurer.current
+    val textFactory = LocalTextFactory.current
     val inputManager = LocalInputHandler.current
     var textInputState by remember { mutableStateOf(TextInputState(value)) }
 
+    fun updateInputState(block: TextInputState.() -> TextInputState) {
+        textInputState = block(textInputState)
+        if (value != textInputState.text) {
+            onValueChanged(textInputState.text)
+        }
+    }
+
     var focused by remember { mutableStateOf(false) }
     var cursorShow by remember { mutableStateOf(false) }
+    var cursorRect by remember { mutableStateOf(IntRect.ZERO) }
     LaunchedEffect(interactionSource) {
         try {
             interactionSource.interactions.collect {
@@ -70,8 +84,21 @@ fun EditText(
                 }
             }
         } finally {
-            if (focused) {
-                inputManager.tryHideKeyboard()
+            inputManager.updateInputState(null)
+            inputManager.tryHideKeyboard()
+        }
+    }
+    LaunchedEffect(textInputState, focused, cursorRect) {
+        if (focused) {
+            inputManager.updateInputState(textInputState, cursorRect)
+        } else {
+            inputManager.updateInputState(null)
+        }
+    }
+    LaunchedEffect(focused) {
+        if (focused) {
+            inputManager.events.collect { newState ->
+                updateInputState { newState }
             }
         }
     }
@@ -89,13 +116,6 @@ fun EditText(
             }
         } else {
             cursorShow = false
-        }
-    }
-
-    fun updateInputState(block: TextInputState.() -> TextInputState) {
-        textInputState = block(textInputState)
-        if (value != textInputState.text) {
-            onValueChanged(textInputState.text)
         }
     }
 
@@ -172,65 +192,75 @@ fun EditText(
             ) {}
         }
     ) { node ->
-        val textSize = textMeasurer.measure(value)
-        val offsetY = (node.height - textSize.height) / 2
-        val textWidth = node.width
         if (value.isEmpty() && !focused) {
+            val textSize = textMeasurer.measure(value)
+            val offsetY = (node.height - textSize.height) / 2
             if (placeholder != null) {
                 drawText(
-                    offset = IntOffset.ZERO,
-                    width = textWidth,
+                    offset = IntOffset(0, offsetY),
+                    width = node.width,
                     text = placeholder,
                     color = Colors.LIGHT_GRAY
                 )
+                cursorRect = IntRect(node.absolutePosition, IntSize(1, 9))
             }
         } else {
-            // TODO handle composition region
-            var textCursor = 0
-            val beforeSelectionText = textInputState.text.substring(0, textInputState.selection.start)
-            drawText(
-                offset = IntOffset(textCursor, offsetY),
-                text = beforeSelectionText,
-                color = Colors.WHITE
-            )
-            textCursor += textMeasurer.measure(beforeSelectionText).width
+            val fullText = textInputState.text
+            val textSize = textMeasurer.measure(fullText)
+            val offsetY = (node.height - textSize.height) / 2
 
-            val selectionText = textInputState.selectionText
-            val selectionWidth = textMeasurer.measure(selectionText).width
-            val selectionOffset = IntOffset(textCursor, offsetY)
-            fillRect(
-                offset = selectionOffset,
-                size = IntSize(selectionWidth, 9),
-                color = Colors.GRAY,
-            )
-            drawText(
-                offset = selectionOffset,
-                text = selectionText,
-                color = Colors.WHITE
-            )
+            val selectionStartX = textMeasurer.measure(fullText.substring(0, textInputState.selection.start)).width
+            val selectionWidth = textMeasurer.measure(textInputState.selectionText).width
 
-            if (cursorShow && textInputState.selectionLeft) {
+            if (selectionWidth > 0) {
                 fillRect(
-                    offset = IntOffset(textCursor, offsetY),
-                    size = IntSize(1, 9),
+                    offset = IntOffset(selectionStartX, offsetY),
+                    size = IntSize(selectionWidth, textSize.height),
+                    color = Colors.GRAY,
+                )
+            }
+
+            // 计算光标位置
+            val cursorX = if (textInputState.selectionLeft) {
+                selectionStartX
+            } else {
+                selectionStartX + selectionWidth
+            }
+
+            // 记录光标矩形（用于输入法）
+            cursorRect = IntRect(
+                IntOffset(cursorX, offsetY) + node.absolutePosition,
+                IntSize(1, textSize.height)
+            )
+
+            // 绘制光标（如果需要）
+            if (cursorShow) {
+                fillRect(
+                    offset = IntOffset(cursorX, offsetY),
+                    size = IntSize(1, textSize.height),
                     color = Colors.WHITE,
                 )
             }
 
-            textCursor += selectionWidth
-
-            if (cursorShow && !textInputState.selectionLeft) {
-                fillRect(
-                    offset = IntOffset(textCursor, offsetY),
-                    size = IntSize(1, 9),
-                    color = Colors.WHITE,
-                )
+            // 构建富文本（处理预编辑文本的下划线）
+            val styledText = textFactory.build {
+                if (textInputState.composition != TextRange.EMPTY) {
+                    val beforeComposition = fullText.substring(0, textInputState.composition.start)
+                    val compositionText = fullText.substring(textInputState.composition)
+                    val afterComposition = fullText.substring(textInputState.composition.end)
+                    append(beforeComposition)
+                    underline { append(compositionText) }
+                    append(afterComposition)
+                } else {
+                    append(fullText)
+                }
             }
 
-            val afterSelectionText = textInputState.text.substring(textInputState.selection.end)
+            // 绘制整个富文本
             drawText(
-                offset = IntOffset(textCursor, offsetY),
-                text = afterSelectionText,
+                offset = IntOffset(0, offsetY),
+                width = node.width,
+                text = styledText,
                 color = Colors.WHITE
             )
         }

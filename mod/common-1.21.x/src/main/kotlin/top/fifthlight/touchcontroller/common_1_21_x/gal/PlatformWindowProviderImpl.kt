@@ -12,9 +12,9 @@ class PlatformWindowProviderImpl(
     private val inner: Window,
 ) : PlatformWindowProvider {
     override val windowWidth: Int
-        get() = inner.width
+        get() = inner.screenWidth
     override val windowHeight: Int
-        get() = inner.height
+        get() = inner.screenHeight
 
     override val platform: GlfwPlatform<*> by lazy {
         when (GLFW.glfwGetPlatform()) {

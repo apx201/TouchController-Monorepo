@@ -53,6 +53,9 @@ endif()
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(WAYLAND_CLIENT REQUIRED wayland-client)
 
-add_library(proxy_linux_wayland SHARED "src/wayland.hpp" "src/wayland.cpp")
+add_library(proxy_linux_wayland SHARED
+    "src/wayland-text-input-unstable-v3.c" "src/wayland-text-input-unstable-v3.h"
+    "src/wayland.hpp" "src/wayland.cpp"
+)
 target_include_directories(proxy_linux_wayland PRIVATE ${JNI_INCLUDE_DIRS} ${WAYLAND_CLIENT_INCLUDE_DIRS})
 target_link_libraries(proxy_linux_wayland PRIVATE ${WAYLAND_CLIENT_LIBRARIES} proxy_protocol)

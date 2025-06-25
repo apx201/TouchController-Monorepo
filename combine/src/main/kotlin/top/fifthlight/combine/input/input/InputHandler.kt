@@ -1,7 +1,11 @@
 package top.fifthlight.combine.input.input
 
+import kotlinx.coroutines.flow.SharedFlow
+import top.fifthlight.data.IntRect
+
 interface InputHandler {
-    fun updateInputState(textInputState: TextInputState)
+    val events: SharedFlow<TextInputState>
+    fun updateInputState(textInputState: TextInputState?, cursorRect: IntRect? = null)
     fun tryShowKeyboard()
     fun tryHideKeyboard()
 }

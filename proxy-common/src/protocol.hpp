@@ -16,7 +16,21 @@ static uint32_t htonf(float value) {
     uint32_t int_value = *(uint32_t*)(&value);
     return htonl(int_value);
 }
+static float ntohf(uint32_t value) {
+    uint32_t int_value = ntohl(value);
+    return *(float*)(&int_value);
+}
 #endif
+
+struct InputStatusData {
+    bool has_status;
+    const char* text;
+    int composition_start;
+    int composition_length;
+    int selection_start;
+    int selection_length;
+    bool selection_left;
+};
 
 struct ProxyMessage {
     enum Type : uint32_t {
@@ -28,6 +42,7 @@ struct ProxyMessage {
         Large = 6,
         InputStatus = 7,
         KeyboardShow = 8,
+        InputCursor = 9,
     };
 
     Type type;
@@ -53,38 +68,27 @@ struct ProxyMessage {
             uint8_t payload[240];
         } large;
 
-        struct {
-            bool has_status;
-            const char* text;
-            int composition_start;
-            int composition_length;
-            int selection_start;
-            int selection_length;
-            uint8_t selection_left;
-        } input_status;
+        struct InputStatusData input_status;
 
         struct {
             bool show;
         } keyboard_show;
-    };
 
-    bool is_large_packet() const {
-        switch (type) {
-            case InputStatus:
-                return true;
-            default:
-                return false;
-        }
+        struct {
+            bool has_cursor_rect;
+            float left;
+            float top;
+            float width;
+            float height;
+        } input_cursor;
     };
 
     void serialize(std::vector<uint8_t>& buffer) const {
         buffer.clear();
 
-        // 写入类型
         uint32_t msg_type = htonl(static_cast<uint32_t>(type));
         append(buffer, msg_type);
 
-        // 根据类型写入数据
         switch (type) {
             case Add: {
                 uint32_t pointer_index = htonl(add.index);
@@ -118,11 +122,11 @@ struct ProxyMessage {
             case InputStatus: {
                 if (input_status.has_status) {
                     buffer.push_back(1);
-                    uint32_t text_length =
-                        static_cast<uint8_t>(strlen(input_status.text));
+                    uint32_t text_length = static_cast<uint32_t>(strlen(input_status.text));
                     append(buffer, htonl(text_length));
                     buffer.insert(buffer.end(), input_status.text,
                                   input_status.text + text_length);
+                    std::free((void*) input_status.text);
                     append(buffer, htonl(input_status.composition_start));
                     append(buffer, htonl(input_status.composition_length));
                     append(buffer, htonl(input_status.selection_start));
@@ -136,6 +140,16 @@ struct ProxyMessage {
             case KeyboardShow:
                 append(buffer, keyboard_show.show ? 1 : 0);
                 break;
+            case InputCursor: {
+                buffer.push_back(input_cursor.has_cursor_rect ? 1 : 0);
+                if (input_cursor.has_cursor_rect) {
+                    append(buffer, htonf(input_cursor.left));
+                    append(buffer, htonf(input_cursor.top));
+                    append(buffer, htonf(input_cursor.width));
+                    append(buffer, htonf(input_cursor.height));
+                }
+                break;
+            }
         }
     }
 

@@ -10,7 +10,6 @@ data class TextInputState(
         require(composition.end <= text.length) { "composition region end ${composition.end} should not exceed text length ${text.length}" }
         require(selection.end <= text.length) { "selection region end ${selection.end} should not exceed text length ${text.length}" }
     }
-
     val compositionText = text.substring(composition)
     val selectionText = text.substring(selection)
 }

@@ -11,7 +11,10 @@ data class TextRange(
 
     constructor(start: Int) : this(start, 0)
 
-    val end get() = start + length
+    val isEmpty: Boolean
+        get() = length == 0
+    val end
+        get() = start + length
 
     companion object {
         val EMPTY = TextRange(0, 0)

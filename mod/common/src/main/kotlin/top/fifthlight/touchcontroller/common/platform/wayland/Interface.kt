@@ -9,4 +9,7 @@ object Interface {
 
     @JvmStatic
     external fun pollEvent(buffer: ByteArray): Int
+
+    @JvmStatic
+    external fun pushEvent(buffer: ByteArray, length: Int)
 }

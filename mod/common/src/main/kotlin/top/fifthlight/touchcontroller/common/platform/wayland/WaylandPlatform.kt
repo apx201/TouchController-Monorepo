@@ -16,7 +16,7 @@ class WaylandPlatform(window: NativeWindow.Wayland) : Platform {
 
     override fun resize(width: Int, height: Int) = Interface.resize(width, height)
 
-    private val readBuffer = ByteArray(128)
+    private val readBuffer = ByteArray(65536)
     override fun pollEvent(): ProxyMessage? {
         val length = Interface.pollEvent(readBuffer).takeIf { it != 0 } ?: return null
         val buffer = ByteBuffer.wrap(readBuffer)
@@ -33,7 +33,10 @@ class WaylandPlatform(window: NativeWindow.Wayland) : Platform {
         }
     }
 
+    private val sendBuffer = ByteArray(65536)
     override fun sendEvent(message: ProxyMessage) {
-        // TODO not support for now
+        val buffer = ByteBuffer.wrap(sendBuffer)
+        message.encode(buffer)
+        Interface.pushEvent(buffer.array(), buffer.position())
     }
 }
