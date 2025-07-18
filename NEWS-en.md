@@ -3,6 +3,7 @@
 ## 0.2.1-beta10
 
 - Imported warning message when proxy is not connected
+- Added support for 1.21.8
 
 ## 0.2.1-beta09
 
