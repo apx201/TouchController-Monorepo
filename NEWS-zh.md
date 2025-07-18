@@ -1,5 +1,9 @@
 # TouchController NEWS - 用户可见的更改。
 
+## 0.2.1-beta11
+
+- 修正了 GitHub 的大小写错误
+
 ## 0.2.1-beta10
 
 - 改进了代理未连接的信息显示

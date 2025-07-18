@@ -1,5 +1,9 @@
 # TouchController NEWS - User visible changes.
 
+## 0.2.1-beta11
+
+- Fixed letter case of GitHub
+
 ## 0.2.1-beta10
 
 - Imported warning message when proxy is not connected
