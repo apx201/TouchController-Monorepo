@@ -3,6 +3,7 @@
 ## 0.2.1-beta11
 
 - Fixed letter case of GitHub
+- Fixed loading failure on Forge with recent game versions
 
 ## 0.2.1-beta10
 

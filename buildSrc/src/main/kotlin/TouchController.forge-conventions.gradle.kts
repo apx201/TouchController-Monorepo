@@ -68,6 +68,10 @@ minecraft {
         accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
     }
 
+    if (!remapOutputBool) {
+        reobf = false
+    }
+
     runs {
         copyIdeResources = true
 
@@ -252,7 +256,11 @@ val mixinRefmapFile =
 // Create a Jar task to exclude some META-INF files and module-info.class from R8 output,
 // and make ForgeGradle reobf task happy (FG requires JarTask for it's reobf input)
 val gr8JarTask = tasks.register<Jar>("gr8Jar") {
-    dependsOn("reobfJar")
+    if (remapOutputBool) {
+        dependsOn("reobfJar")
+    } else {
+        dependsOn("jar")
+    }
 
     inputs.files(tasks.getByName("gr8Gr8ShadowedJar").outputs.files)
     archiveBaseName = "$modName-noreobf"
