@@ -22,8 +22,8 @@ class LauncherProxyMessageClient(private val transport: MessageTransport) : Auto
         data object Close : MessageItem()
     }
 
-    private val sendQueue = LinkedBlockingQueue<MessageItem>()
-    private val receiveQueue = LinkedBlockingQueue<MessageItem>()
+    private val sendQueue = LinkedBlockingQueue<MessageItem>(2048)
+    private val receiveQueue = LinkedBlockingQueue<MessageItem>(2048)
     private var running = AtomicBoolean(false)
     private var closed = AtomicBoolean(false)
 
