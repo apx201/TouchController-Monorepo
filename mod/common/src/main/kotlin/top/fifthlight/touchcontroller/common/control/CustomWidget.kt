@@ -18,6 +18,7 @@ import top.fifthlight.data.IntRect
 import top.fifthlight.data.IntSize
 import top.fifthlight.touchcontroller.assets.Texts
 import top.fifthlight.touchcontroller.common.ext.fastRandomUuid
+import top.fifthlight.touchcontroller.common.helper.ColorHelper
 import top.fifthlight.touchcontroller.common.layout.*
 import kotlin.uuid.Uuid
 
@@ -172,7 +173,7 @@ data class CustomWidget(
                         canvas.drawText(
                             offset = textOffset,
                             text = text,
-                            color = textColor,
+                            color = ColorHelper.mixOpacity(textColor, opacity),
                         )
                     }
                 }
@@ -184,18 +185,18 @@ data class CustomWidget(
                 drawQueue.enqueue { canvas ->
                     canvas.fillRect(
                         size = textureSize,
-                        color = buttonTexture.borderColor,
+                        color = ColorHelper.mixOpacity(buttonTexture.borderColor, opacity),
                     )
                     canvas.fillRect(
                         offset = IntOffset(buttonTexture.borderWidth),
                         size = textureSize - buttonTexture.borderWidth * 2,
-                        color = buttonTexture.backgroundColor,
+                        color = ColorHelper.mixOpacity(buttonTexture.backgroundColor, opacity),
                     )
                     renderText?.let { text ->
                         canvas.drawText(
                             offset = textOffset,
                             text = text,
-                            color = textColor,
+                            color = ColorHelper.mixOpacity(textColor, opacity),
                         )
                     }
                 }
@@ -210,7 +211,7 @@ data class CustomWidget(
                         canvas.drawText(
                             offset = textOffset / 2,
                             text = text,
-                            color = textColor,
+                            color = ColorHelper.mixOpacity(textColor, opacity),
                         )
                     }
                 }
@@ -226,13 +227,13 @@ data class CustomWidget(
                             offset = IntOffset.ZERO,
                             size = textureSize
                         ),
-                        tint = tint,
+                        tint = ColorHelper.mixOpacity(tint, opacity),
                     )
                     renderText?.let { text ->
                         canvas.drawText(
                             offset = textOffset,
                             text = text,
-                            color = textColor,
+                            color = ColorHelper.mixOpacity(textColor, opacity),
                         )
                     }
                 }
