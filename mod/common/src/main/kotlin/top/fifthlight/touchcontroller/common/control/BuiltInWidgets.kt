@@ -286,6 +286,7 @@ data class BuiltInWidgets private constructor(
         activeTexture = fixed(TextureSet.TextureKey.UseActive),
         grayOnClassic = true,
         swipeTrigger = false,
+        grabTrigger = true,
         action = ButtonTrigger(
             press = key(DefaultKeyBindingType.USE),
         ),
