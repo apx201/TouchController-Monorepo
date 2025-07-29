@@ -101,11 +101,21 @@ class CustomControlLayoutTabModel(
     }
 
     fun enableCustomLayout() {
-        configScreenModel.updateConfig {
-            if (preset is PresetConfig.BuiltIn) {
-                copy(preset = PresetConfig.Custom())
-            } else {
-                this
+        val prevPresetKey = when (val config = configScreenModel.uiState.value.config.preset) {
+            is PresetConfig.BuiltIn -> config.key
+            is PresetConfig.Custom -> return
+        }
+        val firstPreset = presetManager.presets.value.orderedEntries.firstOrNull()
+        if (firstPreset == null) {
+            val newPreset = prevPresetKey.preset
+            val newPresetUuid = Uuid.random()
+            presetManager.savePreset(newPresetUuid, newPreset)
+            configScreenModel.updateConfig {
+                copy(preset = PresetConfig.Custom(uuid = newPresetUuid))
+            }
+        } else {
+            configScreenModel.updateConfig {
+                copy(preset = PresetConfig.Custom(firstPreset.first))
             }
         }
     }
