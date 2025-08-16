@@ -55,15 +55,14 @@
   "touchcontroller.screen.config.about.loading": "Loading",
 
   "touchcontroller.screen.config.layout.title": "Layout",
-
-  "touchcontroller.screen.config.layout.manage_control_preset": "Manage control presets",
+  "touchcontroller.screen.config.layout.manage_control_preset": "Preset mode",
   "touchcontroller.screen.manage_control_preset.title": "Manage presets",
   "touchcontroller.screen.manage_control_preset.switch.message": "Do you want to use preset mode? Settings in custom layout will be frozen!",
   "touchcontroller.screen.manage_control_preset.switch.switch": "Switch to preset mode",
   "touchcontroller.screen.manage_control_preset.switch.goto_custom": "Go to custom layout",
   "touchcontroller.screen.manage_control_preset.texture_style": "Texture style",
-  "touchcontroller.texture_set.classic.title": "Old style bedrock version texture",
-  "touchcontroller.texture_set.new.title": "New style bedrock version texture",
+  "touchcontroller.texture_set.classic.title": "Old style texture",
+  "touchcontroller.texture_set.new.title": "New style texture",
   "touchcontroller.texture_set.new_regression.title": "Old style icon with new style background",
   "touchcontroller.texture_set.classic_extension.title": "New style icon with old style background",
   "touchcontroller.screen.manage_control_preset.opacity": "Opacity",
@@ -82,11 +81,10 @@
   "touchcontroller.screen.manage_control_preset.sprint.right_top": "Right-top edge",
   "touchcontroller.screen.manage_control_preset.sprint.right": "Right side",
   "touchcontroller.screen.manage_control_preset.use_vanilla_chat": "Use vanilla chat screen",
-
-  "touchcontroller.screen.config.layout.custom_control_layout": "Custom control layout",
+  "touchcontroller.screen.config.layout.custom_control_layout": "Custom layout",
   "touchcontroller.screen.custom_control_layout.title": "Custom layout",
-  "touchcontroller.screen.custom_control_layout.switch.message": "Do you want to use custom layout mode? Settings in preset mode will be dropped!",
-  "touchcontroller.screen.custom_control_layout.switch.switch": "Switch to custom layout",
+  "touchcontroller.screen.custom_control_layout.switch.message": "Do you want to use custom mode? Settings in preset mode will be dropped!",
+  "touchcontroller.screen.custom_control_layout.switch.switch": "Switch to custom mode",
   "touchcontroller.screen.custom_control_layout.switch.goto_preset": "Go to preset mode",
   "touchcontroller.screen.custom_control_layout.show_side_bar": "Show side bar",
   "touchcontroller.screen.custom_control_layout.no_layer_selected": "Select a layer to edit",
@@ -346,9 +344,7 @@
   "touchcontroller.widget.dpad.property.extra_button.active_texture.type": "Texture",
   "touchcontroller.widget.dpad.property.extra_button.swipe_locking.key_binding": "Key binding",
   "touchcontroller.widget.dpad.property.show_backward_button": "Show backwards-left/-right buttons",
-
   "touchcontroller.widget.sneak_button.name": "Sneak button",
-
   "touchcontroller.widget.jump_button.name": "Jump button",
 
   "touchcontroller.widget.joystick.name": "Virtual joystick",

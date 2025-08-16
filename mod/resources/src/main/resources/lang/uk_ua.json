@@ -346,9 +346,7 @@
   "touchcontroller.widget.dpad.property.extra_button.active_texture.type": "Текстура",
   "touchcontroller.widget.dpad.property.extra_button.swipe_locking.key_binding": "Прив'язка клавіш",
   "touchcontroller.widget.dpad.property.show_backward_button": "Кнопки назад уліво/управо",
-
   "touchcontroller.widget.sneak_button.name": "Кнопка крадькома",
-
   "touchcontroller.widget.jump_button.name": "Кнопка стрибка",
 
   "touchcontroller.widget.joystick.name": "Віртуальний джойстик",

@@ -441,5 +441,6 @@
   "touchcontroller.widget.trigger.layer_condition.condition": "条件",
   "touchcontroller.widget.trigger.layer_condition.condition.empty": "空",
   "touchcontroller.widget.double_trigger.interval": "触发间隔",
-  "touchcontroller.widget.double_trigger.action": "触发行为"
+  "touchcontroller.widget.double_trigger.action": "触发行为",
+  "modmenu.descriptionTranslation.touchcontroller": "给 Java 版的 Minecraft 带来基岩版的操作方式！"
 }
