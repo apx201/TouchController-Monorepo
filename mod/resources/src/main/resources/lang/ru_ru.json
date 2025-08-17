@@ -1,12 +1,11 @@
 {
-  "modmenu.descriptionTranslation.touchcontroller": "Переносит сенсорное управление из Bedrock Edition в Java Edition!",
-	
-	"touchcontroller.warning.proxy_not_connected": "Внимание: Прокси не подключён. TouchController не будет работать.",
+  "touchcontroller.warning.proxy_not_connected": "Внимание: Прокси не подключён. TouchController не будет работать.",
   "touchcontroller.warning.proxy_not_connected_android": "Вы используете Android, но прокси управления выключен. Если ваш лаунчер поддерживает TouchController, то нужно включить прокси; если не поддержки нет, то смените лаунчер на тот, который поддерживает TouchController.",
   "touchcontroller.warning.proxy_not_connected_linux": "TouchController не запустился. Возможные причины: не загрузились динамические библиотеки TouchController; вы используете X11, но TouchController сейчас поддерживает только Wayland. Посмотрите подробности в логах.",
   "touchcontroller.warning.proxy_not_connected_windows": "TouchController не запустился. Посмотрите подробности в логах.",
   "touchcontroller.warning.proxy_not_connected_os_not_supported": "Вы используете не поддерживаемую ОС: %s, TouchController поддерживает только Windows, Linux и Android.",
   "touchcontroller.warning.legacy_udp_proxy_used": "Внимание: Используется устаревший протокол проксирования UDP. Вы можете использовать TouchController, но рекомендуется обновить лаунчер для доступа к новым функциям.",
+
   "touchcontroller.warning.development_version.title": "Внимание",
   "touchcontroller.warning.development_version.message": "Вы используете тестовую версию TouchController, возможно вы столкнётесь с ошибками! Найденные ошибки отправляйте нам на GitHub.",
   "touchcontroller.warning.development_version.ok": "Ок",
@@ -35,11 +34,6 @@
   "touchcontroller.screen.config.undo": "Вернуть",
   "touchcontroller.screen.config.cancel": "Отмена",
 
-  "touchcontroller.screen.config.unsaved_warning.title": "Внимаение",
-  "touchcontroller.screen.config.unsaved_warning.message": "У вас есть несохранённые изменения. Вы точно хотите выйти? Все несохранённые изменения будут уничтожены!",
-  "touchcontroller.screen.config.unsaved_warning.yes": "Да",
-  "touchcontroller.screen.config.unsaved_warning.no": "Нет",
-
   "touchcontroller.screen.config.reset.title": "Какой конфиг вы хотите сбросить?",
   "touchcontroller.screen.config.reset.current_tab": "Текущая вкладка",
   "touchcontroller.screen.config.reset.layout_settings": "Настройки наложения",
@@ -50,8 +44,6 @@
   "touchcontroller.screen.config.about.authors.title": "Авторы: ",
   "touchcontroller.screen.config.about.contributors.title": "Участники: ",
   "touchcontroller.screen.config.about.license.title": "Лицензия: ",
-  "touchcontroller.screen.config.about.show.title": "Показать",
-  "touchcontroller.screen.config.about.libraries.title": "Используемые библиотеки",
   "touchcontroller.screen.config.about.unknown_version": "Неизвестная версия",
   "touchcontroller.screen.config.about.loading": "Загрузка",
 
@@ -105,7 +97,6 @@
   "touchcontroller.screen.custom_control_layout.widgets": "Кнопки",
   "touchcontroller.screen.custom_control_layout.widgets.builtin": "Встроенные",
   "touchcontroller.screen.custom_control_layout.widgets.preset": "Свои пресеты",
-  "touchcontroller.screen.custom_control_layout.widgets.loading": "Загрузка",
   "touchcontroller.screen.custom_control_layout.widgets.new_widget.opacity": "Нерозрачность для новых кнопок: %s%%",
   "touchcontroller.screen.custom_control_layout.widgets.new_widget.texture_set": "Текстура для новых кнопок",
   "touchcontroller.screen.custom_control_layout.widgets.new_widget.save": "Сохранить",
@@ -123,9 +114,6 @@
   "touchcontroller.screen.custom_control_layout.layers.edit": "Редактировать",
   "touchcontroller.screen.custom_control_layout.layers.copy": "Копировать",
   "touchcontroller.screen.custom_control_layout.layers.delete": "Удалить",
-  "touchcontroller.screen.custom_control_layout.layers.no_preset_selected": "Выберете пресет для редактирования слоёв",
-  "touchcontroller.screen.custom_control_layout.layers.conditions.count": "Условие: %d",
-  "touchcontroller.screen.custom_control_layout.layers.conditions.ignore": "Игнор",
   "touchcontroller.screen.custom_control_layout.layers.conditions.never": "Никогда",
   "touchcontroller.screen.custom_control_layout.layers.conditions.want": "Нужен",
   "touchcontroller.screen.custom_control_layout.layers.conditions.require": "Требуется",
@@ -196,8 +184,6 @@
   "touchcontroller.screen.custom_control_layout.presets.path.ok": "Ок",
   "touchcontroller.screen.custom_control_layout.presets.path.get_failed": "Не удалось получить путь пресета.",
 
-  "touchcontroller.screen.config.layout.gui_control_layout.title": "Интерфейс наложения управления",
-
   "touchcontroller.screen.config.general.title": "Глобальное",
 
   "touchcontroller.screen.config.general.regular.title": "Общее",
@@ -213,10 +199,6 @@
   "touchcontroller.screen.config.general.regular.vibration.description": "Включает вибрацию при ломании блоков. Доступно только на Android.",
   "touchcontroller.screen.config.general.regular.quick_hand_swap.title": "Быстрая смена предметов из руки в руку",
   "touchcontroller.screen.config.general.regular.quick_hand_swap.description": "Позволяет перемещать предмет из руки в руку при двойном нажатии на предмет в хотбаре.",
-  "touchcontroller.screen.config.general.regular.split_controls.title": "Разделить управление",
-  "touchcontroller.screen.config.general.regular.split_controls.description": "Включает раздельное управление в игре, чтобы прицеливаться с помощью перекрестия в центре экрана вместо использования сенсорного кольца.",
-  "touchcontroller.screen.config.general.regular.disable_touch_gesture.title": "Отключить жесты касания",
-  "touchcontroller.screen.config.general.regular.disable_touch_gesture.description": "Отключает жесты атаки и взаимодействия.",
 
   "touchcontroller.screen.config.general.control.title": "Управление",
   "touchcontroller.screen.config.general.control.view_movement_sensitivity.title": "Чувствительность камеры",
@@ -242,11 +224,8 @@
 
   "touchcontroller.screen.config.item.title": "Предметы",
   "touchcontroller.screen.config.item.usable_items.title": "Время удержания касания для использования",
-  "touchcontroller.screen.config.item.usable_items.description": "Предметы могут использоваться при удержании касания без указания на блок.",
   "touchcontroller.screen.config.item.show_crosshair_items.title": "Предметы при которых отображается перекрестие",
-  "touchcontroller.screen.config.item.show_crosshair_items.description": "Предметы, при держании которых появляется перекрестие для помощи в прицеливании.",
   "touchcontroller.screen.config.item.crosshair_aiming_items.title": "Предметы, которым нужна корректировка прицеливания",
-  "touchcontroller.screen.config.item.crosshair_aiming_items.description": "Предметы, которые при размещении нужно прицеливаться при помощи прицела, например, вёдра и лодки. Если возникают проблемы с размещением предметов, попробуйте добавить их в этот список.",
   "touchcontroller.screen.config.item.whitelist.title": "Белый список",
   "touchcontroller.screen.config.item.whitelist.description": "Настройка по списку предметов.",
   "touchcontroller.screen.config.item.blacklist.title": "Чёрный список",
@@ -264,7 +243,6 @@
   "touchcontroller.screen.item_list.emi_items": "Список предметов из EMI",
   "touchcontroller.screen.item_list.vanilla_inventory": "Список предметов из ваниллы",
   "touchcontroller.screen.item_list.search_placeholder": "Найти...",
-  "touchcontroller.screen.item_list.remove": "Убрать >",
   "touchcontroller.screen.item_list.no_tab_selected": "Вкладка не выбрана",
   "touchcontroller.screen.item_list.inventory.main": "Инвентарь",
   "touchcontroller.screen.item_list.inventory.armor": "Надето",
@@ -277,7 +255,6 @@
 
   "touchcontroller.screen.license.title": "Лицензия",
 
-  "touchcontroller.widget.texture.type": "Тип текстуры",
   "touchcontroller.widget.texture.type.empty": "Пустой",
   "touchcontroller.widget.texture.type.fill": "Заполненный",
   "touchcontroller.widget.texture.type.fixed": "Фиксированный",
@@ -323,7 +300,6 @@
   "touchcontroller.widget.general.property.anchor.bottom_center": "Снизу по центру",
   "touchcontroller.widget.general.property.anchor.bottom_right": "Снизу справа",
   "touchcontroller.widget.general.property.opacity": "Непрозрачность: %s",
-  "touchcontroller.widget.general.property.texture_set": "Установка текстуры",
   "touchcontroller.texture_set.new.name": "Новый",
   "touchcontroller.texture_set.classic.name": "Классика",
   "touchcontroller.texture_set.new_regression.name": "Новая регрессия",
@@ -347,9 +323,7 @@
   "touchcontroller.widget.dpad.property.extra_button.active_texture.type": "Текстура",
   "touchcontroller.widget.dpad.property.extra_button.swipe_locking.key_binding": "Установка действия",
   "touchcontroller.widget.dpad.property.show_backward_button": "Показ кнопок «назад-влево/вправо»",
-
   "touchcontroller.widget.sneak_button.name": "Подкрадывание",
-
   "touchcontroller.widget.jump_button.name": "Прыжок",
 
   "touchcontroller.widget.joystick.name": "Виртуальный джойстик",
@@ -387,10 +361,6 @@
   "touchcontroller.widget.screenshot_button.name": "Скриншот",
 
   "touchcontroller.widget.hide_hud_button.name": "Отображение интерфейса",
-
-  "touchcontroller.widget.forward_button.name": "Кнопка «Вперед»",
-  "touchcontroller.widget.forward_button.property.texture_set": "Стиль текстур",
-  "touchcontroller.widget.forward_button.property.size": "Размер: %s%%",
 
   "touchcontroller.widget.player_list_button.name": "Список игроков",
 
@@ -444,5 +414,6 @@
   "touchcontroller.widget.trigger.layer_condition.condition": "Условие",
   "touchcontroller.widget.trigger.layer_condition.condition.empty": "Пусто",
   "touchcontroller.widget.double_trigger.interval": "Интервал тригера",
-  "touchcontroller.widget.double_trigger.action": "Тригер действия"
+  "touchcontroller.widget.double_trigger.action": "Тригер действия",
+  "modmenu.descriptionTranslation.touchcontroller": "Переносит сенсорное управление из Bedrock Edition в Java Edition!"
 }
