@@ -5427,7 +5427,7 @@
     },
     "//repo:neoforge.bzl%neoforge": {
       "general": {
-        "bzlTransitiveDigest": "rE+e73cDGbLR54SaYa51uARqfB0Wmj91yDrOZFq+5QE=",
+        "bzlTransitiveDigest": "R6XI+bGPEiebroyuq3+nMor6W6/75pmloJ3luUW6IaE=",
         "usagesDigest": "mt83YWVSdmhZ8S6GzuGYxrN04mAoe0osrYHdOQ5Vr2Q=",
         "recordedFileInputs": {
           "@@//neoforge_pin.txt": "15cd6729f1724607c0d2fc29d8191457f3f0f0840db75ba86af4cae2dee6a649"

@@ -31,12 +31,15 @@ maven.install(
         "org.ow2.asm:asm-commons:9.8",
         "org.vineflower:vineflower:1.11.1",
         "com.fasterxml.jackson.core:jackson-databind:2.9.6",
+        "com.fasterxml.jackson.core:jackson-databind:2.9.6",
+        "com.fasterxml.jackson.core:jackson-databind:2.9.6",
         "de.swiesend:secret-service:2.0.1-alpha",
         "ch.qos.logback:logback-classic:1.5.18",
         "com.github.mizosoft.methanol:methanol:1.8.3",
         "net.neoforged:srgutils:1.0.10",
         "io.codechicken:DiffPatch:2.0.0.36:all",
         "net.neoforged.jst:jst-cli-bundle:1.0.74",
+        "net.fabricmc:mercury:0.6.0",
 
         # mod dependencies
         "net.fabricmc:fabric-loader:0.16.14",
