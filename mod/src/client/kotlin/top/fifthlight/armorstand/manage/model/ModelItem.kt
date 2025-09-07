@@ -1,4 +1,4 @@
-package top.fifthlight.armorstand.manage
+package top.fifthlight.armorstand.manage.model
 
 import net.minecraft.util.Identifier
 import top.fifthlight.armorstand.util.ModelHash

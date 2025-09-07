@@ -42,7 +42,11 @@ fun ReadableByteChannel.readRemaining(buffer: ByteBuffer): Int {
     return length
 }
 
-fun FileChannel.readToBuffer(offset: Long, length: Long, readSizeLimit: Int): ByteBuffer {
+fun FileChannel.readToBuffer(
+    offset: Long = 0,
+    length: Long = size(),
+    readSizeLimit: Int,
+): ByteBuffer {
     // First, let's try mapping into memory
     try {
         return map(FileChannel.MapMode.READ_ONLY, offset, length)
