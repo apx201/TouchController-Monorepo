@@ -8,7 +8,7 @@ import java.security.MessageDigest
 internal fun Path.calculateSha256(): ByteArray {
     val digest = MessageDigest.getInstance("SHA-256")
     FileChannel.open(this).use { channel ->
-        val buffer = ByteBuffer.allocate(64 * 1024)
+        val buffer = ByteBuffer.allocate(256 * 1024)
         while (true) {
             buffer.clear()
             if (channel.read(buffer) == -1) {

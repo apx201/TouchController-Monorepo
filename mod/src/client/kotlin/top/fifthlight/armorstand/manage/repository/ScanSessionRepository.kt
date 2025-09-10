@@ -10,8 +10,10 @@ interface ScanSessionRepository {
     fun close()
     fun markFileSha(sha256: ModelHash)
     fun markModelPath(path: String)
+    fun markMarkerModelPath(path: String)
     fun markAnimationPath(path: String)
     fun markThumbnailSha(sha256: ModelHash)
+    fun isMarkerModelMarked(path: String): Boolean
     fun isThumbnailMarked(sha256: ModelHash): Boolean
 
     // DELETE ... WHERE NOT EXISTS(...)

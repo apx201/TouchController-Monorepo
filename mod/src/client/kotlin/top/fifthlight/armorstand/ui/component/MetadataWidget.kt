@@ -269,6 +269,7 @@ class MetadataWidget(
             override fun getTexts(metadata: Metadata?) = metadata?.let { metadata ->
                 listOfNotNull(
                     metadata.authors
+                        ?.mapNotNull { it.name }
                         ?.filter { it.isNotBlank() }
                         ?.takeIf(List<String>::isNotEmpty)
                         ?.let { authors ->

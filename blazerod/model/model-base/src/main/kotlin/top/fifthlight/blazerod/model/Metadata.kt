@@ -8,7 +8,7 @@ data class Metadata(
     val commentUniversal: String? = null,
 
     val version: String? = null,
-    val authors: List<String>? = null,
+    val authors: List<Author>? = null,
     val copyrightInformation: String? = null,
     val contactInformation: String? = null,
     val references: List<String>? = null,
@@ -18,6 +18,7 @@ data class Metadata(
     // License information
     val licenseType: String? = null,
     val licenseUrl: String? = null,
+    val licenseDescription: String? = null,
     val specLicenseUrl: String? = null,
     
     // Usage permissions
@@ -31,7 +32,18 @@ data class Metadata(
     val allowRedistribution: Boolean? = null,
     val modificationPermission: ModificationPermission? = null,
     val permissionUrl: String? = null,
+
+    // For bedrock model
+    val linkHome: String? = null,
+    val linkDonate: String? = null,
 ) {
+    data class Author(
+        val name: String? = null,
+        val role: String? = null,
+        val contact: List<Pair<String, String>>? = null,
+        val comment: String? = null,
+    )
+
     enum class AllowedUser {
         ONLY_AUTHOR,
         EXPLICITLY_LICENSED_PERSON,

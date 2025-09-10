@@ -66,6 +66,7 @@ object PlayerRenderer {
         matrixStack: MatrixStack,
         consumers: VertexConsumerProvider,
         light: Int,
+        overlay: Int,
     ): Boolean {
         val entry = ModelInstanceManager.get(uuid, System.nanoTime())
         if (entry !is ModelInstanceManager.ModelInstanceItem.Model) {
@@ -88,9 +89,8 @@ object PlayerRenderer {
         } else {
             matrix.set(matrixStack.peek().positionMatrix)
             matrix.scale(ConfigHolder.config.value.modelScale)
-            matrix.mulLocal(RenderSystem.getModelViewStack())
             val currentRenderer = RendererManager.currentRenderer
-            val task = instance.createRenderTask(matrix, light)
+            val task = instance.createRenderTask(matrix, light, overlay)
             if (currentRenderer is ScheduledRenderer<*, *> && renderingWorld) {
                 currentRenderer.schedule(task)
             } else {

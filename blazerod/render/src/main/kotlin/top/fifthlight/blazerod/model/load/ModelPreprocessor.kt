@@ -112,6 +112,17 @@ class ModelPreprocessor private constructor(
             skinned = skinned,
             morphed = morphed,
         )
+
+        is Material.Vanilla -> MaterialLoadInfo.Vanilla(
+            name = material.name,
+            baseColor = material.baseColor,
+            baseColorTexture = loadTextureInfo(material.baseColorTexture),
+            alphaMode = material.alphaMode,
+            alphaCutoff = material.alphaCutoff,
+            doubleSided = material.doubleSided,
+            skinned = skinned,
+            morphed = morphed,
+        )
     }
 
     private data class IndexBufferLoadInfo(
@@ -213,6 +224,19 @@ class ModelPreprocessor private constructor(
                             stride = stride,
                             element = element,
                             normalized = false,
+                            srcAttribute = srcAttribute,
+                            dstBuffer = buffer,
+                            dstOffset = dstOffset,
+                        )
+                    }
+
+                    VertexFormatElement.NORMAL -> {
+                        val srcAttribute = attributes.normal ?: continue
+                        VertexLoadUtil.copyAttributeData(
+                            vertices = vertices,
+                            stride = stride,
+                            element = element,
+                            normalized = true,
                             srcAttribute = srcAttribute,
                             dstBuffer = buffer,
                             dstOffset = dstOffset,

@@ -31,6 +31,16 @@ object ModelFileLoaders {
         loaders.filter { ModelFileLoader.Ability.EMBED_THUMBNAIL in it.abilities }
     }
 
+    private val markerFileLoaders by lazy {
+        buildMap {
+            loaders.forEach { loader ->
+                loader.markerFiles.forEach { (markerFile, ability) ->
+                    put(markerFile.lowercase(), loader)
+                }
+            }
+        }
+    }
+
     private val probeBytes by lazy {
         loaders
             .asSequence()
@@ -58,10 +68,15 @@ object ModelFileLoaders {
     }
 
     private fun probeLoader(loaders: List<ModelFileLoader>, path: Path): ModelFileLoader? {
+        // First try marker file
+        val fileName = path.fileName.toString().lowercase()
+        markerFileLoaders[fileName]?.let { return it }
         val (probableLoaders, unprobableLoaders) = loaders.partition { it.probeLength != null }
-        // First try probe by content
+
+        // Second try probe by content
         probeByContent(probableLoaders, path)?.let { return it }
-        // Second try probe by extension
+
+        // Third try probe by extension
         val extension = path.extension.lowercase()
         for (loader in unprobableLoaders) {
             if (extension in loader.extensions) {

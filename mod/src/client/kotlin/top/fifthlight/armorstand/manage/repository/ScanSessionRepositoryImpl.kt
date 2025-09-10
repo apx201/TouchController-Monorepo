@@ -7,22 +7,24 @@ import java.sql.Connection
 
 class ScanSessionRepositoryImpl(private val conn: Connection) : ScanSessionRepository {
     override fun open() {
-        conn.createStatement().use { st ->
-            st.addBatch("CREATE TEMPORARY TABLE scanned_file_sha256(sha256 BINARY(32) PRIMARY KEY)")
-            st.addBatch("CREATE TEMPORARY TABLE scanned_model_paths(path VARCHAR PRIMARY KEY)")
-            st.addBatch("CREATE TEMPORARY TABLE scanned_animation_paths(path VARCHAR PRIMARY KEY)")
-            st.addBatch("CREATE TEMPORARY TABLE scanned_thumbnail_sha256(sha256 BINARY(32) PRIMARY KEY)")
-            st.executeBatch()
+        conn.createStatement().apply {
+            addBatch("CREATE TEMPORARY TABLE scanned_file_sha256(sha256 BINARY(32) PRIMARY KEY)")
+            addBatch("CREATE TEMPORARY TABLE scanned_model_paths(path VARCHAR PRIMARY KEY)")
+            addBatch("CREATE TEMPORARY TABLE scanned_marker_model_paths(path VARCHAR PRIMARY KEY)")
+            addBatch("CREATE TEMPORARY TABLE scanned_animation_paths(path VARCHAR PRIMARY KEY)")
+            addBatch("CREATE TEMPORARY TABLE scanned_thumbnail_sha256(sha256 BINARY(32) PRIMARY KEY)")
+            executeBatch()
         }
     }
 
     override fun close() {
-        conn.createStatement().use { st ->
-            st.addBatch("DROP TABLE scanned_file_sha256")
-            st.addBatch("DROP TABLE scanned_model_paths")
-            st.addBatch("DROP TABLE scanned_animation_paths")
-            st.addBatch("DROP TABLE scanned_thumbnail_sha256")
-            st.executeBatch()
+        conn.createStatement().apply {
+            addBatch("DROP TABLE scanned_file_sha256")
+            addBatch("DROP TABLE scanned_model_paths")
+            addBatch("DROP TABLE scanned_marker_model_paths")
+            addBatch("DROP TABLE scanned_animation_paths")
+            addBatch("DROP TABLE scanned_thumbnail_sha256")
+            executeBatch()
         }
     }
 
@@ -39,6 +41,16 @@ class ScanSessionRepositoryImpl(private val conn: Connection) : ScanSessionRepos
     override fun markModelPath(path: String) {
         conn.prepareStatement(
             "MERGE INTO scanned_model_paths(path) KEY(path) VALUES(?)"
+        ).bind {
+            string(path)
+        }.use {
+            it.executeUpdate()
+        }
+    }
+
+    override fun markMarkerModelPath(path: String) {
+        conn.prepareStatement(
+            "MERGE INTO scanned_marker_model_paths(path) KEY(path) VALUES(?)"
         ).bind {
             string(path)
         }.use {
@@ -66,6 +78,14 @@ class ScanSessionRepositoryImpl(private val conn: Connection) : ScanSessionRepos
         }
     }
 
+    override fun isMarkerModelMarked(path: String): Boolean {
+        return conn.prepareStatement(
+            "SELECT 1 FROM scanned_marker_model_paths WHERE path = ? LIMIT 1"
+        ).bind {
+            string(path)
+        }.exists()
+    }
+
     override fun isThumbnailMarked(sha256: ModelHash): Boolean =
         conn.prepareStatement(
             "SELECT 1 FROM scanned_thumbnail_sha256 WHERE sha256 = ? LIMIT 1"
@@ -88,6 +108,9 @@ class ScanSessionRepositoryImpl(private val conn: Connection) : ScanSessionRepos
                 DELETE FROM model
                 WHERE NOT EXISTS (
                     SELECT 1 FROM scanned_model_paths s WHERE s.path = model.path
+                )
+                AND NOT EXISTS (
+                    SELECT 1 FROM scanned_marker_model_paths s WHERE s.path = model.path
                 )
             """.trimIndent()
             )

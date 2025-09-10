@@ -8,6 +8,8 @@ formats = [
     "pmx",
     "pmd",
     "vmd",
+    "assimp",
+    "bedrock",
 ]
 
 format_targets = ["//blazerod/model/model-" + format for format in formats]
