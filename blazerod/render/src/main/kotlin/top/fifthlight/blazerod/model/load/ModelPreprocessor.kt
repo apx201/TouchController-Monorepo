@@ -436,6 +436,9 @@ class ModelPreprocessor private constructor(
         val skinned =
             skinIndex != null && primitive.attributes.joints.isNotEmpty() && primitive.attributes.weights.isNotEmpty()
         val morphed = primitive.targets.isNotEmpty()
+        if (primitive.material?.baseColor?.a == 0f) {
+            return null
+        }
         val material = primitive.material?.let {
             loadMaterial(
                 material = it,
