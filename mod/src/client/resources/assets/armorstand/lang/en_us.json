@@ -5,7 +5,6 @@
   "armorstand.config.hide_player_shadow": "Hide shadow of players",
   "armorstand.config.model_scale": "Model scale: %s",
   "armorstand.config.third_person_distance_scale": "Third person distance scale: %s",
-  "armorstand.config.invert_head_direction": "Invert head direction",
   "armorstand.config.open_model_directory": "Open Model Folder",
   "armorstand.config.renderer_select": "Select renderer",
   "armorstand.config.vmc": "OSC/VMC",

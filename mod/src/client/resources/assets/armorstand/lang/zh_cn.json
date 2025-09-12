@@ -5,7 +5,6 @@
   "armorstand.config.hide_player_shadow": "隐藏玩家的影子",
   "armorstand.config.model_scale": "模型缩放：%s",
   "armorstand.config.third_person_distance_scale": "第三人称距离缩放：%s",
-  "armorstand.config.invert_head_direction": "反转抬头方向",
   "armorstand.config.open_model_directory": "打开模型文件夹",
   "armorstand.config.renderer_select": "选择渲染器",
   "armorstand.config.vmc": "OSC/VMC",

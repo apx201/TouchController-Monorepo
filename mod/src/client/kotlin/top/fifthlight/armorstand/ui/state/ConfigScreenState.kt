@@ -9,7 +9,6 @@ data class ConfigScreenState(
     val currentModel: Path? = null,
     val currentMetadata: Metadata? = null,
     val showOtherPlayerModel: Boolean = true,
-    val invertHeadDirection: Boolean = false,
     val sendModelData: Boolean = true,
     val hidePlayerShadow: Boolean = false,
     val modelScale: Float = 1f,

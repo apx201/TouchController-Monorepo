@@ -5,7 +5,6 @@
   "armorstand.config.hide_player_shadow": "Скрывать тень игроков",
   "armorstand.config.model_scale": "Масштаб модели: %s",
   "armorstand.config.third_person_distance_scale": "Масштаб расстояния от третьего лица: %s",
-  "armorstand.config.invert_head_direction": "Инвертировать направление головы",
   "armorstand.config.open_model_directory": "Открыть папку моделей",
   "armorstand.config.renderer_select": "Выбрать рендер",
   "armorstand.config.vmc": "OSC/VMC",

@@ -86,7 +86,6 @@ class ConfigViewModel(scope: CoroutineScope) : ViewModel(scope) {
                             showOtherPlayerModel = config.showOtherPlayerModel,
                             sendModelData = config.sendModelData,
                             hidePlayerShadow = config.hidePlayerShadow,
-                            invertHeadDirection = config.invertHeadDirection,
                             modelScale = config.modelScale,
                             thirdPersonDistanceScale = config.thirdPersonDistanceScale,
                         )
@@ -176,12 +175,6 @@ class ConfigViewModel(scope: CoroutineScope) : ViewModel(scope) {
     fun updateThirdPersonDistanceScale(thirdPersonDistanceScale: Float) {
         ConfigHolder.update {
             copy(thirdPersonDistanceScale = thirdPersonDistanceScale)
-        }
-    }
-
-    fun updateInvertHeadDirection(invertHeadDirection: Boolean) {
-        ConfigHolder.update {
-            copy(invertHeadDirection = invertHeadDirection)
         }
     }
 
