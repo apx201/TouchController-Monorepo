@@ -12,23 +12,35 @@ import top.fifthlight.blazerod.model.resource.RenderExpression
 import top.fifthlight.blazerod.model.resource.RenderExpressionGroup
 import top.fifthlight.blazerod.model.util.MutableFloat
 
-sealed class AnimationChannelItem<T : Any, D>(
-    val channel: AnimationChannel<T, D>
+sealed class AnimationChannelItem<T : Any, D, P : Any>(
+    val channel: AnimationChannel<T, D>,
 ) {
-    abstract fun apply(instance: ModelInstance, context: AnimationContext, state: AnimationState)
+    abstract fun createPendingValue(): P
+
+    // run on client thread
+    abstract fun update(context: AnimationContext, state: AnimationState, pendingValue: P)
+
+    // run on render thread
+    abstract fun apply(instance: ModelInstance, pendingValue: P)
 
     class TranslationItem(
         private val index: Int,
         private val transformId: TransformId,
         channel: AnimationChannel<Vector3f, Unit>,
-    ) : AnimationChannelItem<Vector3f, Unit>(channel) {
+    ) : AnimationChannelItem<Vector3f, Unit, Vector3f>(channel) {
         init {
             require(channel.type == AnimationChannel.Type.Translation) { "Unmatched animation channel: want translation, but got ${channel.type}" }
         }
 
-        override fun apply(instance: ModelInstance, context: AnimationContext, state: AnimationState) {
+        override fun createPendingValue() = Vector3f()
+
+        override fun update(context: AnimationContext, state: AnimationState, pendingValue: Vector3f) {
+            channel.getData(context, state, pendingValue)
+        }
+
+        override fun apply(instance: ModelInstance, pendingValue: Vector3f) {
             instance.setTransformDecomposed(index, transformId) {
-                channel.getData(context, state, translation)
+                translation.set(pendingValue)
             }
         }
     }
@@ -37,14 +49,20 @@ sealed class AnimationChannelItem<T : Any, D>(
         private val index: Int,
         private val transformId: TransformId,
         channel: AnimationChannel<Vector3f, Unit>,
-    ) : AnimationChannelItem<Vector3f, Unit>(channel) {
+    ) : AnimationChannelItem<Vector3f, Unit, Vector3f>(channel) {
         init {
             require(channel.type == AnimationChannel.Type.Scale) { "Unmatched animation channel: want scale, but got ${channel.type}" }
         }
 
-        override fun apply(instance: ModelInstance, context: AnimationContext, state: AnimationState) {
+        override fun createPendingValue() = Vector3f()
+
+        override fun update(context: AnimationContext, state: AnimationState, pendingValue: Vector3f) {
+            channel.getData(context, state, pendingValue)
+        }
+
+        override fun apply(instance: ModelInstance, pendingValue: Vector3f) {
             instance.setTransformDecomposed(index, transformId) {
-                channel.getData(context, state, scale)
+                scale.set(pendingValue)
             }
         }
     }
@@ -53,15 +71,21 @@ sealed class AnimationChannelItem<T : Any, D>(
         private val index: Int,
         private val transformId: TransformId,
         channel: AnimationChannel<Quaternionf, Unit>,
-    ) : AnimationChannelItem<Quaternionf, Unit>(channel) {
+    ) : AnimationChannelItem<Quaternionf, Unit, Quaternionf>(channel) {
         init {
             require(channel.type == AnimationChannel.Type.Rotation) { "Unmatched animation channel: want rotation, but got ${channel.type}" }
         }
 
-        override fun apply(instance: ModelInstance, context: AnimationContext, state: AnimationState) {
+        override fun createPendingValue() = Quaternionf()
+
+        override fun update(context: AnimationContext, state: AnimationState, pendingValue: Quaternionf) {
+            channel.getData(context, state, pendingValue)
+            pendingValue.normalize()
+        }
+
+        override fun apply(instance: ModelInstance, pendingValue: Quaternionf) {
             instance.setTransformDecomposed(index, transformId) {
-                channel.getData(context, state, rotation)
-                rotation.normalize()
+                rotation.set(pendingValue)
             }
         }
     }
@@ -70,14 +94,20 @@ sealed class AnimationChannelItem<T : Any, D>(
         private val index: Int,
         private val transformId: TransformId,
         channel: AnimationChannel<Vector3f, Unit>,
-    ) : AnimationChannelItem<Vector3f, Unit>(channel) {
+    ) : AnimationChannelItem<Vector3f, Unit, Vector3f>(channel) {
         init {
             require(channel.type == AnimationChannel.Type.BedrockTranslation) { "Unmatched animation channel: want translation, but got ${channel.type}" }
         }
 
-        override fun apply(instance: ModelInstance, context: AnimationContext, state: AnimationState) {
+        override fun createPendingValue() = Vector3f()
+
+        override fun update(context: AnimationContext, state: AnimationState, pendingValue: Vector3f) {
+            channel.getData(context, state, pendingValue)
+        }
+
+        override fun apply(instance: ModelInstance, pendingValue: Vector3f) {
             instance.setTransformBedrock(index, transformId) {
-                channel.getData(context, state, translation)
+                translation.set(pendingValue)
             }
         }
     }
@@ -86,14 +116,20 @@ sealed class AnimationChannelItem<T : Any, D>(
         private val index: Int,
         private val transformId: TransformId,
         channel: AnimationChannel<Vector3f, Unit>,
-    ) : AnimationChannelItem<Vector3f, Unit>(channel) {
+    ) : AnimationChannelItem<Vector3f, Unit, Vector3f>(channel) {
         init {
             require(channel.type == AnimationChannel.Type.BedrockScale) { "Unmatched animation channel: want scale, but got ${channel.type}" }
         }
 
-        override fun apply(instance: ModelInstance, context: AnimationContext, state: AnimationState) {
+        override fun createPendingValue() = Vector3f()
+
+        override fun update(context: AnimationContext, state: AnimationState, pendingValue: Vector3f) {
+            channel.getData(context, state, pendingValue)
+        }
+
+        override fun apply(instance: ModelInstance, pendingValue: Vector3f) {
             instance.setTransformBedrock(index, transformId) {
-                channel.getData(context, state, scale)
+                scale.set(pendingValue)
             }
         }
     }
@@ -102,15 +138,21 @@ sealed class AnimationChannelItem<T : Any, D>(
         private val index: Int,
         private val transformId: TransformId,
         channel: AnimationChannel<Quaternionf, Unit>,
-    ) : AnimationChannelItem<Quaternionf, Unit>(channel) {
+    ) : AnimationChannelItem<Quaternionf, Unit, Quaternionf>(channel) {
         init {
             require(channel.type == AnimationChannel.Type.BedrockRotation) { "Unmatched animation channel: want rotation, but got ${channel.type}" }
         }
 
-        override fun apply(instance: ModelInstance, context: AnimationContext, state: AnimationState) {
+        override fun createPendingValue() = Quaternionf()
+
+        override fun update(context: AnimationContext, state: AnimationState, pendingValue: Quaternionf) {
+            channel.getData(context, state, pendingValue)
+            pendingValue.normalize()
+        }
+
+        override fun apply(instance: ModelInstance, pendingValue: Quaternionf) {
             instance.setTransformBedrock(index, transformId) {
-                channel.getData(context, state, rotation)
-                rotation.normalize()
+                rotation.set(pendingValue)
             }
         }
     }
@@ -119,12 +161,15 @@ sealed class AnimationChannelItem<T : Any, D>(
         private val primitiveIndex: Int,
         private val targetGroupIndex: Int,
         channel: AnimationChannel<MutableFloat, AnimationChannel.Type.MorphData>,
-    ) : AnimationChannelItem<MutableFloat, AnimationChannel.Type.MorphData>(channel) {
-        private val data = MutableFloat()
+    ) : AnimationChannelItem<MutableFloat, AnimationChannel.Type.MorphData, MutableFloat>(channel) {
+        override fun createPendingValue() = MutableFloat()
 
-        override fun apply(instance: ModelInstance, context: AnimationContext, state: AnimationState) {
-            channel.getData(context, state, data)
-            instance.setGroupWeight(primitiveIndex, targetGroupIndex, data.value)
+        override fun update(context: AnimationContext, state: AnimationState, pendingValue: MutableFloat) {
+            channel.getData(context, state, pendingValue)
+        }
+
+        override fun apply(instance: ModelInstance, pendingValue: MutableFloat) {
+            instance.setGroupWeight(primitiveIndex, targetGroupIndex, pendingValue.value)
         }
     }
 
@@ -139,26 +184,32 @@ sealed class AnimationChannelItem<T : Any, D>(
     class ExpressionItem(
         val expression: RenderExpression,
         channel: AnimationChannel<MutableFloat, AnimationChannel.Type.ExpressionData>,
-    ) : AnimationChannelItem<MutableFloat, AnimationChannel.Type.ExpressionData>(channel) {
-        private val data = MutableFloat()
+    ) : AnimationChannelItem<MutableFloat, AnimationChannel.Type.ExpressionData, MutableFloat>(channel) {
+        override fun createPendingValue() = MutableFloat()
 
-        override fun apply(instance: ModelInstance, context: AnimationContext, state: AnimationState) {
-            channel.getData(context, state, data)
-            expression.apply(instance, data.value)
+        override fun update(context: AnimationContext, state: AnimationState, pendingValue: MutableFloat) {
+            channel.getData(context, state, pendingValue)
+        }
+
+        override fun apply(instance: ModelInstance, pendingValue: MutableFloat) {
+            expression.apply(instance, pendingValue.value)
         }
     }
 
     class ExpressionGroupItem(
         val group: RenderExpressionGroup,
         channel: AnimationChannel<MutableFloat, AnimationChannel.Type.ExpressionData>,
-    ) : AnimationChannelItem<MutableFloat, AnimationChannel.Type.ExpressionData>(channel) {
-        private val data = MutableFloat()
+    ) : AnimationChannelItem<MutableFloat, AnimationChannel.Type.ExpressionData, MutableFloat>(channel) {
+        override fun createPendingValue() = MutableFloat()
 
-        override fun apply(instance: ModelInstance, context: AnimationContext, state: AnimationState) {
-            channel.getData(context, state, data)
+        override fun update(context: AnimationContext, state: AnimationState, pendingValue: MutableFloat) {
+            channel.getData(context, state, pendingValue)
+        }
+
+        override fun apply(instance: ModelInstance, pendingValue: MutableFloat) {
             for (item in group.items) {
                 val expression = instance.scene.expressions[item.expressionIndex]
-                expression.apply(instance, data.value * item.influence)
+                expression.apply(instance, pendingValue.value * item.influence)
             }
         }
     }
@@ -166,14 +217,17 @@ sealed class AnimationChannelItem<T : Any, D>(
     class CameraFovItem(
         val cameraIndex: Int,
         channel: AnimationChannel<MutableFloat, AnimationChannel.Type.CameraData>,
-    ) : AnimationChannelItem<MutableFloat, AnimationChannel.Type.CameraData>(channel) {
-        private val data = MutableFloat()
+    ) : AnimationChannelItem<MutableFloat, AnimationChannel.Type.CameraData, MutableFloat>(channel) {
+        override fun createPendingValue() = MutableFloat()
 
-        override fun apply(instance: ModelInstance, context: AnimationContext, state: AnimationState) {
-            channel.getData(context, state, data)
+        override fun update(context: AnimationContext, state: AnimationState, pendingValue: MutableFloat) {
+            channel.getData(context, state, pendingValue)
+        }
+
+        override fun apply(instance: ModelInstance, pendingValue: MutableFloat) {
             when (val camera = instance.modelData.cameraTransforms[cameraIndex]) {
-                is CameraTransform.MMD -> camera.fov = data.value
-                is CameraTransform.Perspective -> camera.yfov = data.value
+                is CameraTransform.MMD -> camera.fov = pendingValue.value
+                is CameraTransform.Perspective -> camera.yfov = pendingValue.value
                 else -> Unit
             }
         }
@@ -182,33 +236,48 @@ sealed class AnimationChannelItem<T : Any, D>(
     class MMDCameraDistanceItem(
         val cameraIndex: Int,
         channel: AnimationChannel<MutableFloat, AnimationChannel.Type.CameraData>,
-    ) : AnimationChannelItem<MutableFloat, AnimationChannel.Type.CameraData>(channel) {
-        private val data = MutableFloat()
+    ) : AnimationChannelItem<MutableFloat, AnimationChannel.Type.CameraData, MutableFloat>(channel) {
+        override fun createPendingValue() = MutableFloat()
 
-        override fun apply(instance: ModelInstance, context: AnimationContext, state: AnimationState) {
-            channel.getData(context, state, data)
+        override fun update(context: AnimationContext, state: AnimationState, pendingValue: MutableFloat) {
+            channel.getData(context, state, pendingValue)
+        }
+
+        override fun apply(instance: ModelInstance, pendingValue: MutableFloat) {
             val camera = instance.modelData.cameraTransforms[cameraIndex] as? CameraTransform.MMD ?: return
-            camera.distance = data.value
+            camera.distance = pendingValue.value
         }
     }
 
     class MMDCameraTargetItem(
         val cameraIndex: Int,
         channel: AnimationChannel<Vector3f, AnimationChannel.Type.CameraData>,
-    ) : AnimationChannelItem<Vector3f, AnimationChannel.Type.CameraData>(channel) {
-        override fun apply(instance: ModelInstance, context: AnimationContext, state: AnimationState) {
+    ) : AnimationChannelItem<Vector3f, AnimationChannel.Type.CameraData, Vector3f>(channel) {
+        override fun createPendingValue() = Vector3f()
+
+        override fun update(context: AnimationContext, state: AnimationState, pendingValue: Vector3f) {
+            channel.getData(context, state, pendingValue)
+        }
+
+        override fun apply(instance: ModelInstance, pendingValue: Vector3f) {
             val camera = instance.modelData.cameraTransforms[cameraIndex] as? CameraTransform.MMD ?: return
-            channel.getData(context, state, camera.targetPosition)
+            camera.targetPosition.set(pendingValue)
         }
     }
 
     class MMDCameraRotationItem(
         val cameraIndex: Int,
         channel: AnimationChannel<Vector3f, AnimationChannel.Type.CameraData>,
-    ) : AnimationChannelItem<Vector3f, AnimationChannel.Type.CameraData>(channel) {
-        override fun apply(instance: ModelInstance, context: AnimationContext, state: AnimationState) {
+    ) : AnimationChannelItem<Vector3f, AnimationChannel.Type.CameraData, Vector3f>(channel) {
+        override fun createPendingValue() = Vector3f()
+
+        override fun update(context: AnimationContext, state: AnimationState, pendingValue: Vector3f) {
+            channel.getData(context, state, pendingValue)
+        }
+
+        override fun apply(instance: ModelInstance, pendingValue: Vector3f) {
             val camera = instance.modelData.cameraTransforms[cameraIndex] as? CameraTransform.MMD ?: return
-            channel.getData(context, state, camera.rotationEulerAngles)
+            camera.rotationEulerAngles.set(pendingValue)
         }
     }
 }

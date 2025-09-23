@@ -7,7 +7,7 @@ import top.fifthlight.blazerod.model.animation.AnimationContext
 import top.fifthlight.blazerod.model.util.MutableFloat
 import top.fifthlight.blazerod.model.util.MutableLong
 
-open class BaseAnimationContext(
+open class BaseAnimationContext protected constructor(
     protected val client: MinecraftClient = MinecraftClient.getInstance(),
 ) : AnimationContext {
     protected val tickCounter: RenderTickCounter = client.renderTickCounter
@@ -26,13 +26,16 @@ open class BaseAnimationContext(
     } as T?
 
     companion object {
-        protected val propertyTypes = listOf(
+        @JvmStatic
+        protected val propertyTypes = setOf(
             AnimationContext.Property.GameTick,
             AnimationContext.Property.DeltaTick,
         )
+            @JvmName("getBasePropertyTypes")
+            get
 
         val instance = BaseAnimationContext()
     }
 
-    override fun getPropertyTypes(): List<AnimationContext.Property<*>> = propertyTypes
+    override fun getPropertyTypes(): Set<AnimationContext.Property<*>> = propertyTypes
 }

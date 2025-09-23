@@ -4,6 +4,7 @@ import net.minecraft.util.Identifier
 import org.slf4j.LoggerFactory
 import top.fifthlight.armorstand.util.ModelLoaders
 import top.fifthlight.blazerod.animation.AnimationItem
+import top.fifthlight.blazerod.animation.AnimationItemInstance
 import top.fifthlight.blazerod.animation.AnimationLoader
 import top.fifthlight.blazerod.model.ModelFileLoaders
 import top.fifthlight.blazerod.model.RenderScene
@@ -78,53 +79,52 @@ data class AnimationSet(
 }
 
 data class FullAnimationSet(
-    val idle: AnimationItem,
-    val walk: AnimationItem,
-    val sprint: AnimationItem,
-    val sneak: AnimationItem,
-    val swingRight: AnimationItem,
-    val swingLeft: AnimationItem,
-    val elytraFly: AnimationItem,
-    val swim: AnimationItem,
-    val onClimbable: AnimationItem,
-    val onClimbableUp: AnimationItem,
-    val onClimbableDown: AnimationItem,
-    val sleep: AnimationItem,
-    val ride: AnimationItem,
-    val die: AnimationItem,
-    val onHorse: AnimationItem,
-    val crawl: AnimationItem,
-    val lieDown: AnimationItem,
-    val custom: Map<String, AnimationItem> = emptyMap(),
-    val itemActive: Map<AnimationSet.ItemActiveKey, AnimationItem> = emptyMap(),
+    val idle: AnimationItemInstance,
+    val walk: AnimationItemInstance,
+    val sprint: AnimationItemInstance,
+    val sneak: AnimationItemInstance,
+    val swingRight: AnimationItemInstance,
+    val swingLeft: AnimationItemInstance,
+    val elytraFly: AnimationItemInstance,
+    val swim: AnimationItemInstance,
+    val onClimbable: AnimationItemInstance,
+    val onClimbableUp: AnimationItemInstance,
+    val onClimbableDown: AnimationItemInstance,
+    val sleep: AnimationItemInstance,
+    val ride: AnimationItemInstance,
+    val die: AnimationItemInstance,
+    val onHorse: AnimationItemInstance,
+    val crawl: AnimationItemInstance,
+    val lieDown: AnimationItemInstance,
+    val custom: Map<String, AnimationItemInstance> = emptyMap(),
+    val itemActive: Map<AnimationSet.ItemActiveKey, AnimationItemInstance> = emptyMap(),
 ) {
     companion object {
         fun from(animationSet: AnimationSet): FullAnimationSet? {
             return animationSet.idle?.let { idle ->
+                // @formatter:off
                 FullAnimationSet(
-                    idle = idle,
-                    walk = animationSet.walk ?: idle,
-                    sprint = animationSet.sprint ?: animationSet.walk ?: idle,
-                    sneak = animationSet.sneak ?: idle,
-                    swingRight = animationSet.swingRight ?: animationSet.swingLeft ?: idle,
-                    swingLeft = animationSet.swingLeft ?: animationSet.swingRight ?: idle,
-                    elytraFly = animationSet.elytraFly ?: animationSet.swim ?: animationSet.walk ?: idle,
-                    swim = animationSet.swim ?: animationSet.walk ?: idle,
-                    onClimbable = animationSet.onClimbable ?: animationSet.onClimbableUp ?: animationSet.onClimbableDown
-                    ?: idle,
-                    onClimbableUp = animationSet.onClimbableUp ?: animationSet.onClimbableDown
-                    ?: animationSet.onClimbable ?: idle,
-                    onClimbableDown = animationSet.onClimbableDown ?: animationSet.onClimbableUp
-                    ?: animationSet.onClimbable ?: idle,
-                    sleep = animationSet.sleep ?: animationSet.lieDown ?: idle,
-                    ride = animationSet.ride ?: animationSet.onHorse ?: idle,
-                    die = animationSet.die ?: animationSet.lieDown ?: animationSet.sleep ?: idle,
-                    onHorse = animationSet.onHorse ?: animationSet.ride ?: idle,
-                    crawl = animationSet.crawl ?: animationSet.sneak ?: idle,
-                    lieDown = animationSet.lieDown ?: animationSet.sleep ?: idle,
-                    custom = animationSet.custom,
-                    itemActive = animationSet.itemActive
+                    idle = AnimationItemInstance(idle),
+                    walk = AnimationItemInstance(animationSet.walk ?: idle),
+                    sprint = AnimationItemInstance(animationSet.sprint ?: animationSet.walk ?: idle),
+                    sneak = AnimationItemInstance(animationSet.sneak ?: idle),
+                    swingRight = AnimationItemInstance(animationSet.swingRight ?: animationSet.swingLeft ?: idle),
+                    swingLeft = AnimationItemInstance(animationSet.swingLeft ?: animationSet.swingRight ?: idle),
+                    elytraFly = AnimationItemInstance(animationSet.elytraFly ?: animationSet.swim ?: animationSet.walk ?: idle),
+                    swim = AnimationItemInstance(animationSet.swim ?: animationSet.walk ?: idle),
+                    onClimbable = AnimationItemInstance(animationSet.onClimbable ?: animationSet.onClimbableUp ?: animationSet.onClimbableDown ?: idle),
+                    onClimbableUp = AnimationItemInstance(animationSet.onClimbableUp ?: animationSet.onClimbableDown ?: animationSet.onClimbable ?: idle),
+                    onClimbableDown = AnimationItemInstance(animationSet.onClimbableDown ?: animationSet.onClimbableUp ?: animationSet.onClimbable ?: idle),
+                    sleep = AnimationItemInstance(animationSet.sleep ?: animationSet.lieDown ?: idle),
+                    ride = AnimationItemInstance(animationSet.ride ?: animationSet.onHorse ?: idle),
+                    die = AnimationItemInstance(animationSet.die ?: animationSet.lieDown ?: animationSet.sleep ?: idle),
+                    onHorse = AnimationItemInstance(animationSet.onHorse ?: animationSet.ride ?: idle),
+                    crawl = AnimationItemInstance(animationSet.crawl ?: animationSet.sneak ?: idle),
+                    lieDown = AnimationItemInstance(animationSet.lieDown ?: animationSet.sleep ?: idle),
+                    custom = animationSet.custom.mapValues { (_, value) -> AnimationItemInstance(value) },
+                    itemActive = animationSet.itemActive.mapValues { (_, value) -> AnimationItemInstance(value) },
                 )
+                // @formatter:on
             }
         }
     }

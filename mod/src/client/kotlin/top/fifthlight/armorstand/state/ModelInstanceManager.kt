@@ -9,6 +9,7 @@ import top.fifthlight.armorstand.config.ConfigHolder
 import top.fifthlight.armorstand.manage.ModelManagerHolder
 import top.fifthlight.armorstand.vmc.VmcMarionetteManager
 import top.fifthlight.blazerod.animation.AnimationItem
+import top.fifthlight.blazerod.animation.AnimationItemInstance
 import top.fifthlight.blazerod.animation.AnimationLoader
 import top.fifthlight.blazerod.animation.context.BaseAnimationContext
 import top.fifthlight.blazerod.model.Metadata
@@ -191,8 +192,18 @@ object ModelInstanceManager {
                         val animation = cache.animations.firstOrNull()
                         when {
                             isSelf && vmcRunning -> ModelController.Vmc(scene)
-                            animationSet != null -> ModelController.LiveSwitched(BaseAnimationContext.instance, scene, animationSet)
-                            animation != null -> ModelController.Predefined(BaseAnimationContext.instance, animation)
+
+                            animationSet != null -> ModelController.LiveSwitched(
+                                BaseAnimationContext.instance,
+                                scene,
+                                animationSet,
+                            )
+
+                            animation != null -> ModelController.Predefined(
+                                BaseAnimationContext.instance,
+                                AnimationItemInstance(animation),
+                            )
+
                             else -> ModelController.LiveUpdated(scene)
                         }
                     },
@@ -217,7 +228,7 @@ object ModelInstanceManager {
         modelCaches.values.forEach { item ->
             if (item.isCompleted) {
                 val item = item.getCompleted() as? ModelCache.Loaded
-                item?.scene?.decreaseReferenceCount()
+                item?.decreaseReferenceCount()
             } else {
                 item.cancel()
             }
@@ -270,7 +281,7 @@ object ModelInstanceManager {
             val remove = path !in usedPaths
             if (remove && item.isCompleted) {
                 val item = item.getCompleted() as? ModelCache.Loaded
-                item?.scene?.decreaseReferenceCount()
+                item?.decreaseReferenceCount()
             }
             remove
         }

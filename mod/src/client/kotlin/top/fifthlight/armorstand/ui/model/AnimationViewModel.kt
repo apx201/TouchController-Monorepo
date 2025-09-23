@@ -14,6 +14,7 @@ import top.fifthlight.armorstand.state.ModelController
 import top.fifthlight.armorstand.state.ModelInstanceManager
 import top.fifthlight.armorstand.ui.state.AnimationScreenState
 import top.fifthlight.blazerod.animation.AnimationItem
+import top.fifthlight.blazerod.animation.AnimationItemInstance
 import top.fifthlight.blazerod.animation.AnimationLoader
 import top.fifthlight.blazerod.animation.context.BaseAnimationContext
 import top.fifthlight.blazerod.model.ModelFileLoaders
@@ -148,7 +149,10 @@ class AnimationViewModel(scope: CoroutineScope) : ViewModel(scope) {
                 val index = source.index
                 val animation = instanceItem.animations[index]
                 instanceItem.instance.clearTransform()
-                instanceItem.controller = ModelController.Predefined(BaseAnimationContext.instance, animation)
+                instanceItem.controller = ModelController.Predefined(
+                    BaseAnimationContext.instance,
+                    AnimationItemInstance(animation),
+                )
             }
 
             is AnimationScreenState.AnimationItem.Source.External -> {
@@ -160,7 +164,10 @@ class AnimationViewModel(scope: CoroutineScope) : ViewModel(scope) {
                         val animation = result?.animations?.firstOrNull() ?: error("No animation in file")
                         val animationItem = AnimationLoader.load(instanceItem.instance.scene, animation)
                         instanceItem.instance.clearTransform()
-                        instanceItem.controller = ModelController.Predefined(BaseAnimationContext.instance, animationItem)
+                        instanceItem.controller = ModelController.Predefined(
+                            BaseAnimationContext.instance,
+                            AnimationItemInstance(animationItem),
+                        )
                     } catch (ex: Throwable) {
                         logger.warn("Failed to load animation", ex)
                     }

@@ -23,7 +23,7 @@ object AnimationLoader {
         }
 
         @Suppress("UNCHECKED_CAST")
-        fun mapAnimationChannel(channel: AnimationChannel<*, *>): AnimationChannelItem<*, *>? {
+        fun mapAnimationChannel(channel: AnimationChannel<*, *>): AnimationChannelItem<*, *, *>? {
             return when (channel.type) {
                 AnimationChannel.Type.Translation -> {
                     val data = channel.typeData as AnimationChannel.Type.TransformData

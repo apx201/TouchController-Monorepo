@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.network.AbstractClientPlayerEntity
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState
 import net.minecraft.client.util.math.MatrixStack
@@ -11,7 +12,6 @@ import org.joml.Matrix4f
 import top.fifthlight.armorstand.config.ConfigHolder
 import top.fifthlight.armorstand.state.ModelInstanceManager
 import top.fifthlight.armorstand.util.RendererManager
-import top.fifthlight.blazerod.animation.context.BaseAnimationContext
 import top.fifthlight.blazerod.model.renderer.ScheduledRenderer
 import top.fifthlight.blazerod.model.resource.CameraTransform
 import top.fifthlight.blazerod.model.resource.RenderCamera
@@ -41,9 +41,9 @@ object PlayerRenderer {
             }
             return null
         }
+
         val selectedIndex = selectedCameraIndex.value ?: return null
         val instance = entry.instance
-        entry.controller.apply(BaseAnimationContext.instance, instance)
         instance.updateCamera()
 
         return instance.modelData.cameraTransforms.getOrNull(selectedIndex).also {
@@ -59,6 +59,21 @@ object PlayerRenderer {
     }
 
     private val matrix = Matrix4f()
+
+    @JvmStatic
+    fun updatePlayer(
+        player: AbstractClientPlayerEntity,
+        state: PlayerEntityRenderState,
+    ) {
+        val uuid = player.uuid
+        val entry = ModelInstanceManager.get(uuid, System.nanoTime())
+        if (entry !is ModelInstanceManager.ModelInstanceItem.Model) {
+            return
+        }
+
+        val controller = entry.controller
+        controller.update(uuid, player, state)
+    }
 
     @JvmStatic
     fun appendPlayer(
@@ -77,8 +92,7 @@ object PlayerRenderer {
         val controller = entry.controller
         val instance = entry.instance
 
-        controller.update(uuid, vanillaState, BaseAnimationContext.instance)
-        controller.apply(BaseAnimationContext.instance, instance)
+        controller.apply(uuid, instance, vanillaState)
         instance.updateRenderData()
 
         val backupItem = matrixStack.peek().copy()

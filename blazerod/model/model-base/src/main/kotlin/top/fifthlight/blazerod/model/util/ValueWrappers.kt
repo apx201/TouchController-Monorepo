@@ -23,3 +23,11 @@ interface LongWrapper {
 data class MutableLong(
     override var value: Long = 0L,
 ) : LongWrapper
+
+interface BooleanWrapper {
+    val value: Boolean
+}
+
+data class MutableBoolean(
+    override var value: Boolean = false,
+) : BooleanWrapper
