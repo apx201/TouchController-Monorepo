@@ -70,7 +70,7 @@ class BedrockModelLoader : ModelFileLoader {
     override fun getMarkerFileHashes(marker: Path, directory: Path): Set<Path> {
         val metadata = readMetadataFile(marker)
         val playerModelFiles = metadata.files.player.model.values
-        val playerTextureFiles = metadata.files.player.texture.map {
+        val playerTextureFiles = metadata.files.player.texture.mapNotNull {
             when (it) {
                 is ModelMetadata.Files.Texture.Path -> it.path
                 is ModelMetadata.Files.Texture.Pbr -> it.normal
