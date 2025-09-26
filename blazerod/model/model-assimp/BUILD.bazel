@@ -1,11 +1,11 @@
 load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_library")
 load("//:properties.bzl", "blazerod_version", "game_version", "fabric_language_kotlin_version_modrinth")
 load("//rule:fabric_mod_json_jar.bzl", "fabric_mod_json_jar")
-load("//rule:merge_jij.bzl", "merge_jij")
+load("//rule/fabric:merge_jij.bzl", "fabric_merge_jij")
 load("@//rule:upload_modrinth.bzl", "modrinth_dependency", "upload_modrinth")
 
 fabric_mod_json_jar(
-    name = "fabric_mod_json",
+    name = "mod_info_json",
     src = "src/main/resources/fabric.mod.json",
     resource_strip_prefix = "blazerod/model/model-assimp",
     substitutions = {
@@ -17,7 +17,7 @@ kt_jvm_library(
     name = "model-assimp",
     srcs = glob(["src/main/kotlin/**/*.kt"]),
     resource_jars = [
-        ":fabric_mod_json",
+        ":mod_info_json",
         "//blazerod:icon",
     ],
     resources = glob(
@@ -43,7 +43,7 @@ kt_jvm_library(
     ],
 )
 
-merge_jij(
+fabric_merge_jij(
     name = "model-assimp-merged",
     input = ":model-assimp",
     visibility = ["//visibility:public"],

@@ -1,13 +1,10 @@
-def _merge_jij_impl(ctx):
-    output_jar = ctx.actions.declare_file(ctx.label.name + ".jar")
-    input_jar = ctx.files.input[0]
-
+def do_merge_fabric_jij(ctx, input_jar, output_jar, deps, executable, label):
     args = ctx.actions.args()
     args.add(input_jar)
     args.add(output_jar)
     dep_files = []
-    for dep in ctx.attr.deps.keys():
-        name = ctx.attr.deps[dep]
+    for dep in deps.keys():
+        name = deps[dep]
         jar = dep.files.to_list()[0]
         dep_files.append(jar)
         args.add(name)
@@ -16,10 +13,23 @@ def _merge_jij_impl(ctx):
     ctx.actions.run(
         inputs = depset(dep_files + [input_jar]),
         outputs = [output_jar],
-        executable = ctx.executable._jij_merger_executable,
+        executable = executable,
         arguments = [args],
-        progress_message = "Create jij JAR %s" % ctx.label.name,
+        progress_message = "Create jij JAR %s" % label.name,
         toolchain = "@bazel_tools//tools/jdk:toolchain_type",
+    )
+
+def _fabric_merge_jij_impl(ctx):
+    output_jar = ctx.actions.declare_file(ctx.label.name + ".jar")
+    input_jar = ctx.files.input[0]
+
+    do_merge_fabric_jij(
+        ctx,
+        input_jar,
+        output_jar,
+        ctx.attr.deps,
+        ctx.executable._jij_merger_executable,
+        ctx.label,
     )
 
     return [
@@ -30,8 +40,8 @@ def _merge_jij_impl(ctx):
         DefaultInfo(files = depset([output_jar])),
     ]
 
-merge_jij = rule(
-    implementation = _merge_jij_impl,
+fabric_merge_jij = rule(
+    implementation = _fabric_merge_jij_impl,
     attrs = {
         "input": attr.label(
             mandatory = True,
@@ -44,7 +54,7 @@ merge_jij = rule(
             doc = "JARs to be merged as jar-in-jar"
         ),
         "_jij_merger_executable": attr.label(
-            default = Label("@//rule/jij_merger"),
+            default = Label("@//rule/fabric/jij_merger"),
             executable = True,
             cfg = "exec",
         ),

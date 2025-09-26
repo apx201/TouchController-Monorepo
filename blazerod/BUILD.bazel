@@ -3,7 +3,7 @@ load("//rule:fabric_mod_json_jar.bzl", "fabric_mod_json_jar")
 load("@rules_java//java:defs.bzl", "java_library")
 load("//:properties.bzl", "blazerod_version")
 load("//rule:merge_jar.bzl", "merge_jar")
-load("//rule:merge_jij.bzl", "merge_jij")
+load("//rule/fabric:merge_jij.bzl", "fabric_merge_jij")
 
 java_library(
 	name = "icon",
@@ -41,7 +41,7 @@ kt_jvm_library(
     ],
 )
 
-merge_jij(
+fabric_merge_jij(
     name = "blazerod",
     visibility = ["//visibility:public"],
     input = ":blazerod_without_jij",

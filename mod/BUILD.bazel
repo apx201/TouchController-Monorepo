@@ -9,7 +9,7 @@ load("//rule:extract_access_widener.bzl", "extract_access_widener")
 load("//rule:fabric_mod_json_jar.bzl", "fabric_mod_json_jar")
 load("//rule:generate_remap_classpath.bzl", "generate_remap_classpath")
 load("//rule:merge_jar.bzl", "merge_jar")
-load("//rule:merge_jij.bzl", "merge_jij")
+load("//rule/fabric:merge_jij.bzl", "fabric_merge_jij")
 load("//rule:remap_jar.bzl", "remap_jar")
 load("//rule:merge_library.bzl", "kt_merge_library", "merge_library_jar")
 
@@ -176,7 +176,7 @@ merge_jar(
     },
 )
 
-merge_jij(
+fabric_merge_jij(
     name = "mod",
     input = ":mod_without_jij",
     visibility = ["//visibility:public"],
