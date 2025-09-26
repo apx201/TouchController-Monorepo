@@ -2,6 +2,8 @@ package top.fifthlight.armorstand.state
 
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import net.minecraft.client.MinecraftClient
 import top.fifthlight.armorstand.ArmorStand

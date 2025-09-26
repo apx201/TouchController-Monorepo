@@ -15,6 +15,7 @@ import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.util.Identifier
 import org.joml.Matrix4f
 import org.joml.Vector2i
+import top.fifthlight.blazerod.BlazeRod
 import top.fifthlight.blazerod.extension.*
 import top.fifthlight.blazerod.render.setIndexBuffer
 import top.fifthlight.blazerod.runtime.RenderScene
