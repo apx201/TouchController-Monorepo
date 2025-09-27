@@ -1,5 +1,10 @@
 # ArmorStand NEWS - User visible changes.
 
+## 0.0.7
+
+- Added support for models of bedrock edition
+- Added support for NeoForge
+
 ## 0.0.6
 
 - Fixed failure loading some PMX models

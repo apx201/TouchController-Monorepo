@@ -1,5 +1,5 @@
 load("@rules_java//java:defs.bzl", "java_binary")
-load("//:properties.bzl", "game_version", "blazerod_version", "mod_version", "fabric_api_version_modrinth", "fabric_language_kotlin_version_modrinth")
+load("//:properties.bzl", "game_version", "blazerod_version", "mod_version", "fabric_api_version_modrinth", "fabric_language_kotlin_version_modrinth", "kotlin_for_forge_version_modrinth")
 load("@//rule:upload_modrinth.bzl", "modrinth_dependency", "upload_modrinth")
 load("//rule:generate_remap_classpath.bzl", "generate_remap_classpath")
 load("//rule/fabric:merge_jij.bzl", "fabric_merge_jij")
@@ -212,11 +212,11 @@ modrinth_dependency(
 )
 
 upload_modrinth(
-    name = "upload_modrinth",
+    name = "upload_modrinth_fabric",
     token_secret_id = "modrinth_token",
     project_id = "tLPuDSOw",
     version_name = mod_version,
-    version_id = mod_version,
+    version_id = mod_version + "+fabric",
     version_type = "alpha",
     changelog = "//:update_log",
     game_versions = [game_version],
@@ -226,6 +226,30 @@ upload_modrinth(
         ":fabric_language_kotlin",
         ":modmenu",
     ],
-    file = ":mod",
-    file_name = "ArmorStand-%s.jar" % mod_version,
+    file = ":mod_fabric",
+    file_name = "ArmorStand-%s+fabric.jar" % mod_version,
+)
+
+modrinth_dependency(
+    name = "kotlin_for_forge",
+    project_id = "ordsPcFz",
+    version_id = kotlin_for_forge_version_modrinth,
+    dependency_type = "required",
+)
+
+upload_modrinth(
+    name = "upload_modrinth_neoforge",
+    token_secret_id = "modrinth_token",
+    project_id = "tLPuDSOw",
+    version_name = mod_version,
+    version_id = mod_version + "+neoforge",
+    version_type = "alpha",
+    changelog = "//:update_log",
+    game_versions = [game_version],
+    loaders = ["neoforge"],
+    deps = [
+        ":kotlin_for_forge",
+    ],
+    file = ":mod_neoforge",
+    file_name = "ArmorStand-%s+neoforge.jar" % mod_version,
 )
