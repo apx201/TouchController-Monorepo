@@ -47,3 +47,6 @@ replay_*.log
 # bazel
 .bazelbsp
 bazel-*
+
+# claude code
+CLAUDE.md
