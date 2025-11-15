@@ -16,6 +16,9 @@ bazel_dep(name = "rules_rust_mdbook", version = "0.67.0")
 
 include("//module:minecraft.MODULE.bazel")
 include("//module:neoforge.MODULE.bazel")
+include("//module:fabric.MODULE.bazel")
+include("//module:rules.MODULE.bazel")
+include("//module:blazerod.MODULE.bazel")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
@@ -36,7 +39,7 @@ maven.install(
         "org.joml:joml:1.10.5",
 
         # Swing
-        # "org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.1",
+        "org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.1",
 
         # Build dependencies
         "com.fasterxml.jackson.core:jackson-core:2.9.6",
@@ -51,7 +54,6 @@ maven.install(
         "https://maven.google.com/",
         "https://maven.fabricmc.net/",
         "https://maven.neoforged.net/releases",
-        "https://maven.terraformersmc.com/",
     ],
 )
 use_repo(maven, "maven")

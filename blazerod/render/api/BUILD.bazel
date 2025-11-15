@@ -1,14 +1,14 @@
 load("@bazel_skylib//rules:expand_template.bzl", "expand_template")
-load("//rule:merge_library.bzl", "kt_merge_library", "merge_library_jar")
-load("//:properties.bzl", "blazerod_version")
+load("//blazerod:properties.bzl", "blazerod_version")
+load("//rule:merge_library.bzl", "kt_merge_library")
 
 expand_template(
     name = "api_info",
-    template = "BlazeRodApi.template.kt",
     out = "BlazeRodApi.kt",
     substitutions = {
         "${version}": blazerod_version,
-    }
+    },
+    template = "BlazeRodApi.template.kt",
 )
 
 kt_merge_library(

@@ -1,5 +1,5 @@
+load("//blazerod:properties.bzl", "blazerod_version", "home_page", "issue_tracker", "license", "sources_page")
 load("//rule:mod_info_jar.bzl", "mod_info_jar")
-load("//:properties.bzl", "blazerod_version", "issue_tracker", "license", "home_page", "sources_page")
 
 def _model_info_jar_impl(name, visibility, substitutions):
     predefined_substitutions = {

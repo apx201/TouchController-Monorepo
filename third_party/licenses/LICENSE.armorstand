@@ -1,6 +1,6 @@
-ArmorStand is licensed as GNU Lesser General Public License 3.0 or later.
+ArmorStand is licensed as GNU Lesser General Public License 3.0 or later. The license text is placed in file LICENSE.
 
-It bundles these libraries and resources:
+ArmorStand bundles these libraries and resources:
 
 - H2 database (MPL 2.0 or EPL 1.0, ArmorStand use MPL 2.0 for H2)
 - Animation from KaiMyEntity-C (Informal license)
@@ -9,4 +9,4 @@ It bundles these libraries and resources:
 - mocha (MIT)
 - Javassist (MPL 1.1, LGPL 2.1-or-later or Apache 2.0, ArmorStand use LGPL 3.0 for Javassist)
 
-You can see their license in this directory.
+You can view their licenses in this directory.

@@ -1,7 +1,6 @@
-load("//:properties.bzl", "blazerod_version", "game_version", "neoforge_version", "issue_tracker", "home_page", "sources_page", "license")
-load("//rule:remap_jar.bzl", "remap_jar")
-load("//rule/neoforge:mod_toml_jar.bzl", "neoforge_mod_toml_jar")
+load("//blazerod:properties.bzl", "blazerod_version", "home_page", "issue_tracker", "license", "sources_page")
 load("//rule:merge_library.bzl", "kt_merge_library", "merge_library_jar")
+load("//rule/neoforge:mod_toml_jar.bzl", "neoforge_mod_toml_jar")
 
 neoforge_mod_toml_jar(
     name = "neoforge_mod_toml",
@@ -9,8 +8,8 @@ neoforge_mod_toml_jar(
     resource_strip_prefix = "blazerod/render/neoforge",
     substitutions = {
         "${version}": blazerod_version,
-        "${game_version}": game_version,
-        "${neoforge_version}": neoforge_version,
+        "${game_version}": "1.21.8",
+        "${neoforge_version}": "21.8.36",
         "${license}": license,
         "${home_page}": home_page,
         "${sources_page}": sources_page,
@@ -20,27 +19,8 @@ neoforge_mod_toml_jar(
 
 kt_merge_library(
     name = "neoforge_unmapped",
-    visibility = ["//blazerod/render:__subpackages__"],
     srcs = glob(["**/*.kt"]),
-    resource_jars = [
-        "//blazerod:icon",
-        ":neoforge_mod_toml",
-        "//blazerod/render/game:access_transformer",
-        "//blazerod/render/main:main_resources",
-    ],
-    resources = glob(
-        include = ["resources/**"],
-        exclude = ["resources/META-INF/neoforge.mods.toml"],
-        allow_empty = True,
-    ),
-    resource_strip_prefix = "blazerod/render/neoforge/resources",
     actual = True,
-    deps = [
-        "//game:remapped_neoforge_named",
-        "//game:remapped_sodium_neoforge",
-        "//game:remapped_iris_neoforge",
-        "@neoforge//:neoforge_deps",
-    ],
     merge_deps = [
         "//blazerod/render/main",
         "//blazerod/render/api/event",
@@ -52,6 +32,25 @@ kt_merge_library(
         "//blazerod/render/main/layout",
         "//blazerod/render/main/runtime",
         "//blazerod/render/main/runtime/uniform",
+    ],
+    resource_jars = [
+        "//blazerod:icon",
+        ":neoforge_mod_toml",
+        "//blazerod/render/game:access_transformer",
+        "//blazerod/render/main:main_resources",
+    ],
+    resource_strip_prefix = "blazerod/render/neoforge/resources",
+    resources = glob(
+        include = ["resources/**"],
+        allow_empty = True,
+        exclude = ["resources/META-INF/neoforge.mods.toml"],
+    ),
+    visibility = ["//blazerod/render:__subpackages__"],
+    deps = [
+        "//game/1.21.8:iris_neoforge",
+        "//game/1.21.8:neoforge_named",
+        "//game/1.21.8:sodium_neoforge",
+        "@neoforge_1_21_8//:neoforge_deps",
     ],
 )
 

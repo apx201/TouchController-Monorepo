@@ -1,10 +1,9 @@
-load("//:properties.bzl", "blazerod_version", "game_version", "neoforge_version", "issue_tracker", "home_page", "sources_page", "license")
-load("//rule:remap_jar.bzl", "remap_jar")
+load("//:properties.bzl", "blazerod_version", "game_version", "home_page", "issue_tracker", "license", "neoforge_version", "sources_page")
 load("//rule:merge_library.bzl", "kt_merge_library", "merge_library_jar")
+load("//rule:remap_jar.bzl", "remap_jar")
 
 kt_merge_library(
     name = "neoforge_main_unmapped",
-    visibility = ["//mod:__subpackages__"],
     srcs = glob(
         include = [
             "kotlin/**/*.kt",
@@ -12,17 +11,18 @@ kt_merge_library(
         ],
         allow_empty = True,
     ),
+    merge_deps = [
+        "//mod/src/main",
+    ],
+    resource_strip_prefix = "mod/src/neoforge/resources",
     resources = glob(
         include = ["resources/**"],
         allow_empty = True,
     ),
-    resource_strip_prefix = "mod/src/neoforge/resources",
+    visibility = ["//mod:__subpackages__"],
     deps = [
-        "//game:remapped_neoforge_named",
-        "@neoforge//:neoforge_deps",
+        "//game/1.21.8:neoforge_named",
         "@maven//:org_jetbrains_kotlinx_kotlinx_coroutines_core_jvm",
-    ],
-    merge_deps = [
-        "//mod/src/main",
+        "@neoforge_1_21_8//:neoforge_deps",
     ],
 )

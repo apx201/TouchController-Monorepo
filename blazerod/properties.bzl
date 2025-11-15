@@ -1,0 +1,6 @@
+"Common properties in BlazeRod"
+blazerod_version = "0.0.8"
+home_page = "https://github.com/TouchController/TouchController"
+sources_page = "https://github.com/TouchController/TouchController"
+issue_tracker = "https://github.com/TouchController/TouchController/issues"
+license = "LGPL-3.0-or-later"

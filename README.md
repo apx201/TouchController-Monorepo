@@ -17,6 +17,8 @@
 - BlazeRod：暂未迁移
 - ArmorStand：暂未迁移
 
+待所有代码迁移后，这个仓库会和 TouchController 仓库合并作为一个分支，然后这个仓库会进入归档状态。
+
 ---
 
 # TouchController Monorepo
@@ -37,3 +39,5 @@ Projects are gradually being migrated from their respective repositories to here
 - TouchControllerWiki：Migrated
 - BlazeRod: Not yet migrated
 - ArmorStand: Not yet migrated
+
+After all code is migrated, this repository will be merged with the TouchController repository as a branch, and this repository will be archived.

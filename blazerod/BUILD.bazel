@@ -1,7 +1,6 @@
 load("@rules_java//java:defs.bzl", "java_library")
 load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_library")
-load("//:properties.bzl", "blazerod_version", "home_page", "issue_tracker", "license")
-load("//rule:merge_jar.bzl", "merge_jar")
+load("//blazerod:properties.bzl", "blazerod_version", "home_page", "issue_tracker", "license")
 load("//rule/fabric:merge_jij.bzl", "fabric_merge_jij")
 load("//rule/fabric:mod_json_jar.bzl", "fabric_mod_json_jar")
 load("//rule/neoforge:merge_jij.bzl", "neoforge_merge_jij")
@@ -12,6 +11,16 @@ java_library(
     resource_strip_prefix = "blazerod/resources",
     resources = ["resources/assets/blazerod/icon.png"],
     visibility = ["//visibility:public"],
+)
+
+alias(
+    name = "license",
+    actual = "LICENSE",
+)
+
+java_library(
+    name = "license_jar",
+    resources = [":license"],
 )
 
 fabric_mod_json_jar(
@@ -40,7 +49,7 @@ kt_jvm_library(
     srcs = ["src/Dummy.kt"],
     resource_jars = [
         ":fabric_mod_json",
-        "//:license_jar",
+        ":license_jar",
     ],
     resource_strip_prefix = "blazerod/resources",
     resources = glob(

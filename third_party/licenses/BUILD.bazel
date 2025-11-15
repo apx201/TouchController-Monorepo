@@ -1,5 +1,13 @@
 filegroup(
-    name = "licenses",
+    name = "licenses_armorstand",
+    srcs = [
+        "LICENSE.armorstand",
+        "LICENSE.cherished_worlds",
+        "LICENSE.h2",
+        "LICENSE.javaosc",
+        "LICENSE.javassist",
+        "LICENSE.kaymyentity_c",
+        "LICENSE.mocha",
+    ],
     visibility = ["//visibility:public"],
-    srcs = glob(["LICENSE.*"]) + ["README.md"],
 )

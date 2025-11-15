@@ -1,4 +1,4 @@
-load("//:properties.bzl", "game_version")
+load("@rules_java//java:java_library.bzl", "java_library")
 load("//rule:merge_library.bzl", "kt_merge_library")
 
 java_library(

@@ -1,0 +1,25 @@
+"MODULE.bazel rules part"
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.install(
+    artifacts = [
+        "net.fabricmc:tiny-remapper:0.11.1",
+        "net.fabricmc:mapping-io:0.7.1",
+        "net.fabricmc:mapping-io-extras:0.7.1",
+        "net.fabricmc:access-widener:2.1.0",
+        "org.ow2.asm:asm:9.8",
+        "org.ow2.asm:asm-commons:9.8",
+        "org.vineflower:vineflower:1.11.1",
+        "com.fasterxml.jackson.core:jackson-core:2.9.6",
+        "com.fasterxml.jackson.core:jackson-annotations:2.9.6",
+        "com.fasterxml.jackson.core:jackson-databind:2.9.6",
+        "de.swiesend:secret-service:2.0.1-alpha",
+        "ch.qos.logback:logback-classic:1.5.18",
+        "com.github.mizosoft.methanol:methanol:1.8.3",
+        "net.neoforged:srgutils:1.0.10",
+        "io.codechicken:DiffPatch:2.0.0.36:all",
+        "net.neoforged.jst:jst-cli-bundle:1.0.74",
+        "com.palantir.javapoet:javapoet:0.7.0",
+        "com.google.jimfs:jimfs:1.3.1",
+    ],
+)

@@ -1,9 +1,9 @@
 load("@rules_java//java:defs.bzl", "java_library")
 load("//rule:apply_access_widener.bzl", "apply_access_widener")
-load("//rule:extract_access_widener.bzl", "extract_access_widener")
 load("//rule:decompile_jar.bzl", "decompile_jar")
-load("//rule/neoforge:convert_access_widener.bzl", "convert_access_widener")
+load("//rule:extract_access_widener.bzl", "extract_access_widener")
 load("//rule:remap_access_widener.bzl", "remap_access_widener")
+load("//rule/neoforge:convert_access_widener.bzl", "convert_access_widener")
 
 extract_access_widener(
     name = "access_widener_dep_named",
@@ -12,20 +12,20 @@ extract_access_widener(
 
 apply_access_widener(
     name = "remapped_client_access_widened_named",
-    visibility = ["//mod:__subpackages__"],
     srcs = [
         "armorstand.accesswidener",
         ":access_widener_dep_named",
     ],
-    input = "//game:remapped_client_named",
+    input = "//game/1.21.8:game_client_named",
     neverlink = True,
+    visibility = ["//mod:__subpackages__"],
 )
 
 remap_access_widener(
     name = "access_transformer_mojang",
     src = "armorstand.accesswidener",
-    mapping = "//game:merged_mojang_mapping",
     from_namespace = "named",
+    mapping = "//game/1.21.8:game_merged_mapping",
     to_namespace = "mojang",
 )
 
@@ -37,14 +37,14 @@ convert_access_widener(
 
 java_library(
     name = "access_transformer",
-    visibility = ["//mod:__subpackages__"],
-    resources = [":access_transformer_file"],
     resource_strip_prefix = "mod/src/game",
+    resources = [":access_transformer_file"],
+    visibility = ["//mod:__subpackages__"],
 )
 
 java_library(
     name = "access_widener",
-    visibility = ["//mod:__subpackages__"],
-    resources = ["armorstand.accesswidener"],
     resource_strip_prefix = "mod/src/game",
+    resources = ["armorstand.accesswidener"],
+    visibility = ["//mod:__subpackages__"],
 )

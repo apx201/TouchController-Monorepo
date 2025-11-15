@@ -1,0 +1,25 @@
+"MODULE.bazel Iris part"
+
+iris_versions = {
+    "1.21.6": {
+        "version": "1.9.1",
+        "modrinth": {
+            "fabric": "l77DAK6U",
+            "neoforge": "xA5cxBvz",
+        },
+    },
+}
+
+http_jar = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_jar")
+http_jar(
+    name = "iris_fabric_1_21_7",
+    url = "https://cdn.modrinth.com/data/YL57xq9U/versions/l77DAK6U/iris-fabric-1.9.1%2Bmc1.21.7.jar",
+    sha256 = "0e6bd470311cc938b992e9065e0f94a3f603b68b5dfcde25102c64b8733b69bd",
+    downloaded_file_name = "iris.jar",
+)
+http_jar(
+    name = "iris_neoforge_1_21_7",
+    url = "https://cdn.modrinth.com/data/YL57xq9U/versions/xA5cxBvz/iris-neoforge-1.9.1%2Bmc1.21.7.jar",
+    sha256 = "7d5547c730ddf58631d7ded952b9e325cbbee93fd70c2b1c88d312cd21084dae",
+    downloaded_file_name = "iris.jar",
+)

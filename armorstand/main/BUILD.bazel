@@ -1,28 +1,30 @@
-load("//rule:merge_library.bzl", "kt_merge_library")
 load("@bazel_skylib//rules:expand_template.bzl", "expand_template")
-load("//:properties.bzl", "mod_version", "license")
+load("//:properties.bzl", "license", "mod_version")
+load("//rule:merge_library.bzl", "kt_merge_library")
 
 java_library(
     name = "main_resources",
-    visibility = ["//mod:__subpackages__"],
-    resources = glob(["resources/**"], allow_empty = True),
     resource_strip_prefix = "mod/src/main/resources",
+    resources = glob(
+        ["resources/**"],
+        allow_empty = True,
+    ),
+    visibility = ["//mod:__subpackages__"],
 )
 
 expand_template(
     name = "mod_info",
-    template = "ModInfoTemplate.kt",
     out = "ModInfo.kt",
     substitutions = {
         "${mod_id}": "armorstand",
         "${mod_version}": mod_version,
         "${license}": license,
-    }
+    },
+    template = "ModInfoTemplate.kt",
 )
 
 kt_merge_library(
     name = "main",
-    visibility = ["//mod:__subpackages__"],
     srcs = glob(
         include = [
             "kotlin/**/*.kt",
@@ -30,8 +32,9 @@ kt_merge_library(
         ],
         allow_empty = True,
     ) + ["ModInfo.kt"],
+    visibility = ["//mod:__subpackages__"],
     deps = [
-        "//game:remapped_server_named",
+        "//game/1.21.8:game_server_named",
         "@maven//:org_jetbrains_kotlinx_kotlinx_coroutines_core_jvm",
         "@minecraft//:1.21.8_server_libraries",
     ],

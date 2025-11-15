@@ -2,57 +2,57 @@ load("//rule:remap_jar.bzl", "remap_jar")
 
 alias(
     name = "render_fabric_unmapped",
-    visibility = ["//visibility:public"],
     actual = "//blazerod/render/fabric:fabric_unmapped",
+    visibility = ["//visibility:public"],
 )
 
 alias(
     name = "render_fabric_unmapped_merged",
-    visibility = ["//visibility:public"],
     actual = "//blazerod/render/fabric:fabric_unmapped_merged",
+    visibility = ["//visibility:public"],
 )
 
 remap_jar(
     name = "render_fabric_merged",
-    visibility = ["//visibility:public"],
-    classpath = ["//game:remapped_client_named"],
+    classpath = ["//game/1.21.8:game_client_named"],
     from_namespace = "named",
     inputs = [":render_fabric_unmapped_merged"],
-    mapping = "//game:merged_mapping",
+    mapping = "//game/1.21.8:game_merged_mapping",
     mixin = True,
     to_namespace = "intermediary",
+    visibility = ["//visibility:public"],
 )
 
 alias(
     name = "render_main",
-    visibility = ["//visibility:public"],
     actual = "//blazerod/render/main",
+    visibility = ["//visibility:public"],
 )
 
 alias(
     name = "render_neoforge_unmapped",
-    visibility = ["//visibility:public"],
     actual = "//blazerod/render/neoforge:neoforge_unmapped",
+    visibility = ["//visibility:public"],
 )
 
 alias(
     name = "render_neoforge_unmapped_merged",
-    visibility = ["//visibility:public"],
     actual = "//blazerod/render/neoforge:neoforge_unmapped_merged",
+    visibility = ["//visibility:public"],
 )
 
 remap_jar(
     name = "render_neoforge_merged",
-    visibility = ["//visibility:public"],
     classpath = [
-        "//game:remapped_neoforge_named",
-        "@neoforge//:neoforge_deps",
+        "//game/1.21.8:game_client_neoforge",
+        "@neoforge_1_21_8//:neoforge_deps",
     ],
     from_namespace = "named",
     inputs = [":render_neoforge_unmapped_merged"],
-    mapping = "//game:merged_mojang_mapping",
+    mapping = "//game/1.21.8:game_merged_mapping",
     mixin = True,
     to_namespace = "mojang",
+    visibility = ["//visibility:public"],
 )
 
 test_suite(

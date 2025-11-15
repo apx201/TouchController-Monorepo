@@ -49,14 +49,14 @@ kt_merge_library(
     ),
     visibility = ["//mod:__subpackages__"],
     deps = [
-        "//game:remapped_iris_neoforge",
-        "//game:remapped_neoforge_named",
-        "//game:remapped_sodium_neoforge",
         "//blazerod/model/model-formats",
         "//blazerod/render/api/event",
-        "@neoforge//:neoforge_deps",
+        "//game/1.21.8:iris_neoforge",
+        "//game/1.21.8:neoforge_named",
+        "//game/1.21.8:sodium_neoforge",
         "@maven//:org_jetbrains_kotlinx_kotlinx_coroutines_core_jvm",
         "@minecraft//:1.21.8_client_libraries",
+        "@neoforge_1_21_8//:neoforge_deps",
     ],
 )
 
