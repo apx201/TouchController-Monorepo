@@ -4,7 +4,7 @@
 - 这个页面可以自定义控件的布局
 - 参见：[自定义布局的特性](../../../feature/custom-layout.md)
 
-## 框架
+## 页面结构
 
 ### 顶栏
 
@@ -57,6 +57,8 @@
 
 此标签页的底部有两个按钮，分别为复制控件和剪切控件。
 
+![](assets/custom-widget-layout/file-20251116212930741.png)
+
 #### 控件
 
 此标签页的工具栏按钮为：
@@ -68,6 +70,8 @@
 
 - 内置控件：TouchController 预置的控件，可以直接使用（在内置控件的最后，有一个作为模板的空白自定义控件）。
 - 模板控件：通过上述的保存按钮储存的控件，用于复用自定义后的控件。
+
+![](assets/custom-widget-layout/file-20251116213114187.png)
 
 #### 图层
 
@@ -81,6 +85,8 @@
 
 关于图层的详细机制，请查看[图层系统](../../../mechanism/custom-layout/layer-system.md)。
 
+![](assets/custom-widget-layout/file-20251116213144436.png)
+
 #### 预设
 
 此标签页的工具栏按钮为：
@@ -92,3 +98,5 @@
 点击预设右边的三个点，可以删除、复制、编辑预设，可以查看预设文件路径，可以在此调整预设设置。
 
 关于预设的详细机制，请查看[预设系统](../../../mechanism/custom-layout/preset-system.md)。
+
+![](assets/custom-widget-layout/file-20251116213208430.png)

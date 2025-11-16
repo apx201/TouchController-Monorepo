@@ -7,4 +7,4 @@
 
 关于物品堆叠组件，可以参考[中文 Minecraft Wiki](https://zh.minecraft.wiki/w/物品堆叠组件)，这个页面可以快速筛选拥有某一组件的物品，组件的图标在显示时会轮播拥有此组件的物品。
 
-![](assets/widget-list/file-20251116195216268.png)
+![](assets/widget-list/file-20251116211338932.png)

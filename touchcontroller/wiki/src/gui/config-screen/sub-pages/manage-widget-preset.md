@@ -83,3 +83,5 @@
 - 类型：选项
 - 默认值：禁用
 - 控制聊天按钮是否打开 TouchController 的[聊天界面](../../chat-screen.md)
+
+![](assets/manage-widget-preset/file-20251116212455725.png)
