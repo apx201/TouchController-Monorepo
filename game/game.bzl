@@ -5,7 +5,7 @@ load("//rule:extract_jar.bzl", "extract_jar")
 load("//rule:merge_mapping.bzl", "merge_mapping", "merge_mapping_input")
 load("//rule:remap_jar.bzl", "remap_jar")
 
-def _game_version_impl(name, visibility, version, client_mappings, client, server, neoforge, intermediary):
+def _game_version_impl(name, visibility, version, client_mappings, client, server, neoforge, intermediary, sodium_intermediary, iris_intermediary):
     intermediary_mapping = name + "_intermediary_mapping"
     intermediary_input = name + "_intermediary_input"
     named_input = name + "_named_input"
@@ -16,6 +16,8 @@ def _game_version_impl(name, visibility, version, client_mappings, client, serve
     server_jar_file = name + "_server_jar_file"
     server_jar = name + "_server_jar"
     server_named = name + "_server_named"
+    sodium_named = name + "_sodium_named"
+    iris_named = name + "_iris_named"
 
     extract_jar(
         name = intermediary_mapping,
@@ -105,6 +107,35 @@ def _game_version_impl(name, visibility, version, client_mappings, client, serve
         visibility = visibility,
     )
 
+    if sodium_intermediary:
+        remap_jar(
+            name = sodium_named,
+            from_namespace = "intermediary",
+            inputs = [sodium_intermediary],
+            classpath = [":" + client_intermediary],
+            mapping = ":" + merged_mapping,
+            to_namespace = "named",
+            visibility = visibility,
+            mixin = True,
+            remove_jar_in_jar = True,
+        )
+
+    if sodium_intermediary and iris_intermediary:
+        remap_jar(
+            name = iris_named,
+            from_namespace = "intermediary",
+            inputs = [iris_intermediary],
+            classpath = [
+                ":" + client_intermediary,
+                ":" + sodium_named,
+            ],
+            mapping = ":" + merged_mapping,
+            to_namespace = "named",
+            visibility = visibility,
+            mixin = True,
+            remove_jar_in_jar = True,
+        )
+
 game_version = macro(
     implementation = _game_version_impl,
     attrs = {
@@ -135,6 +166,16 @@ game_version = macro(
         "intermediary": attr.label(
             mandatory = True,
             doc = "Intermediary mappings",
+        ),
+        "sodium_intermediary": attr.label(
+            mandatory = False,
+            doc = "Sodium to be remapped from intermediary",
+            configurable = False,
+        ),
+        "iris_intermediary": attr.label(
+            mandatory = False,
+            doc = "Sodium to be remapped from intermediary",
+            configurable = False,
         ),
     },
 )

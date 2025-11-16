@@ -8,4 +8,5 @@ game_version(
     neoforge = "@neoforge_1_21//:compiled_with_neoforge",
     server = "@minecraft//1.21:server",
     version = "1.21",
+    visibility = ["//visibility:public"],
 )
