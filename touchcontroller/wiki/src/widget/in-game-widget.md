@@ -2,7 +2,7 @@
 
 ## 相关页面
 
-- 您可以在[自定义布局](../gui/config-screen/sub-pages/layout/custom-widget-layout.md)中查看如何管理控件。
+- 您可以在[自定义布局](../gui/config-screen/sub-pages/custom-widget-layout.md)中查看如何管理控件。
 - 您可以在[控件样式](./widget-style.md)中查看控件使用什么贴图。
 
 ## 内置控件
