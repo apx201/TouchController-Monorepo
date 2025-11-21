@@ -142,14 +142,11 @@ java_binary(
 java_binary(
     name = "dev_server",
     srcs = [],
-    data = [":remap_classpath"],
     jvm_flags = [
         "-Dfabric.development=true",
-        "-Dfabric.remapClasspathFile=$(rlocationpath :remap_classpath)",
         "-Ddev.launch.version=1.21.8",
         "-Ddev.launch.type=server",
         "-Ddev.launch.mainClass=net.fabricmc.loader.impl.launch.knot.KnotServer",
-        "-Ddev.launch.expandRunfileProperties=fabric.remapClasspathFile",
         "-Xmx4G",
     ],
     main_class = "top.fifthlight.fabazel.devlaunchwrapper.DevLaunchWrapper",
@@ -158,6 +155,7 @@ java_binary(
         "@minecraft//1.21.8:client_libraries",
         ":mod_fabric_unmapped",
         "//armorstand/fabric_main:remapped_deps",
+        "//game/1.21.8:game_mapping_jar",
         "//game/1.21.8:game_server_named",
         "@maven_fabric_1_21_8//:io_github_llamalad7_mixinextras_fabric",
         "@maven_fabric_1_21_8//:net_fabricmc_fabric_language_kotlin",
