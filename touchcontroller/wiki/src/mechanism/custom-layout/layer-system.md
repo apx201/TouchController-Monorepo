@@ -14,9 +14,9 @@
 
 是一个子页面，可以编辑图层名称和图层条件。可以在右侧的标签页中将图层条件添加到图层中，目前有三个标签页：
 
-- 预置条件：TouchController v0.2.1-beta11 及以前所可用的全部条件，详细说明见下方。
-- 手持物品：类似[物品列表](../../gui/config-screen/sub-pages/item-list)的默认物品表，点击一个物品可以添加手持此物品的条件。
-- 自定义条件：参见[自定义图层条件](custom-conditions.md)
+- 预置条件：TouchController v0.2.1-beta11 及以前所可用的全部条件，详细说明见下方。![](assets/layer-system/file-20251122165801719.png)
+- 手持物品：类似[物品列表](../../gui/config-screen/sub-pages/item-list)的默认物品表，点击一个物品可以添加手持此物品的条件。![](assets/layer-system/file-20251122165810865.png)
+- 自定义条件：参见[自定义图层条件](custom-conditions.md)。![](assets/layer-system/file-20251122165820595.png)
 
 ### 条件状态
 
