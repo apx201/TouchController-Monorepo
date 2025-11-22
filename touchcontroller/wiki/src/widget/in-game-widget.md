@@ -7,10 +7,13 @@
 
 ## 内置控件
 
+<!-- ANCHOR: p1 -->
 TouchController 的内置控件主要是基于[自定义控件](../mechanism/custom-layout/custom-widget.md)实现的，但也有一些控件无法通过标准自定义控件实现，它们有一些不同于自定义控件的设置。通过自定义控件实现的内置控件在此不再赘述（您可以直接查看其属性以了解其特性），我们主要介绍无法通过标准自定义控件实现的内置控件：
+<!-- ANCHOR_END: p1 -->
 
 ### 方向键
 
+<!-- ANCHOR: p2 -->
 方向键除了可以调整大小、调整图集外，还可以有以下设置：
 
 - 显示左后和右后按键：是否显示左后和右后的斜向按键贴图
@@ -20,22 +23,27 @@ TouchController 的内置控件主要是基于[自定义控件](../mechanism/cus
   - 普通：[操作](../mechanism/custom-layout/custom-widget.md#操作)与普通控件拥有相同的设置
   - 滑动无锁定：手指滑过中心按钮后触发，[操作](../mechanism/custom-layout/custom-widget.md#操作)与普通控件拥有相同的设置
   - 滑动锁定：手指滑过中心按钮后触发一次，[操作](../mechanism/custom-layout/custom-widget.md#操作)只能设为绑定键位
+<!-- ANCHOR_END: p2 -->
 
 ![](assets/in-game-widget/file-20251116213834271.png)
 
 ### 虚拟摇杆
 
+<!-- ANCHOR: p3 -->
 虚拟摇杆除了可以修改图集外，还可以分别调整背景和手柄的大小，同时拥有两个选项：
 
 - 触发疾跑：摇杆推到 110% 后触发疾跑
 - 激活时提高不透明度：手指移动摇杆时，摇杆提高不透明度
+<!-- ANCHOR_END: p3 -->
 
 ![](assets/in-game-widget/file-20251116213933654.png)
 
 ### 划船按钮
 
+<!-- ANCHOR: p4 -->
 划船按钮较为特殊，就像坦克一样，按住左边的按钮可以右转，按住右边的按钮可以左转，按住两个按钮可以同时前进。
 
 划船按钮除了可以调整大小、调整图集外，还可以设置当前按钮为左侧按钮或右侧按钮。
+<!-- ANCHOR_END: p4 -->
 
 ![](assets/in-game-widget/file-20251116214049288.png)

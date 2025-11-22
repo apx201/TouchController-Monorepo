@@ -2,7 +2,9 @@
 
 ## 介绍
 
-TouchController 能够在您选中输入框*（注：目前仅限于 TouchController 的 GUI，将在未来支持原版 GUI）*时自动弹出触摸键盘。还能让弹出键盘时输入框移动到键盘顶部，在输入时为输入法提供文本框内容，就像在其他应用程序中那样。
+<!-- ANCHOR: p1 -->
+TouchController 能够在您选中输入框（注：目前仅限于 TouchController 的 GUI，将在未来支持原版 GUI）时自动弹出触摸键盘。还能让弹出键盘时输入框移动到键盘顶部，在输入时为输入法提供文本框中的内容，就像在其他应用程序中那样。
+<!-- ANCHOR_END: p1 -->
 
 ## 机制
 
@@ -11,13 +13,23 @@ TouchController 能够在您选中输入框*（注：目前仅限于 TouchContro
 > [!TIP]
 > Windows 系统中仅实现了自动弹出键盘。
 
+<!-- ANCHOR: p2 -->
 在 Windows 系统中，弹出键盘存在诸多条件。首先，Windows 需要能识别到触摸屏。此外，还需要在设置中启用相关功能。以Windows 11 为例，您需要打开设置，找到`时间和语言 -> 输入`，展开`触摸键盘`选项，将`显示触摸键盘`设为**未连接键盘时**或**始终**。此时，找到一个输入框，选中它，触摸键盘应该能自动弹出。在游戏内，触摸键盘也会以同样的方式弹出。
+<!-- ANCHOR_END: p2 -->
 
 ### Linux 系统
 
+<!-- ANCHOR: p3 -->
 TouchController 在 Wayland 下实现了 [text_input_v3](https://wayland.app/protocols/text-input-unstable-v3) 协议，在输入法获得焦点时会由合成器决定是否弹出键盘。
+<!-- ANCHOR_END: p3 -->
 
 ### Android 系统
 
 > [!IMPORTANT]
 > Android 系统中的相关功能需要启动器的支持
+
+<!-- ANCHOR: p4 -->
+安卓系统的启动器支持情况如下：
+- [Fold Craft Launcher](https://github.com/FCL-Team/FoldCraftLauncher)：暂不支持弹出键盘时输入框移动到键盘顶部
+- [Zalith Launcher 2](https://github.com/ZalithLauncher/ZalithLauncher2)：完全支持
+<!-- ANCHOR_END: p4 -->

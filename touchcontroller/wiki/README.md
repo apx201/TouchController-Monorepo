@@ -14,10 +14,10 @@ TouchController Wiki 是一个全面的知识库，旨在帮助玩家了解和�
 
 本Wiki包含以下主要内容：
 
-- **玩家手册**：包含游玩须知、常见问题解答和 BUG 报告指南
-- **特性介绍**：详细说明模组的核心功能，如触控圈、自定义布局等
+- **开始**：包含游玩须知、常见问题解答和 BUG 报告指南
 - **控件系统**：介绍游戏内控件、GUI控件和控件样式
 - **机制说明**：解释锚点机制、静默转头等技术细节
+- **GUI**：包含设置界面、聊天界面的详细介绍
 
 ## 关于我们
 
@@ -36,6 +36,6 @@ TouchController Wiki 是一个全面的知识库，旨在帮助玩家了解和�
 - <https://gitee.com/fifth_light/TouchController>
 - <https://www.curseforge.com/minecraft/mc-mods/touchcontroller>
 
-## 游玩须知
+## TouchController 从入门到精通
 
-请参阅[游玩须知](https://tcwiki.fifthlight.top/manual/quickstart.html)了解如何开始使用TouchController。
+请参阅[游玩须知](https://tcwiki.fifthlight.top/manual/quickstart.html)了解如何使用TouchController。

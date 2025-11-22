@@ -1,8 +1,8 @@
-# TouchController 游玩须知
+# TouchController 从入门到精通
 
 ## 支持版本
 
-参见 [#4](https://github.com/TouchController/TouchController/issues/4)
+> 参见 [#4](https://github.com/TouchController/TouchController/issues/4)
 
 - 1.12.2 (Forge)
 - 1.16.5 (Forge, Fabric)
@@ -20,8 +20,8 @@
 
 ## 支持平台
 
-- Windows（版本最低为 Windows 7，支持 x86、x86_64 和 ARM64 架构）
-- Linux（目前只支持 Wayland 显示协议，不支持 X11（包括 XWayland）；只支持 glibc，暂时不支持 musl；只支持 x86_64、x86、armv7、armv8 架构）
+- Windows：版本最低为 Windows 7，支持 x86、x86_64 和 ARM64 架构
+- Linux：目前只支持 Wayland 显示协议，不支持 X11（包括 XWayland）；只支持 glibc，暂时不支持 musl；只支持 x86_64、x86、armv7、armv8 架构
 - [Fold Craft Launcher](https://github.com/FCL-Team/FoldCraftLauncher)
 - [Zalith Launcher](https://github.com/ZalithLauncher/ZalithLauncher)
 - [Zalith Launcher 2](https://github.com/ZalithLauncher/ZalithLauncher2)
@@ -63,11 +63,11 @@
 
 ### 隐藏启动器的控件
 
-大部分启动器都有控件编辑功能，您可以删除启动器自带的控件。以 FCL 为例，您只需要新建一个空布局，然后删除原布局。
+大部分启动器都有控件编辑功能，您可以删除启动器自带的控件。以 FCL 为例，您只需要新建一个空布局，删除原布局后进入游戏，便可以看到启动器自带的控件已被删除。
 
-### 定制您的 TouchController
+### 设置界面
 
-您可以通过多种方法进入 TouchController 的设置界面。关于如何设置，请参考 `GUI -> 设置界面` 中的相关内容。
+您可以通过多种方法进入 TouchController 的设置界面。关于如何设置，请参考[设置界面](../gui/config-screen/config-screen.md)及其子页面。
 
 #### 通过模组菜单
 
@@ -78,3 +78,159 @@
 
 - 打开`游戏菜单 -> 选项 -> 按键控制 -> 触摸设置`。
 - 一些版本进入方式可能有些许不同，但差别不会太大。
+
+### 控件样式
+
+#### 概念
+
+{{#include ../widget/widget-style.md:p1}}
+
+#### 图集
+
+> 经典
+
+{{#include ../widget/widget-style.md:p2}}
+
+> 新样式
+
+{{#include ../widget/widget-style.md:p3}}
+
+> 经典扩展
+
+{{#include ../widget/widget-style.md:p4}}
+
+> 新样式回归
+
+{{#include ../widget/widget-style.md:p5}}
+
+### 选择喜欢的布局
+
+{{#include ../mechanism/custom-layout/mode-switch.md:p1}}
+
+{{#include ../mechanism/custom-layout/mode-switch.md:p2}}
+
+> 预设模式选项：
+
+{{#include ../gui/config-screen/sub-pages/manage-widget-preset.md:p1}}
+
+{{#include ../gui/config-screen/sub-pages/manage-widget-preset.md:p2}}
+
+### 自定义布局
+
+#### 预设系统
+
+{{#include ../mechanism/custom-layout/preset-system.md:p1}}
+
+{{#include ../mechanism/custom-layout/preset-system.md:p2}}
+
+#### 图层系统
+
+{{#include ../mechanism/custom-layout/layer-system.md:p1}}
+
+{{#include ../mechanism/custom-layout/layer-system.md:p2}}
+
+> 图层编辑
+
+{{#include ../mechanism/custom-layout/layer-system.md:p3}}
+
+> 条件状态
+
+{{#include ../mechanism/custom-layout/layer-system.md:p4}}
+
+> 预置条件
+
+{{#include ../mechanism/custom-layout/layer-system.md:p5}}
+
+> 自定义图层条件
+
+{{#include ../mechanism/custom-layout/custom-conditions.md:p1}}
+
+{{#include ../mechanism/custom-layout/custom-conditions.md:p2}}
+
+#### 内置控件
+
+{{#include ../widget/in-game-widget.md:p1}}
+
+> 方向键
+
+{{#include ../widget/in-game-widget.md:p2}}
+
+> 虚拟摇杆
+
+{{#include ../widget/in-game-widget.md:p3}}
+
+> 划船按钮
+
+{{#include ../widget/in-game-widget.md:p4}}
+
+#### 自定义控件
+
+{{#include ../mechanism/custom-layout/custom-widget.md:p1}}
+
+> 外观
+
+{{#include ../mechanism/custom-layout/custom-widget.md:p2}}
+
+> 动作
+
+{{#include ../mechanism/custom-layout/custom-widget.md:p3}}
+
+> 触发
+
+{{#include ../mechanism/custom-layout/custom-widget.md:p4}}
+
+#### 锚点机制
+
+{{#include ../mechanism/anchor-mechanism.md:p1}}
+
+{{#include ../mechanism/anchor-mechanism.md:p2}}
+
+### 静默转头
+
+{{#include ../mechanism/slient-turning-head.md:p1}}
+
+> 机制
+
+{{#include ../mechanism/slient-turning-head.md:p2}}
+
+### 文本输入适配
+
+{{#include ../mechanism/input-support.md:p1}}
+
+#### Windows 系统
+
+> [!TIP]
+> Windows 系统中仅实现了自动弹出键盘。
+
+{{#include ../mechanism/input-support.md:p2}}
+
+#### Linux 系统
+
+{{#include ../mechanism/input-support.md:p3}}
+
+#### Android 系统
+
+> [!IMPORTANT]
+> Android 系统中的相关功能需要启动器的支持
+
+{{#include ../mechanism/input-support.md:p4}}
+
+### 触控圈
+
+{{#include ../mechanism/touch-ring.md:p1}}
+
+#### 外观
+
+{{#include ../mechanism/touch-ring.md:p2}}
+
+#### 特性
+
+{{#include ../mechanism/touch-ring.md:p3}}
+
+### 聊天界面
+
+{{#include ../gui/chat-screen.md:p1}}
+
+> 布局
+
+{{#include ../gui/chat-screen.md:p2}}
