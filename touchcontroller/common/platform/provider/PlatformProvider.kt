@@ -1,4 +1,4 @@
-package top.fifthlight.touchcontroller.common.platform
+package top.fifthlight.touchcontroller.common.platform.provider
 
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope

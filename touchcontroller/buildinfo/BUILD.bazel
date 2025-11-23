@@ -1,0 +1,30 @@
+load("//rule:merge_library.bzl", "kt_merge_library")
+load("@bazel_skylib//rules:expand_template.bzl", "expand_template")
+load("//touchcontroller:properties.bzl",
+    "touchcontroller_version",
+    "touchcontroller_description",
+    "touchcontroller_license",
+    "touchcontroller_authors",
+    "touchcontroller_contributors",
+)
+
+expand_template(
+    name = "buildinfo_sources",
+    out = "BuildInfo.kt",
+    template = "BuildInfo.template.kt",
+    substitutions = {
+        "[modId]": "touchcontroller",
+        "[modName]": "TouchController",
+        "[modVersion]": touchcontroller_version,
+        "[modDescription]": touchcontroller_description,
+        "[modLicense]": touchcontroller_license,
+        "[modAuthors]": ", ".join(['"%s"' % author for author in touchcontroller_authors]),
+        "[modContributors]": ", ".join(['"%s"' % contributor for contributor in touchcontroller_contributors]),
+    }
+)
+
+kt_merge_library(
+    name = "buildinfo",
+    srcs = [":buildinfo_sources"],
+    visibility = ["//touchcontroller:__subpackages__"],
+)

@@ -1,12 +1,17 @@
 load("//rule:merge_library.bzl", "kt_merge_library")
 
 kt_merge_library(
-    name = "android",
+    name = "provider",
     srcs = glob(["*.kt"]),
     visibility = ["//touchcontroller:__subpackages__"],
     deps = [
         "//touchcontroller/common/platform",
+        "//touchcontroller/common/platform/android",
+        "//touchcontroller/common/platform/wayland",
+        "//touchcontroller/common/platform/win32",
+        "//touchcontroller/common/platform/proxy",
         "//touchcontroller/proxy/message",
+        "//touchcontroller/proxy/server/udp",
         "@maven//:org_slf4j_slf4j_api",
     ],
 )
