@@ -15,29 +15,51 @@ bazel_dep(name = "rules_rust", version = "0.67.0")
 bazel_dep(name = "rules_rust_mdbook", version = "0.67.0")
 bazel_dep(name = "rules_android", version = "0.6.6")
 bazel_dep(name = "rules_android_ndk", version = "0.1.3")
+bazel_dep(name = "rules_python", version = "1.7.0")
+bazel_dep(name = "rules_jni", version = "0.11.0")
+bazel_dep(name = "rules_cc", version = "0.2.14")
+bazel_dep(name = "hermetic_cc_toolchain", version = "4.0.1")
+bazel_dep(name = "hedron_compile_commands", dev_dependency = True)
+git_override(
+    module_name = "hedron_compile_commands",
+    remote = "https://github.com/hedronvision/bazel-compile-commands-extractor.git",
+    commit = "abb61a688167623088f8768cc9264798df6a9d10",
+)
 
+# libraries
+bazel_dep(name = "libexpat", version = "2.7.1")
+bazel_dep(name = "libffi", version = "3.4.7.bcr.3")
+
+# toolchain
+include("//module:zig_cc.MODULE.bazel")
+include("//module:llvm-mingw.MODULE.bazel")
+
+# languages
 include("//module:rust.MODULE.bazel")
 
+# platforms
 include("//module:android.MODULE.bazel")
 
+# tools
 include("//module:mdbook.MODULE.bazel")
 
-include("//module:minecraft.MODULE.bazel")
-
+# rules
 include("//module:rules.MODULE.bazel")
-
-include("//module:neoforge.MODULE.bazel")
-
-include("//module:fabric.MODULE.bazel")
-
-include("//module:sodium.MODULE.bazel")
-
-include("//module:iris.MODULE.bazel")
-
+include("//module:minecraft.MODULE.bazel")
 include("//module:modrinth.MODULE.bazel")
 
-include("//module:blazerod.MODULE.bazel")
+# loaders
+include("//module:neoforge.MODULE.bazel")
+include("//module:fabric.MODULE.bazel")
 
+# third party
+include("//module/third_party:sodium.MODULE.bazel")
+include("//module/third_party:iris.MODULE.bazel")
+include("//module/third_party:mocha.MODULE.bazel")
+include("//module/third_party:wayland.MODULE.bazel")
+
+# projects
+include("//module:blazerod.MODULE.bazel")
 include("//module:armorstand.MODULE.bazel")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")

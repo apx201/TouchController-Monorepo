@@ -9,7 +9,7 @@ use log::LevelFilter;
 
 use crate::poller::Poller;
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "system" fn Java_top_fifthlight_touchcontroller_common_platform_android_Transport_init(
     _env: JNIEnv<'_>,
     _class: JClass,
@@ -21,7 +21,7 @@ pub extern "system" fn Java_top_fifthlight_touchcontroller_common_platform_andro
     );
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "system" fn Java_top_fifthlight_touchcontroller_common_platform_android_Transport_new(
     mut env: JNIEnv<'_>,
     _class: JClass,
@@ -47,7 +47,7 @@ pub extern "system" fn Java_top_fifthlight_touchcontroller_common_platform_andro
     }
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "system" fn Java_top_fifthlight_touchcontroller_common_platform_android_Transport_receive(
     mut env: JNIEnv<'_>,
     _class: JClass,
@@ -74,7 +74,7 @@ pub extern "system" fn Java_top_fifthlight_touchcontroller_common_platform_andro
     }
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "system" fn Java_top_fifthlight_touchcontroller_common_platform_android_Transport_send(
     env: JNIEnv<'_>,
     _class: JClass,
@@ -93,7 +93,7 @@ pub extern "system" fn Java_top_fifthlight_touchcontroller_common_platform_andro
     poller.send(cast_slice(&array));
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_top_fifthlight_touchcontroller_common_platform_android_Transport_destroy(
     _env: JNIEnv,
     _class: JClass,

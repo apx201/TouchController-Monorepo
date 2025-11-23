@@ -6,7 +6,7 @@
 #include <memory>
 #include <vector>
 
-#include "event.hpp"
+#include "touchcontroller/proxy/server/common/cpp/event.hpp"
 
 std::mutex g_event_queue_mutex;
 std::deque<ProxyMessage> g_event_queue;

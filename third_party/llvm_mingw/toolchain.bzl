@@ -1,7 +1,7 @@
 load("@rules_cc//cc/toolchains:cc_toolchain.bzl", "cc_toolchain")
 load(":config.bzl", "config")
 
-def _llvm_mingw_toolchain_impl(name, visibility, include_files, bin_files, lib_files, triple, target_cpu):
+def _llvm_mingw_toolchain_impl(name, visibility, include_files, bin_files, lib_files, triple, target_cpu, target_cpu_name, execroot):
     native.filegroup(
         name = "%s_gcc" % name,
         srcs = [
@@ -142,6 +142,8 @@ def _llvm_mingw_toolchain_impl(name, visibility, include_files, bin_files, lib_f
     config(
         name = "%s_config" % name,
         triple = triple,
+        target_cpu = target_cpu_name,
+        execroot = execroot,
     )
 
     cc_toolchain(
@@ -179,6 +181,8 @@ _llvm_mingw_toolchain_symbol = macro(
     attrs = {
         "triple": attr.string(mandatory = True, configurable = False),
         "target_cpu": attr.label(mandatory = True, configurable = False),
+        "target_cpu_name": attr.string(mandatory = True, configurable = False),
+        "execroot": attr.string(mandatory = True, configurable = False),
         "include_files": attr.label_list(mandatory = True),
         "bin_files": attr.label_list(mandatory = True),
         "lib_files": attr.label_list(mandatory = True),

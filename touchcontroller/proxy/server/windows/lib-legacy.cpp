@@ -1,7 +1,7 @@
+#include "touchcontroller/proxy/server/common/cpp/event.hpp"
+#include "touchcontroller/proxy/server/common/cpp/protocol.hpp"
 #include "lib-legacy.hpp"
-#include "event.hpp"
 #include "input.hpp"
-#include "protocol.hpp"
 
 #include <cstring>
 #include <deque>

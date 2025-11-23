@@ -6,7 +6,7 @@ filegroup(
         "LICENSE.h2",
         "LICENSE.javaosc",
         "LICENSE.javassist",
-        "LICENSE.kaymyentity_c",
+        "LICENSE.kaimyentity_c",
         "LICENSE.mocha",
     ],
     visibility = ["//visibility:public"],

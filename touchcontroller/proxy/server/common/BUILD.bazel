@@ -1,0 +1,8 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+cc_library(
+    name = "cpp",
+    srcs = glob(["*.cpp"]),
+    hdrs = glob(["*.hpp"]),
+    visibility = ["//touchcontroller:__subpackages__"],
+)

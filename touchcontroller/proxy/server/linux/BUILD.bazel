@@ -1,0 +1,25 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+genrule(
+    name = "text-input-unstable",
+    srcs = ["text-input-unstable-v3.xml"],
+    outs = ["wayland-text-input-unstable-v3.h"],
+    cmd = '$(location @wayland//:wayland-scanner) client-header $(location text-input-unstable-v3.xml) \"$@\"',
+    tools = ["@wayland//:wayland-scanner"],
+)
+
+cc_library(
+    name = "wayland",
+    srcs = [
+        "wayland.cpp",
+        "wayland.hpp",
+        ":text-input-unstable",
+    ],
+    includes = ["."],
+    target_compatible_with = ["@platforms//os:linux"],
+    deps = [
+        "@rules_jni//jni",
+        "//touchcontroller/proxy/server/common",
+        "@wayland//:wayland-client",
+    ],
+)

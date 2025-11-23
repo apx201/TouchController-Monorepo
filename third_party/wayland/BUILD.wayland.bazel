@@ -1,0 +1,89 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+load("@rules_python//python:py_binary.bzl", "py_binary")
+
+cc_library(
+    name = "wayland-util",
+    srcs = [
+        "src/wayland-util.c",
+        "src/wayland-private.h",
+    ],
+    hdrs = ["src/wayland-util.h"],
+    visibility = ["//visibility:public"],
+)
+
+py_binary(
+    name = "embed",
+    srcs = ["src/embed.py"],
+)
+
+genrule(
+    name = "wayland-dtd",
+    srcs = ["protocol/wayland.dtd"],
+    outs = ["src/wayland.dtd.h"],
+    cmd = '$(location :embed) $(location protocol/wayland.dtd) wayland_dtd > \"$@\"',
+    tools = [":embed"],
+)
+
+cc_binary(
+    name = "wayland-scanner",
+    srcs = [
+        "src/scanner.c",
+        "src/wayland-version.h",
+    ],
+    deps = [
+        ":wayland-util",
+        "@libexpat",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "wayland-private",
+    srcs = [
+        "src/connection.c",
+        "src/wayland-os.c",
+        "src/wayland-os.h",
+        "config.h",
+    ],
+    deps = [
+        "@libffi",
+        ":wayland-util",
+    ]
+)
+
+genrule(
+    name = "wayland-client-protocol",
+    srcs = ["protocol/wayland.xml"],
+    outs = ["src/wayland-client-protocol.h"],
+    cmd = '$(location :wayland-scanner) -s client-header $(location protocol/wayland.xml) \"$@\"',
+    tools = [":wayland-scanner"],
+)
+
+genrule(
+    name = "wayland-client-protocol-core",
+    srcs = ["protocol/wayland.xml"],
+    outs = ["src/wayland-client-protocol-core.h"],
+    cmd = '$(location :wayland-scanner) -s client-header -c $(location protocol/wayland.xml) \"$@\"',
+    tools = [":wayland-scanner"],
+)
+
+cc_library(
+    name = "wayland-client",
+    srcs = [
+        "src/wayland-client.c",
+        "src/wayland-version.h",
+        "src/timespec-util.h",
+    ],
+    hdrs = [
+        "src/wayland-client.h",
+        "src/wayland-client-core.h",
+        ":wayland-client-protocol",
+        ":wayland-client-protocol-core",
+    ],
+    includes = ["src"],
+    deps = [
+        ":wayland-util",
+        ":wayland-private",
+    ],
+    visibility = ["//visibility:public"],
+)

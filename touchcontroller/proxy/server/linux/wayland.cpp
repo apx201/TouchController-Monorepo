@@ -10,8 +10,8 @@
 #include <string>
 #include <unordered_map>
 
-#include "event.hpp"
-#include "protocol.hpp"
+#include "touchcontroller/proxy/server/common/cpp/event.hpp"
+#include "touchcontroller/proxy/server/common/cpp/protocol.hpp"
 #include "wayland-text-input-unstable-v3.h"
 
 namespace {

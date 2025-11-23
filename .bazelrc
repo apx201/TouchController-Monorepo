@@ -3,4 +3,8 @@ common --tool_java_runtime_version=remotejdk_21
 common --tool_java_language_version=21
 common --java_language_version=21
 
+# Zig CC
+build:linux --sandbox_add_mount_pair=/tmp
+build:macos --sandbox_add_mount_pair=/var/tmp
+
 build --worker_max_multiplex_instances=KotlinKsp=1

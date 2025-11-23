@@ -2,5 +2,7 @@
 bazel-*
 .idea
 .*wb
+external
+rust-project.json
 .claude
 CLAUDE.md

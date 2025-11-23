@@ -4,7 +4,7 @@
 #include <mutex>
 #include <unordered_map>
 #include <vector>
-#include "protocol.hpp"
+#include "touchcontroller/proxy/server/common/cpp/protocol.hpp"
 #include <windows.h>
 
 struct InitializeError : public std::runtime_error {

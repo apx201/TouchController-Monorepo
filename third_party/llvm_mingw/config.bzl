@@ -114,10 +114,14 @@ def _impl(ctx):
     return cc_common.create_cc_toolchain_config_info(
         ctx = ctx,
         features = features,
+        cxx_builtin_include_directories = [
+            "%s/%s/include" % (ctx.attr.execroot, ctx.attr.triple),
+            "%s/lib/clang/21/include" % ctx.attr.execroot,
+        ],
         toolchain_identifier = "llvm-mingw",
         host_system_name = "local",
         target_system_name = "local",
-        target_cpu = "x86_64",
+        target_cpu = ctx.attr.target_cpu,
         target_libc = "unknown",
         compiler = "llvm",
         abi_version = "unknown",
@@ -129,6 +133,8 @@ config = rule(
     implementation = _impl,
     attrs = {
         "triple": attr.string(mandatory = True),
+        "target_cpu": attr.string(mandatory = True),
+        "execroot": attr.string(mandatory = True),
         "c_opts": attr.string_list(mandatory = False, default = []),
         "link_opts": attr.string_list(mandatory = False, default = []),
     },
