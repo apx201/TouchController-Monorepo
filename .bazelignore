@@ -1,9 +1,8 @@
 .bazelbsp
-bazel-*
 .idea
-.*wb
+bazel-*
+.claude
+CLAUDE.md
 external
 rust-project.json
 compile_commands.json
-.claude
-CLAUDE.md
