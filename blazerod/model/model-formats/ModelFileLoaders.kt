@@ -1,6 +1,6 @@
 package top.fifthlight.blazerod.model.formats
 
-import top.fifthlight.blazerod.model.ModelFileLoader
+import top.fifthlight.blazerod.model.loader.ModelFileLoader
 import top.fifthlight.blazerod.model.util.readRemaining
 import java.nio.ByteBuffer
 import java.nio.channels.FileChannel

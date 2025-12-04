@@ -4,6 +4,7 @@ import org.joml.Matrix4f
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import org.slf4j.LoggerFactory
+import top.fifthlight.blazerod.model.loader.ModelFileLoader
 import top.fifthlight.blazerod.model.*
 import top.fifthlight.blazerod.model.pmd.format.PmdBone
 import top.fifthlight.blazerod.model.pmd.format.PmdHeader

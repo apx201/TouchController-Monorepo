@@ -6,8 +6,8 @@ import it.unimi.dsi.fastutil.ints.IntArrayList
 import it.unimi.dsi.fastutil.ints.IntIterable
 import org.joml.Quaternionf
 import org.joml.Vector3f
+import top.fifthlight.blazerod.model.loader.ModelFileLoader
 import top.fifthlight.blazerod.model.HumanoidTag
-import top.fifthlight.blazerod.model.ModelFileLoader
 import top.fifthlight.blazerod.model.TransformId
 import top.fifthlight.blazerod.model.animation.*
 import top.fifthlight.blazerod.model.util.MMD_SCALE

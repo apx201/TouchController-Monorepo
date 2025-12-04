@@ -1,6 +1,6 @@
 package top.fifthlight.blazerod.model.gltf
 
-import top.fifthlight.blazerod.model.ModelFileLoader
+import top.fifthlight.blazerod.model.loader.ModelFileLoader
 import java.nio.ByteBuffer
 import java.nio.file.Path
 import kotlin.io.path.readText

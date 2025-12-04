@@ -7,7 +7,7 @@ import top.fifthlight.armorstand.manage.database.TransactionScope
 import top.fifthlight.armorstand.util.ModelHash
 import top.fifthlight.armorstand.util.calculateSha256
 import top.fifthlight.armorstand.util.toHexString
-import top.fifthlight.blazerod.model.ModelFileLoader
+import top.fifthlight.blazerod.model.loader.ModelFileLoader
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.file.FileVisitResult

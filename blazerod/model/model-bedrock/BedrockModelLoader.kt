@@ -1,7 +1,7 @@
 package top.fifthlight.blazerod.model.bedrock
 
 import kotlinx.serialization.json.Json
-import top.fifthlight.blazerod.model.ModelFileLoader
+import top.fifthlight.blazerod.model.loader.ModelFileLoader
 import top.fifthlight.blazerod.model.bedrock.metadata.ModelMetadata
 import top.fifthlight.blazerod.model.util.readToBuffer
 import java.nio.ByteBuffer

@@ -1,5 +1,8 @@
-package top.fifthlight.blazerod.model
+package top.fifthlight.blazerod.model.loader
 
+import top.fifthlight.blazerod.model.Metadata
+import top.fifthlight.blazerod.model.Model
+import top.fifthlight.blazerod.model.Texture
 import top.fifthlight.blazerod.model.animation.Animation
 import java.nio.ByteBuffer
 import java.nio.file.Path
@@ -54,7 +57,8 @@ interface ModelFileLoader {
         }
     }
 
-    fun getMarkerFileHashes(marker: Path, directory: Path): Set<Path> = setOf(marker)
+    fun getMarkerFileHashes(marker: Path, directory: Path): Set<Path> =
+        setOf(marker)
 
     fun getMetadata(path: Path, basePath: Path? = path.parent): MetadataResult = MetadataResult.Unsupported
 

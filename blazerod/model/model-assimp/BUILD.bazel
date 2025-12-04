@@ -35,6 +35,7 @@ kt_jvm_library(
     ],
     deps = [
         "//blazerod/model/model-base",
+        "//blazerod/model/model-loader",
         "@maven//:org_joml_joml",
         "@maven//:org_slf4j_slf4j_api",
         "@maven_blazerod//:org_lwjgl_lwjgl",

@@ -31,5 +31,8 @@ kt_jvm_library(
     ],
     visibility = ["//visibility:public"],
     runtime_deps = format_targets,
-    deps = ["//blazerod/model/model-base"],
+    deps = [
+        "//blazerod/model/model-base",
+        "//blazerod/model/model-loader",
+    ],
 )

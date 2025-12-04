@@ -1,6 +1,6 @@
 package top.fifthlight.armorstand.manage.scan
 
-import top.fifthlight.blazerod.model.ModelFileLoader
+import top.fifthlight.blazerod.model.loader.ModelFileLoader
 import java.nio.file.Path
 
 interface FileHandler {

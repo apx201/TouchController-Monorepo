@@ -31,6 +31,7 @@ kt_merge_library(
         "//armorstand/game:remapped_client_access_widened_named",
         "//blazerod/model/model-base",
         "//blazerod/model/model-formats",
+        "//blazerod/model/model-loader",
         "//blazerod/render/api",
         "//blazerod/render/api/animation",
         "//blazerod/render/api/event",

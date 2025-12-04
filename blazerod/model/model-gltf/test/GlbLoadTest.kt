@@ -1,6 +1,6 @@
 package top.fifthlight.blazerod.model.gltf.test
 
-import top.fifthlight.blazerod.model.ModelFileLoader
+import top.fifthlight.blazerod.model.loader.ModelFileLoader
 import top.fifthlight.blazerod.model.gltf.GltfBinaryLoader
 import java.nio.file.Path
 import kotlin.test.Test

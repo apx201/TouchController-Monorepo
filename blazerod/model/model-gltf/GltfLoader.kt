@@ -4,6 +4,7 @@ import kotlinx.serialization.json.Json
 import org.joml.Matrix4f
 import org.joml.Quaternionf
 import org.joml.Vector3f
+import top.fifthlight.blazerod.model.loader.ModelFileLoader
 import top.fifthlight.blazerod.model.*
 import top.fifthlight.blazerod.model.animation.*
 import top.fifthlight.blazerod.model.gltf.format.*

@@ -24,6 +24,7 @@ kt_jvm_library(
     deps = [
         "//:kotlin_serialization",
         "//blazerod/model/model-base",
+        "//blazerod/model/model-loader",
         "@maven//:com_google_code_gson_gson",
         "@maven//:it_unimi_dsi_fastutil",
         "@maven//:org_jetbrains_kotlinx_kotlinx_serialization_json_jvm",
