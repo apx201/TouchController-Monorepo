@@ -1,23 +1,24 @@
 package top.fifthlight.blazerod.model.assimp
 
+import it.unimi.dsi.fastutil.floats.FloatArrayList
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.nio.file.Path
+import java.util.*
+import kotlin.jvm.optionals.getOrNull
+
 import org.joml.Matrix4f
+import org.joml.Quaternionf
+import org.joml.Vector3f
 import org.lwjgl.assimp.*
 import org.lwjgl.system.MemoryUtil
 import org.slf4j.LoggerFactory
 import top.fifthlight.blazerod.model.loader.ModelFileLoader
 import top.fifthlight.blazerod.model.*
+import top.fifthlight.blazerod.model.animation.*
 import top.fifthlight.blazerod.model.loader.LoadContext
 import top.fifthlight.blazerod.model.loader.LoadParam
 import top.fifthlight.blazerod.model.loader.LoadResult
-import top.fifthlight.blazerod.model.loader.util.openChannelCaseInsensitive
-import top.fifthlight.blazerod.model.loader.util.readAll
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import java.nio.channels.FileChannel
-import java.nio.file.Path
-import java.nio.file.StandardOpenOption
-import java.util.*
-import kotlin.jvm.optionals.getOrNull
 
 class AssimpLoadException(message: String) : Exception(message)
 
@@ -78,7 +79,7 @@ class AssimpLoader : ModelFileLoader {
         "stl" to setOf(ModelFileLoader.Ability.MODEL),
         "ter" to setOf(ModelFileLoader.Ability.MODEL),
         "usd" to setOf(ModelFileLoader.Ability.MODEL),
-        "x" to setOf(ModelFileLoader.Ability.MODEL),
+        "x" to setOf(ModelFileLoader.Ability.MODEL, ModelFileLoader.Ability.EMBED_ANIMATION),
         "xml" to setOf(ModelFileLoader.Ability.MODEL),
     )
 
@@ -158,7 +159,8 @@ class AssimpLoader : ModelFileLoader {
 
         private fun loadTexture(pathString: String) = textures.getOrPut(pathString) {
             try {
-                val buffer = context.loadExternalResource(pathString, LoadContext.ResourceType.TEXTURE, true, 256 * 1024 * 1024)
+                val buffer =
+                    context.loadExternalResource(pathString, LoadContext.ResourceType.TEXTURE, true, 256 * 1024 * 1024)
                 Optional.of(
                     Texture(
                         name = pathString,
@@ -437,10 +439,136 @@ class AssimpLoader : ModelFileLoader {
             }
         }
 
+        private fun loadAnimations(): List<Animation> = scene.mAnimations()?.let { animations ->
+            (0 until scene.mNumAnimations()).map { animIndex ->
+                val animation = AIAnimation.create(animations.get(animIndex))
+                val ticksPerSecond = animation.mTicksPerSecond().takeIf { it > 0f }?.toFloat() ?: 30f
+                val channels = buildList {
+                    val nodeAnimations = animation.mChannels()
+                    if (nodeAnimations != null) {
+                        (0 until animation.mNumChannels()).forEach { channelIndex ->
+                            val nodeAnimPtr = nodeAnimations[channelIndex]
+                            val nodeAnimation = AINodeAnim.create(nodeAnimPtr)
+                            nodeAnimation.mPositionKeys()?.let { keys ->
+                                add(loadVector3AnimationChannel(
+                                    nodeAnimation = nodeAnimation,
+                                    keys = keys,
+                                    numKeys = nodeAnimation.mNumPositionKeys(),
+                                    channelType = AnimationChannel.Type.Translation,
+                                    ticksPerSecond = ticksPerSecond,
+                                ))
+                            }
+
+                            nodeAnimation.mScalingKeys()?.let { keys ->
+                                add(loadVector3AnimationChannel(
+                                    nodeAnimation = nodeAnimation,
+                                    keys = keys,
+                                    numKeys = nodeAnimation.mNumScalingKeys(),
+                                    channelType = AnimationChannel.Type.Scale,
+                                    ticksPerSecond = ticksPerSecond,
+                                ))
+                            }
+
+                            nodeAnimation.mRotationKeys()?.let { keys ->
+                                add(loadQuaternionfAnimationChannel(
+                                    nodeAnimation = nodeAnimation,
+                                    keys = keys,
+                                    numKeys = nodeAnimation.mNumRotationKeys(),
+                                    channelType = AnimationChannel.Type.Rotation,
+                                    ticksPerSecond = ticksPerSecond,
+                                ))
+                            }
+                        }
+                    }
+                }
+
+                SimpleAnimation(
+                    name = animation.mName().dataString().takeIf { it.isNotEmpty() },
+                    channels = channels
+                )
+            }
+        } ?: listOf()
+
+        private fun loadVector3AnimationChannel(
+            nodeAnimation: AINodeAnim,
+            keys: AIVectorKey.Buffer,
+            numKeys: Int,
+            ticksPerSecond: Float,
+            channelType: AnimationChannel.Type<Vector3f, AnimationChannel.Type.TransformData>,
+        ): KeyFrameAnimationChannel<Vector3f, AnimationChannel.Type.TransformData> {
+            val times = FloatArrayList(numKeys)
+            val values = FloatArrayList(numKeys * 3)
+
+            repeat(numKeys) { i ->
+                val time = AIVectorKey.nmTime(keys.address() + i * AIVectorKey.SIZEOF + AIVectorKey.MTIME)
+                val timeInSeconds = time / ticksPerSecond.toDouble()
+                val valueAddress = keys.address() + i * AIVectorKey.SIZEOF + AIVectorKey.MVALUE
+
+                times.add(timeInSeconds.toFloat())
+                values.add(AIVector3D.nx(valueAddress))
+                values.add(AIVector3D.ny(valueAddress))
+                values.add(AIVector3D.nz(valueAddress))
+            }
+
+            return KeyFrameAnimationChannel(
+                type = channelType,
+                typeData = AnimationChannel.Type.TransformData(
+                    node = AnimationChannel.Type.NodeData(
+                        targetNode = null,
+                        targetNodeName = nodeAnimation.mNodeName().dataString(),
+                        targetHumanoidTag = null,
+                    ),
+                    transformId = TransformId.ABSOLUTE,
+                ),
+                indexer = ListAnimationKeyFrameIndexer(times),
+                keyframeData = AnimationKeyFrameData.ofVector3f(values, 1),
+                interpolation = AnimationInterpolation.linear,
+            )
+        }
+
+        private fun loadQuaternionfAnimationChannel(
+            nodeAnimation: AINodeAnim,
+            keys: AIQuatKey.Buffer,
+            numKeys: Int,
+            ticksPerSecond: Float,
+            channelType: AnimationChannel.Type<Quaternionf, AnimationChannel.Type.TransformData>,
+        ): KeyFrameAnimationChannel<Quaternionf, AnimationChannel.Type.TransformData> {
+            val times = FloatArrayList(numKeys)
+            val values = FloatArrayList(numKeys * 4)
+
+            repeat(numKeys) { i ->
+                val time = AIQuatKey.nmTime(keys.address() + i * AIQuatKey.SIZEOF + AIQuatKey.MTIME)
+                val timeInSeconds = time / ticksPerSecond.toDouble()
+                val valueAddress = keys.address() + i * AIQuatKey.SIZEOF + AIQuatKey.MVALUE
+
+                times.add(timeInSeconds.toFloat())
+                values.add(AIQuaternion.nx(valueAddress))
+                values.add(AIQuaternion.ny(valueAddress))
+                values.add(AIQuaternion.nz(valueAddress))
+                values.add(AIQuaternion.nw(valueAddress))
+            }
+
+            return KeyFrameAnimationChannel(
+                type = channelType,
+                typeData = AnimationChannel.Type.TransformData(
+                    node = AnimationChannel.Type.NodeData(
+                        targetNode = null,
+                        targetNodeName = nodeAnimation.mNodeName().dataString(),
+                        targetHumanoidTag = null,
+                    ),
+                    transformId = TransformId.ABSOLUTE,
+                ),
+                indexer = ListAnimationKeyFrameIndexer(times),
+                keyframeData = AnimationKeyFrameData.ofQuaternionf(values, 1),
+                interpolation = AnimationInterpolation.linear,
+            )
+        }
+
         private fun loadNode(node: AINode): Node {
             val children = node.mChildren()
-            return Node(
-                name = node.mName().dataString(),
+            val nodeName = node.mName().dataString()
+            val loadedNode = Node(
+                name = nodeName,
                 id = allocateNodeId(node),
                 transform = NodeTransform.Matrix(node.mTransformation().toJoml()),
                 components = buildList {
@@ -470,6 +598,7 @@ class AssimpLoader : ModelFileLoader {
                     }
                 } ?: listOf()
             )
+            return loadedNode
         }
 
         fun load(): LoadResult {
@@ -477,6 +606,7 @@ class AssimpLoader : ModelFileLoader {
             loadMaterials()
             loadMeshes()
             val rootNode = scene.mRootNode()?.let { loadNode(it) } ?: return EMPTY_LOAD_RESULT
+            val animations = loadAnimations()
             val scene = Scene(nodes = listOf(rootNode))
             val model = Model(
                 scenes = listOf(scene),
@@ -487,7 +617,7 @@ class AssimpLoader : ModelFileLoader {
             return LoadResult(
                 metadata = null,
                 model = model,
-                animations = listOf(),
+                animations = animations,
             )
         }
     }

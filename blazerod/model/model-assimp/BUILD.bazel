@@ -38,6 +38,7 @@ kt_jvm_library(
         "//blazerod/model/model-loader",
         "@maven//:org_joml_joml",
         "@maven//:org_slf4j_slf4j_api",
+        "@maven//:it_unimi_dsi_fastutil",
         "@maven_blazerod//:org_lwjgl_lwjgl",
         "@maven_blazerod//:org_lwjgl_lwjgl_assimp",
     ],
