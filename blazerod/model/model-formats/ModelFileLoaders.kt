@@ -104,7 +104,7 @@ object ModelFileLoaders {
     @JvmOverloads
     fun probeAndLoad(
         path: Path,
-        param: LoadParam = LoadParam(),
+        param: LoadParam,
         context: LoadContext = LoadContext.File(path.parent ?: error("no base path: $path")),
     ): LoadResult? {
         val loader = probeLoader(loaders, path)
