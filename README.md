@@ -6,6 +6,7 @@
 - Combine：一个为 Minecraft：Java 版制作的 GUI 库。支持以 Compose 的风格构建跨 Minecraft 版本的 UI。
 - BlazeRod：一个为 Minecraft：Java 版制作的模型渲染库。支持渲染 glTF、PMX 等复杂模型，也支持渲染基岩版实体模型，并支持骨骼动画、形态键（变形目标）等高级渲染特性。
 - ArmorStand：一款 Minecraft：Java 版的模型渲染库，使用 BlazeRod 进行渲染，支持替换玩家模型。
+- AuthProxy: 一款 Minecraft：Java 版的模组，允许为服务器验证使用代理。
 
 ## 目前状态
 
@@ -16,6 +17,7 @@
 - TouchControllerWiki：迁移完毕
 - BlazeRod：迁移完毕
 - ArmorStand：迁移完毕
+- AuthProxy：迁移完毕
 
 待所有代码迁移后，这个仓库会和 TouchController 仓库合并作为一个分支，然后这个仓库会进入归档状态。
 
@@ -29,6 +31,7 @@ This is the central repository of TouchController organization. Now there are:
 - Combine: A GUI library for Minecraft: Java Edition. It supports building cross-version Minecraft UIs in a Compose-like style.
 - BlazeRod: A model rendering library for Minecraft: Java Edition. It supports rendering complex models such as glTF and PMX, as well as Bedrock Edition entity models, and includes advanced rendering features like skeletal animation and morph targets (shape keys).
 - ArmorStand: A model rendering library for Minecraft: Java Edition, using BlazeRod for rendering, and supports replacing player models.
+- AuthProxy: A mod for Minecraft: Java Edition, allowing using proxies for server authentication.
 
 ## Current Status
 
@@ -39,5 +42,6 @@ Projects are gradually being migrated from their respective repositories to here
 - TouchControllerWiki：Migrated
 - BlazeRod: Migrated
 - ArmorStand: Migrated
+- AuthProxy: Migrated
 
 After all code is migrated, this repository will be merged with the TouchController repository as a branch, and this repository will be archived.
