@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.fifthlight.armorstand.PlayerRenderer;
 import top.fifthlight.blazerod.api.resource.CameraTransform;
 
+// TODO: modify Frustum to match real camera
 @Mixin(Frustum.class)
 public abstract class FrustumMixin {
     @Inject(method = "offsetToFullyIncludeCameraCube", at = @At("HEAD"), cancellable = true)

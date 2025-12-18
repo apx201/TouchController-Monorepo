@@ -45,7 +45,6 @@ object PlayerRenderer {
 
         val selectedIndex = selectedCameraIndex.value ?: return null
         val instance = entry.instance
-        instance.updateCamera()
 
         return instance.getCameraTransform(selectedIndex).also {
             cameraTransform = it

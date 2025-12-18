@@ -25,7 +25,6 @@ interface ModelInstance : RefCount {
 
     fun getCameraTransform(index: Int): CameraTransform?
 
-    fun updateCamera()
     fun debugRender(viewProjectionMatrix: Matrix4fc, bufferSource: MultiBufferSource)
     fun updateRenderData()
 

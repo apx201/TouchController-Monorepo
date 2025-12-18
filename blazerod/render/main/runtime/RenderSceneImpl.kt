@@ -98,20 +98,6 @@ class RenderSceneImpl(
         }
     }
 
-    fun updateCamera(instance: ModelInstanceImpl) {
-        if (cameras.isEmpty()) {
-            return
-        }
-        if (instance.modelData.undirtyNodeCount == nodes.size) {
-            return
-        }
-        executePhase(instance, UpdatePhase.GlobalTransformPropagation)
-        executePhase(instance, UpdatePhase.IkUpdate)
-        executePhase(instance, UpdatePhase.InfluenceTransformUpdate)
-        executePhase(instance, UpdatePhase.GlobalTransformPropagation)
-        executePhase(instance, UpdatePhase.CameraUpdate)
-    }
-
     fun debugRender(instance: ModelInstanceImpl, viewProjectionMatrix: Matrix4fc, bufferSource: MultiBufferSource) {
         if (debugRenderNodes.isEmpty()) {
             return
@@ -121,6 +107,7 @@ class RenderSceneImpl(
             executePhase(instance, UpdatePhase.IkUpdate)
             executePhase(instance, UpdatePhase.InfluenceTransformUpdate)
             executePhase(instance, UpdatePhase.GlobalTransformPropagation)
+            executePhase(instance, UpdatePhase.CameraUpdate)
         }
         UpdatePhase.DebugRender.acquire(viewProjectionMatrix, bufferSource).use {
             executePhase(instance, it)
@@ -136,6 +123,7 @@ class RenderSceneImpl(
         executePhase(instance, UpdatePhase.InfluenceTransformUpdate)
         executePhase(instance, UpdatePhase.GlobalTransformPropagation)
         executePhase(instance, UpdatePhase.RenderDataUpdate)
+        executePhase(instance, UpdatePhase.CameraUpdate)
     }
 
     override fun onClosed() {

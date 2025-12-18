@@ -42,6 +42,7 @@ class ModelInstanceImpl(
 
     class ModelData(scene: RenderSceneImpl) : AutoCloseable {
         var undirtyNodeCount = 0
+        var undirtyCameraCount = 0
 
         val transformMaps = scene.nodes.mapToArray { node ->
             TransformMap(node.absoluteTransform)
@@ -96,6 +97,7 @@ class ModelInstanceImpl(
 
     override fun clearTransform() {
         modelData.undirtyNodeCount = 0
+        modelData.undirtyCameraCount = 0
         for (i in scene.nodes.indices) {
             modelData.transformMaps[i].clearFrom(TransformId.ABSOLUTE.next)
             modelData.transformDirty[i] = true
@@ -175,10 +177,6 @@ class ModelInstanceImpl(
     }
 
     override fun getCameraTransform(index: Int) = modelData.cameraTransforms.getOrNull(index)
-
-    override fun updateCamera() {
-        scene.updateCamera(this)
-    }
 
     override fun debugRender(viewProjectionMatrix: Matrix4fc, bufferSource: MultiBufferSource) {
         scene.debugRender(this, viewProjectionMatrix, bufferSource)

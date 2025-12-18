@@ -51,7 +51,7 @@ public class CameraMixin {
         }
     }
 
-    @Inject(method = "position", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getPosition", at = @At("HEAD"), cancellable = true)
     public void wrapGetPos(CallbackInfoReturnable<Vec3> cir) {
         var transform = PlayerRenderer.getCurrentCameraTransform();
         if (transform != null) {
