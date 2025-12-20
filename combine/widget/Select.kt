@@ -9,8 +9,6 @@ import top.fifthlight.combine.modifier.focus.focusable
 import top.fifthlight.combine.modifier.placement.anchor
 import top.fifthlight.combine.modifier.pointer.clickable
 import top.fifthlight.combine.paint.Drawable
-import top.fifthlight.combine.paint.NinePatchTexture
-import top.fifthlight.combine.paint.Texture
 import top.fifthlight.combine.theme.LocalTheme
 import top.fifthlight.combine.ui.style.ColorTheme
 import top.fifthlight.combine.ui.style.DrawableSet
@@ -21,7 +19,7 @@ import top.fifthlight.data.IntRect
 
 data class SelectDrawableSet(
     val menuBox: DrawableSet,
-    val floatPanel: NinePatchTexture,
+    val floatPanel: Drawable,
     val itemUnselected: DrawableSet,
     val itemSelected: DrawableSet,
 ) {
@@ -30,7 +28,7 @@ data class SelectDrawableSet(
             @Composable get() = LocalTheme.current.let { theme ->
                 SelectDrawableSet(
                     menuBox = theme.drawables.selectMenuBox,
-                    floatPanel = theme.drawables.selectFloatPanel as NinePatchTexture,
+                    floatPanel = theme.drawables.selectFloatPanel,
                     itemUnselected = theme.drawables.selectItemUnselected,
                     itemSelected = theme.drawables.selectItemSelected,
                 )

@@ -1,5 +1,6 @@
 package top.fifthlight.combine.example.helloworld
 
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -14,9 +15,12 @@ import net.minecraft.client.gui.screens.Screen
 import org.lwjgl.glfw.GLFW
 import top.fifthlight.combine.data.TextFactoryFactory
 import top.fifthlight.combine.layout.Alignment
+import top.fifthlight.combine.layout.Arrangement
 import top.fifthlight.combine.modifier.Modifier
 import top.fifthlight.combine.modifier.placement.fillMaxSize
 import top.fifthlight.combine.screen.ScreenFactoryFactory
+import top.fifthlight.combine.theme.LocalTheme
+import top.fifthlight.combine.theme.vanilla.VanillaTheme
 import top.fifthlight.combine.widget.layout.Box
 import top.fifthlight.combine.widget.layout.Row
 import top.fifthlight.combine.widget.ui.Button
@@ -28,17 +32,22 @@ class HelloWorldMod: ClientModInitializer, ModMenuApi {
     private fun createScreen(parent: Screen? = null) = ScreenFactoryFactory.of().getScreen(
         parent = parent,
         title = TextFactoryFactory.of().literal("Hello world")) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            alignment = Alignment.Center,
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                var i by remember { mutableStateOf(0) }
-                Text("Counter: $i")
-                Button(onClick = {
-                    i++
-                }) {
-                    Text("+")
+        CompositionLocalProvider(LocalTheme provides VanillaTheme) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                alignment = Alignment.Center,
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4),
+                ) {
+                    var i by remember { mutableStateOf(0) }
+                    Text("Counter: $i")
+                    Button(onClick = {
+                        i++
+                    }) {
+                        Text("+")
+                    }
                 }
             }
         }

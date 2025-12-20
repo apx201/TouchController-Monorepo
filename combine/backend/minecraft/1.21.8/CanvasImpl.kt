@@ -14,7 +14,7 @@ import top.fifthlight.combine.paint.Canvas
 import top.fifthlight.combine.paint.Color
 import top.fifthlight.data.*
 
-class CanvasImpl(private val guiGraphics: GuiGraphics) : Canvas {
+class CanvasImpl(val guiGraphics: GuiGraphics) : Canvas {
     private fun GuiGraphics.submitElement(guiElementRenderState: GuiElementRenderState) =
         (this as SubmittableGuiGraphics).`touchcontroller$submitElement`(guiElementRenderState)
 

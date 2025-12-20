@@ -29,18 +29,18 @@ private class Generator : CliktCommand() {
                             .build()
                     )
                 }
-                for (background in backgrounds) {
+                for (ninePatch in ninePatches) {
                     addProperty(
                         PropertySpec
-                            .builder(background, ClassName("top.fifthlight.combine.paint", "BackgroundTexture"))
+                            .builder(ninePatch, ClassName("top.fifthlight.combine.paint", "Texture"))
                             .addModifiers(KModifier.ABSTRACT)
                             .build()
                     )
                 }
-                for (ninePatch in ninePatches) {
+                for (background in backgrounds) {
                     addProperty(
                         PropertySpec
-                            .builder(ninePatch, ClassName("top.fifthlight.combine.paint", "NinePatchTexture"))
+                            .builder(background, ClassName("top.fifthlight.combine.paint", "BackgroundTexture"))
                             .addModifiers(KModifier.ABSTRACT)
                             .build()
                     )

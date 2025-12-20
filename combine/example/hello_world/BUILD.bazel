@@ -12,6 +12,8 @@ kt_merge_library(
         "//combine/core/modifier",
         "//combine/core/modifier/placement",
         "//combine/core/layout",
+        "//combine/theme/base",
+        "//combine/theme/vanilla",
         "//combine/widget",
     ],
     resource_strip_prefix = "combine/example/hello_world/resources",
