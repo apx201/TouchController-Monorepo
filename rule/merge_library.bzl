@@ -175,7 +175,7 @@ def _merge_library_jar_impl(ctx):
         args.add(strip)
         if len(files) == 0:
             fail("Resource label without resource: " + str(resource.label))
-        args.add(files, before_each = "--resource")
+        args.add_all(files, before_each = "--resource")
 
     for key, value in ctx.attr.manifest_entries.items():
         args.add("--manifest")

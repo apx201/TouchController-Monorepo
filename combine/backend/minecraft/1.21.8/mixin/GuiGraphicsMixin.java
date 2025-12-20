@@ -16,12 +16,7 @@ import top.fifthlight.combine.backend.minecraft_1_21_8.extension.SubmittableGuiG
 public abstract class GuiGraphicsMixin implements SubmittableGuiGraphics {
     @Shadow @Final private GuiRenderState guiRenderState;
 
-    @Shadow @Final private ScissorStackInvoker scissorStack;
-
-    @Mixin(targets = "net/minecraft/client/gui/GuiGraphics$ScissorStack")
-    private interface ScissorStackInvoker {
-        @Invoker("peek") ScreenRectangle touchcontroller$callPeek();
-    }
+    @Shadow @Final private GuiGraphics.ScissorStack scissorStack;
 
     @ModifyArg(method = "<init>(Lnet/minecraft/client/Minecraft;Lnet/minecraft/client/gui/render/"
             + "state/GuiRenderState;)V",
@@ -38,6 +33,6 @@ public abstract class GuiGraphicsMixin implements SubmittableGuiGraphics {
 
     @Override
     public ScreenRectangle touchcontroller$peekScissorStack() {
-        return scissorStack.touchcontroller$callPeek();
+        return scissorStack.peek();
     }
 }

@@ -4,5 +4,5 @@ java_merge_library(
     name = "extension",
     srcs = glob(["*.java"]),
     visibility = ["//combine/backend/minecraft/1.21.8:__subpackages__"],
-    deps = ["//game/1.21.8:game_client_named"],
+    deps = ["//combine/backend/minecraft/1.21.8/game:remapped_client_access_widened_named"],
 )

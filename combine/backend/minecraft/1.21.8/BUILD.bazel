@@ -1,4 +1,4 @@
-load("//rule:merge_library.bzl", "kt_merge_library", "merge_library_jar")
+load("//rule:merge_library.bzl", "kt_merge_library")
 
 kt_merge_library(
     name = "1.21.8",
@@ -21,15 +21,8 @@ kt_merge_library(
     visibility = ["//combine:__subpackages__"],
     deps = [
         "//:compose",
-        "//game/1.21.8:game_client_named",
+        "//combine/backend/minecraft/1.21.8/game:remapped_client_access_widened_named",
         "@maven//:org_jetbrains_kotlinx_kotlinx_coroutines_core_jvm",
         "@minecraft//1.21.8:client_libraries",
-    ],
-)
-
-merge_library_jar(
-    name = "1.21.8_merged",
-    deps = [
-        ":1.21.8",
     ],
 )

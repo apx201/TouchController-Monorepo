@@ -1,7 +1,7 @@
 load("//rule:merge_library.bzl", "kt_merge_library")
 
 kt_merge_library(
-    name = "hello_world",
+    name = "calculator",
     srcs = glob(["*.kt"]),
     merge_deps = [
         "//combine/backend/minecraft/1.21.8",
@@ -11,12 +11,14 @@ kt_merge_library(
         "//combine/core/widget/layout",
         "//combine/core/modifier",
         "//combine/core/modifier/placement",
+        "//combine/core/modifier/drawing",
+        "//combine/core/paint",
         "//combine/core/layout",
         "//combine/theme/base",
         "//combine/theme/vanilla",
         "//combine/widget",
     ],
-    resource_strip_prefix = "combine/example/hello_world/resources",
+    resource_strip_prefix = "combine/example/calculator/resources",
     resources = glob(["resources/**"]),
     deps = [
         "//:compose",
@@ -52,7 +54,7 @@ java_binary(
         # Classpath separator
         "//game/1.21.8:game_mapping_jar",
         "//combine/backend/minecraft/1.21.8/fabric:fabric_unmapped",
-        ":hello_world",
+        ":calculator",
         "//rule/dev_launch_wrapper",
         "@maven_fabric_1_21_8//:io_github_llamalad7_mixinextras_fabric",
         "@maven_fabric_1_21_8//:net_fabricmc_fabric_language_kotlin",

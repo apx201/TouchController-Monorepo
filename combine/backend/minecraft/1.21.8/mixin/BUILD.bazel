@@ -10,7 +10,7 @@ java_merge_library(
     resources = glob(["resource/**"]),
     visibility = ["//combine/backend/minecraft/1.21.8:__subpackages__"],
     deps = [
-        "//game/1.21.8:game_client_named",
+        "//combine/backend/minecraft/1.21.8/game:remapped_client_access_widened_named",
         "@maven_fabric_1_21_8//:net_fabricmc_sponge_mixin",
         "@minecraft//1.21.8:client_libraries",
     ],

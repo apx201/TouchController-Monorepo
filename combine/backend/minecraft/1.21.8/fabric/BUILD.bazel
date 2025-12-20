@@ -1,0 +1,14 @@
+load("//rule:merge_library.bzl", "merge_library_jar")
+
+merge_library_jar(
+    name = "fabric_unmapped",
+    deps = [
+        "//combine/backend/minecraft/1.21.8",
+        "//combine/backend/minecraft/1.21.8/mixin",
+    ],
+    visibility = ["//visibility:public"],
+    resources = {
+        "fabric.mod.json": "combine/backend/minecraft/1.21.8/fabric",
+        "//combine/backend/minecraft/1.21.8/game:access_widener": "combine/backend/minecraft/1.21.8/game",
+    },
+)
