@@ -114,6 +114,19 @@ def _neoform_repo_impl(rctx):
             "java_binary(",
             '    name = "%s",' % function_name,
             '    visibility = ["//visibility:public"],',
+            '    main_class = "DecompilerWrapper",',
+            '    runtime_deps = [',
+            '        "@%s//jar",' % _convert_maven_coordinate_to_repo("neoform", version),
+            '        "@//repo/neoform/rule/decompiler_wrapper",',
+            '    ],',
+            "    jvm_flags = [%s]," % ", ".join(jvm_flags),
+            ")",
+        ] if function_name == "decompile" else [
+            'load("@rules_java//java:defs.bzl", "java_binary")',
+            "",
+            "java_binary(",
+            '    name = "%s",' % function_name,
+            '    visibility = ["//visibility:public"],',
             '    main_class = "%s",' % main_class,
             '    runtime_deps = ["@%s//jar"],' % _convert_maven_coordinate_to_repo("neoform", version),
             "    jvm_flags = [%s]," % ", ".join(jvm_flags),
@@ -169,6 +182,9 @@ def _neoform_repo_impl(rctx):
             if "input" in arg_names:
                 rule_impl.append("    if JavaSourceInfo in ctx.attr.input:")
                 rule_impl.append("        input_deps.append(ctx.attr.input[JavaSourceInfo])")
+        if function_name == "decompile":
+            rule_impl.append('    args.add("%s")' % main_class)
+            rule_impl.append('    args.add(output_file.path)')
         for entry in arg_entries:
             name = entry["name"]
             if entry["type"] == "plain":
