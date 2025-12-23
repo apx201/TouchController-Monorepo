@@ -5,11 +5,11 @@ load("//combine/theme:theme_info_jar.bzl", "theme_info_jar")
 
 kt_texture_lib(
     name = "texture_lib",
-    dep = "//combine/theme/blackstone/texture",
+    dep = "//combine/theme/oreui/texture",
 )
 
 kt_merge_library(
-    name = "blackstone",
+    name = "oreui",
     srcs = glob(["*.kt"]),
     merge_deps = [
         ":texture_lib",
@@ -22,22 +22,22 @@ kt_merge_library(
 
 vanilla_pack(
     name = "vanilla_pack",
-    dep = "//combine/theme/blackstone/texture",
+    dep = "//combine/theme/oreui/texture",
     namespace = "combine",
 )
 
 atlas_pack(
     name = "atlas_pack",
-    dep = "//combine/theme/blackstone/texture",
+    dep = "//combine/theme/oreui/texture",
     namespace = "combine",
 )
 
 theme_info_jar(
     name = "mod_info_json",
     substitutions = {
-        "${mod_id}": "combine-theme-blackstone",
-        "${name}": "Combine theme blackstone",
-        "${description}": "Blackstone theme for Combine.",
+        "${mod_id}": "combine-theme-oreui",
+        "${name}": "Combine theme oreui",
+        "${description}": "Ore UI theme for Combine.",
     },
 )
 

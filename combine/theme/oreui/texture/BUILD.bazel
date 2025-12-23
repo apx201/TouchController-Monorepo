@@ -11,6 +11,7 @@ texture(
     srcs = glob(
         include = ["widget/*/*.png"],
         exclude = ["**/*.9.png"],
+        allow_empty = True,
     ),
 )
 
@@ -30,10 +31,10 @@ texture_group(
 
 texture_lib(
     name = "texture",
-    class_name = "BlackstoneTextures",
-    package = "top.fifthlight.combine.theme.blackstone",
-    prefix = "blackstone",
-    visibility = ["//combine/theme/blackstone:__pkg__"],
+    class_name = "OreUITextures",
+    package = "top.fifthlight.combine.theme.oreui",
+    prefix = "oreui",
+    visibility = ["//combine/theme/oreui:__pkg__"],
     deps = [
         ":texture_group",
     ],

@@ -8,7 +8,6 @@ kt_jvm_library(
         "//:kotlin_serialization",
         "//combine/data",
         "//rule/combine/metadata",
-        "//rule/worker_api",
         "@maven//:org_jetbrains_kotlinx_kotlinx_serialization_json_jvm",
     ],
 )

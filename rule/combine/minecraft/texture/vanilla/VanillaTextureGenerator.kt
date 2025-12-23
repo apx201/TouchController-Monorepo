@@ -27,6 +27,8 @@ data class TextureMetadata(val gui: Gui) {
                 val width: Int,
                 val height: Int,
                 val border: Border,
+                @SerialName("stretch_inner")
+                val stretchInner: Boolean,
             ): Scaling {
                 @Serializable
                 data class Border(
@@ -48,13 +50,14 @@ data class TextureMetadata(val gui: Gui) {
 }
 
 fun main(vararg args: String) {
-    if (args.size < 2) {
-        System.err.println("Usage: VanillaTextureGenerator <namespace> <output_jar> [--texture <identifier> <png file> <manifest json>] [--ninepatch <identifier> <png file> <manifest json>]...")
+    if (args.size < 3) {
+        System.err.println("Usage: VanillaTextureGenerator <namespace> <prefix> <output_jar> [--texture <identifier> <png file> <manifest json>] [--ninepatch <identifier> <png file> <manifest json>]...")
         exitProcess(1)
     }
 
     val namespace = args[0]
-    val outputJar = Path.of(args[1])
+    val prefix = args[1]
+    val outputJar = Path.of(args[2])
 
     ZipOutputStream(outputJar.outputStream()).use { out ->
         fun entry(name: String) = JarEntry(name).apply {
@@ -62,7 +65,7 @@ fun main(vararg args: String) {
             lastAccessTime = FileTime.fromMillis(0L)
         }
 
-        var i = 2
+        var i = 3
         while (i < args.size) {
             if (args.size - i < 3) {
                 System.err.println("Bad texture entry")
@@ -77,11 +80,11 @@ fun main(vararg args: String) {
                 "--texture" -> {
                     val manifest = Json.decodeFromString<Metadata>(manifestFile.readText())
                     if (!manifest.background) {
-                        out.putNextEntry(entry("asset/$namespace/textures/gui/sprites/combine/$identifier.png"))
+                        out.putNextEntry(entry("assets/$namespace/textures/gui/sprites/$prefix/$identifier.png"))
                         pngFile.inputStream().use { it.transferTo(out) }
                         out.closeEntry()
                     } else {
-                        out.putNextEntry(entry("asset/$namespace/textures/gui/sprites/combine/$identifier.png"))
+                        out.putNextEntry(entry("assets/$namespace/textures/gui/sprites/$prefix/$identifier.png"))
                         pngFile.inputStream().use { it.transferTo(out) }
                         out.closeEntry()
 
@@ -94,7 +97,7 @@ fun main(vararg args: String) {
                                 ),
                             )
                         )
-                        out.putNextEntry(entry("asset/$namespace/textures/gui/sprites/combine/$identifier.png.mcmeta"))
+                        out.putNextEntry(entry("assets/$namespace/textures/gui/sprites/$prefix/$identifier.png.mcmeta"))
                         out.write(Json.encodeToString(TextureMetadata.serializer(), meta).toByteArray())
                         out.closeEntry()
                     }
@@ -103,7 +106,7 @@ fun main(vararg args: String) {
 
                 "--ninepatch" -> {
                     val manifest = Json.decodeFromString<NinePatchMetadata>(manifestFile.readText())
-                    out.putNextEntry(entry("asset/$namespace/textures/gui/sprites/combine/$identifier.png"))
+                    out.putNextEntry(entry("assets/$namespace/textures/gui/sprites/$prefix/$identifier.png"))
                     pngFile.inputStream().use { it.transferTo(out) }
                     out.closeEntry()
 
@@ -116,13 +119,14 @@ fun main(vararg args: String) {
                                 border = TextureMetadata.Gui.Scaling.NineSlice.Border(
                                     left = manifest.ninePatch.scaleArea.left,
                                     top = manifest.ninePatch.scaleArea.top,
-                                    right = manifest.ninePatch.scaleArea.right,
-                                    bottom = manifest.ninePatch.scaleArea.bottom,
+                                    right = image.width - manifest.ninePatch.scaleArea.right,
+                                    bottom = image.height - manifest.ninePatch.scaleArea.bottom,
                                 ),
+                                stretchInner = true,
                             ),
                         ),
                     )
-                    out.putNextEntry(entry("asset/$namespace/textures/gui/sprites/combine/$identifier.png.mcmeta"))
+                    out.putNextEntry(entry("assets/$namespace/textures/gui/sprites/$prefix/$identifier.png.mcmeta"))
                     out.write(Json.encodeToString(TextureMetadata.serializer(), meta).toByteArray())
                     out.closeEntry()
                     i += 4

@@ -40,14 +40,15 @@ private data class Texture(
 }
 
 fun main(vararg args: String) {
-    if (args.size < 2) {
-        System.err.println("Usage: TextureAtlasGenerator <namespace> <output_jar> <output_metadata> --width <width> --height <height> [--texture <identifier> <png file> <manifest json>] [--ninepatch <identifier> <png file> <manifest json>]...")
+    if (args.size < 4) {
+        System.err.println("Usage: TextureAtlasGenerator <namespace> <prefix> <output_jar> <output_metadata> --width <width> --height <height> [--texture <identifier> <png file> <manifest json>] [--ninepatch <identifier> <png file> <manifest json>]...")
         exitProcess(1)
     }
 
     val namespace = args[0]
-    val outputJar = Path.of(args[1])
-    val outputMetadata = Path.of(args[2])
+    val prefix = args[1]
+    val outputJar = Path.of(args[2])
+    val outputMetadata = Path.of(args[3])
 
     var atlasWidth = 512
     var atlasHeight = 512
@@ -93,7 +94,7 @@ fun main(vararg args: String) {
                             image = image,
                         )
                     } else {
-                        out.putNextEntry(entry("asset/$namespace/textures/gui/background/$identifier.png"))
+                        out.putNextEntry(entry("assets/$namespace/textures/gui/background/$prefix/$identifier.png"))
                         pngFile.inputStream().use { it.transferTo(out) }
                         out.closeEntry()
                     }
@@ -147,7 +148,7 @@ fun main(vararg args: String) {
         }
         outputGraphics.dispose()
 
-        out.putNextEntry(entry("asset/$namespace/textures/gui/atlas.png"))
+        out.putNextEntry(entry("assets/$namespace/textures/gui/$prefix/atlas.png"))
         ImageIO.write(outputImage, "png", out)
         out.closeEntry()
     }
