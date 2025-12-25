@@ -1,4 +1,4 @@
-package top.fifthlight.touchcontroller.common.ext
+package top.fifthlight.touchcontroller.common.config.ext
 
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf

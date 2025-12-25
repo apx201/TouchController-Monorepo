@@ -2,7 +2,7 @@ load("//rule:merge_library.bzl", "merge_library_group")
 
 merge_library_group(
     name = "combine",
-    visibility = ["//combine:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [
         "//combine/core/animation",
         "//combine/core/data",

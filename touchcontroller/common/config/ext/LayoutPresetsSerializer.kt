@@ -1,4 +1,4 @@
-package top.fifthlight.touchcontroller.common.ext
+package top.fifthlight.touchcontroller.common.config.ext
 
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.serialization.ExperimentalSerializationApi
