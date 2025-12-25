@@ -6,6 +6,7 @@ game_version(
     client_mappings = "@minecraft//1.16.5:client_mappings",
     intermediary = "@maven_fabric_1_16_5//:net_fabricmc_intermediary_v2",
     server = "@minecraft//1.16.5:server",
+    server_legacy = True,
     version = "1.16.5",
     visibility = ["//visibility:public"],
 )

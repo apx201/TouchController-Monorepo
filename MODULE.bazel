@@ -66,6 +66,7 @@ include("//module/third_party:saba.MODULE.bazel")
 include("//module:blazerod.MODULE.bazel")
 include("//module:armorstand.MODULE.bazel")
 include("//module:combine.MODULE.bazel")
+include("//module:touchcontroller.MODULE.bazel")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(

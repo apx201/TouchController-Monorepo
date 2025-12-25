@@ -22,4 +22,5 @@ REPIN=1 bazel run @maven_fabric_1_21_7//:pin
 REPIN=1 bazel run @maven_fabric_1_21_8//:pin
 REPIN=1 bazel run @maven_fabric_1_21_9//:pin
 REPIN=1 bazel run @maven_fabric_1_21_10//:pin
+REPIN=1 bazel run @maven_fabric_1_21_11//:pin
 bazel run @modrinth_pin//:pin

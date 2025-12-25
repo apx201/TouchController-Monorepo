@@ -70,6 +70,9 @@ game_versions = {
     "1.21.10": {
         "mappings": True,
     },
+    "1.21.11": {
+        "mappings": True,
+    },
 }
 
 minecraft = use_extension("//repo:minecraft.bzl", "minecraft")
