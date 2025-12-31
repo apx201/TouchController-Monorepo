@@ -42,7 +42,6 @@ kt_merge_library(
         "@maven//:com_h2database_h2",
         "@maven//:com_illposed_osc_javaosc_core",
         "@maven//:org_jetbrains_kotlin_kotlin_stdlib",
-        "@maven//:org_jetbrains_kotlinx_atomicfu_jvm",
         "@maven//:org_jetbrains_kotlinx_kotlinx_coroutines_core_jvm",
         "@maven//:org_jetbrains_kotlinx_kotlinx_serialization_core_jvm",
         "@maven//:org_jetbrains_kotlinx_kotlinx_serialization_json_jvm",

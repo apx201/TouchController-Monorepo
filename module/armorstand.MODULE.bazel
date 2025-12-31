@@ -3,10 +3,10 @@
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
     artifacts = [
-        "com.h2database:h2:2.3.232",
+        "com.h2database:h2:2.4.240",
         "com.illposed.osc:javaosc-core:0.9",
-        "org.antlr:antlr4-runtime:4.13.1",
-        "io.github.douira:glsl-transformer:2.0.1",
+        "org.antlr:antlr4-runtime:4.13.2",
+        "io.github.douira:glsl-transformer:2.0.2",
         "org.anarres:jcpp:1.4.14",
     ],
 )
